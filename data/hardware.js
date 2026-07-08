@@ -323,9 +323,81 @@ const categories = [
     icon: '📍',
     desc: '定位、网络状态、WiFi 信息',
     items: [
-      { id: 'getLocation', name: '获取位置', desc: '获取当前经纬度与地址', simulator: '真机', status: 'planned' },
-      { id: 'network', name: '网络状态', desc: '监听网络类型变化', simulator: '支持', status: 'planned' },
-      { id: 'wifi', name: 'WiFi 信息', desc: '获取已连接 WiFi 信息', simulator: '真机', status: 'planned' }
+      { id: 'getLocation', name: '获取位置', desc: '获取当前经纬度与地址', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'type', type: 'string', default: 'wgs84', desc: '坐标类型：wgs84(标准)/gcj02(国测局)' },
+          { name: 'altitude', type: 'boolean', default: 'false', desc: '是否返回高度信息' },
+          { name: 'isHighAccuracy', type: 'boolean', default: 'false', desc: '是否使用高精度定位' }
+        ],
+        code: {
+          wxml: `<button bindtap="getLoc">获取位置</button>
+<text wx:if="{{loc}}" class="hw-result">{{loc}}</text>`,
+          js: `Page({
+  getLoc() {
+    wx.getLocation({
+      type: 'gcj02',
+      success: res => this.setData({
+        loc: '经度 ' + res.longitude.toFixed(4) + '　纬度 ' + res.latitude.toFixed(4)
+      })
+    })
+  }
+})`
+        },
+        tips: [
+          '必须在 app.json 的 requiredPrivateInfos 中声明 getLocation 才能在真机调用。',
+          '首次调用会申请 scope.userLocation 授权，需在 app.json 配置 permission 说明用途。',
+          '模拟器默认返回深圳腾讯大厦坐标（39.9..., 116.3... 附近），真机才返回真实位置。'
+        ],
+        demo: { type: 'location' }
+      },
+      { id: 'network', name: '网络状态', desc: '监听网络类型变化', simulator: '支持', status: 'ready',
+        props: [
+          { name: 'getNetworkType', type: 'function', default: '-', desc: '获取当前网络类型 wifi/2g/3g/4g/5g/none' },
+          { name: 'onNetworkStatusChange', type: 'callback', default: '-', desc: '监听网络类型变化，返回 {isConnected, networkType}' }
+        ],
+        code: {
+          wxml: `<button bindtap="getNet">获取网络类型</button>
+<text wx:if="{{net}}" class="hw-result">当前网络：{{net}}</text>`,
+          js: `Page({
+  getNet() {
+    wx.getNetworkType({
+      success: res => this.setData({ net: res.networkType })
+    })
+  }
+})`
+        },
+        tips: [
+          'networkType 可能为 wifi / 2g / 3g / 4g / 5g / none / unknown。',
+          '可用 wx.onNetworkStatusChange 监听切换（如 wifi 切 4g），切换时做降级提示。',
+          '该能力模拟器与真机均支持，无需特殊授权。'
+        ],
+        demo: { type: 'location' }
+      },
+      { id: 'wifi', name: 'WiFi 信息', desc: '获取已连接 WiFi 信息', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'startWifi', type: 'function', default: '-', desc: '初始化 WiFi 模块（调用前必须执行）' },
+          { name: 'getConnectedWifi', type: 'function', default: '-', desc: '获取当前连接的 WiFi，返回 {SSID, BSSID, secure, signalStrength}' }
+        ],
+        code: {
+          wxml: `<button bindtap="getWifi">获取 WiFi</button>
+<text wx:if="{{wifi}}" class="hw-result">{{wifi}}</text>`,
+          js: `Page({
+  getWifi() {
+    wx.startWifi()
+    wx.getConnectedWifi({
+      success: res => this.setData({ wifi: 'SSID: ' + res.wifi.SSID }),
+      fail: () => wx.showToast({ title: '获取失败，请检查授权', icon: 'none' })
+    })
+  }
+})`
+        },
+        tips: [
+          '调用 getConnectedWifi 前必须先 wx.startWifi() 初始化模块。',
+          'iOS 需用户授权 scope.userLocation 才能获取 WiFi 信息，且真机才可用。',
+          '出于隐私，仅返回 SSID 等有限字段，不会返回密码。'
+        ],
+        demo: { type: 'location' }
+      }
     ]
   },
   {
