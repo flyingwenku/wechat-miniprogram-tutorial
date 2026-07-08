@@ -1,5 +1,15 @@
 // pages/quiz-practice/quiz-practice.js
 const quizData = require('../../data/quiz.js')
+const hardwareData = require('../../data/hardware.js')
+
+// 收集所有硬件能力 id，用于判断 relatedControlId 属于控件还是硬件
+const HARDWARE_IDS = (() => {
+  const set = new Set()
+  ;(hardwareData.categories || []).forEach(cat => {
+    ;(cat.items || []).forEach(it => set.add(it.id))
+  })
+  return set
+})()
 
 Page({
   data: {
@@ -15,7 +25,9 @@ Page({
     wrongList: [],
     // 当前题的选项（打乱后的）
     currentQuestion: null,
-    shuffledOptions: []
+    shuffledOptions: [],
+    // relatedControlId 是否为硬件能力（决定跳转硬件详情页还是控件详情页）
+    relatedIsHardware: false
   },
 
   onLoad(options) {
@@ -75,7 +87,8 @@ Page({
       shuffledOptions: shuffled,
       selectedOption: -1,
       answered: false,
-      isCorrect: false
+      isCorrect: false,
+      relatedIsHardware: !!(question.relatedControlId && HARDWARE_IDS.has(question.relatedControlId))
     })
 
     wx.setNavigationBarTitle({
@@ -170,11 +183,12 @@ Page({
 
   goToControl() {
     const qid = this.data.currentQuestion.relatedControlId
-    if (qid) {
-      wx.navigateTo({
-        url: `/pages/detail/detail?id=${qid}`
-      })
-    }
+    if (!qid) return
+    // 硬件能力跳硬件详情页，控件跳控件详情页
+    const url = HARDWARE_IDS.has(qid)
+      ? `/pages/hardware-detail/hardware-detail?id=${qid}`
+      : `/pages/detail/detail?id=${qid}`
+    wx.navigateTo({ url })
   },
 
   quitPractice() {
