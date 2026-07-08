@@ -44,7 +44,7 @@
           wx:for="{{item.items}}" wx:for-item="hw" wx:key="id"
           data-name="{{hw.name}}" bindtap="onTapItem">
           <text class="chip-name">{{hw.name}}</text>
-          <text class="chip-sim sim-{{hw.simulator}}">{{hw.simulator}}</text>
+          <text class="chip-sim sim-{{hw.simClass}}">{{hw.simulator}}</text>
         </view>
       </view>
     </view>

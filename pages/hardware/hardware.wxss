@@ -61,10 +61,10 @@
 }
 .chip-name { font-size: var(--font-sm); color: var(--text-primary); }
 .chip-sim { font-size: 20rpx; padding: 2rpx 12rpx; border-radius: var(--radius-full); color: #fff; }
-.sim-支持 { background: var(--color-success); }
-.sim-部分 { background: var(--color-warning); }
-.sim-真机 { background: var(--color-primary); }
-.sim-不支持 { background: var(--color-info); }
+.sim-support { background: var(--color-success); }
+.sim-partial { background: var(--color-warning); }
+.sim-device { background: var(--color-primary); }
+.sim-unsupported { background: var(--color-info); }
 
 /* 页脚 */
 .footer-note { text-align: center; padding: 40rpx 0 16rpx; color: var(--text-tertiary); font-size: var(--font-xs); }

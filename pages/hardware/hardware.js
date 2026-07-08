@@ -12,11 +12,16 @@ Page({
   onShow() {
     const app = getApp()
     const totalCount = hardwareData.categories.reduce((sum, cat) => sum + cat.items.length, 0)
+    const simMap = { '支持': 'support', '部分': 'partial', '真机': 'device', '不支持': 'unsupported' }
+    const categories = hardwareData.categories.map(cat => ({
+      ...cat,
+      items: cat.items.map(it => ({ ...it, simClass: simMap[it.simulator] || 'unsupported' }))
+    }))
     this.setData({
       theme: app.globalData.theme,
       hardwareMode: app.getHardwareMode(),
       totalCount,
-      categories: hardwareData.categories
+      categories
     })
   },
 
