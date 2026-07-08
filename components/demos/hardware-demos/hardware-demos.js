@@ -21,7 +21,11 @@ Component({
     audioProgress: 0,
     loc: '',
     net: '',
-    wifi: ''
+    wifi: '',
+    sys: '',
+    battery: '',
+    bright: '',
+    clip: ''
   },
 
   lifetimes: {
@@ -45,6 +49,7 @@ Component({
       if (type === 'sensor') this.startSensor()
       else if (type === 'media') this.startMedia()
       else if (type === 'location') this.startLocation()
+      else if (type === 'device') this.startDevice()
     },
 
     stopDemo() {
@@ -52,6 +57,7 @@ Component({
       if (type === 'sensor') this.stopSensor()
       else if (type === 'media') this.stopMedia()
       else if (type === 'location') this.stopLocation()
+      else if (type === 'device') this.stopDevice()
     },
 
     // ===== 传感器实时体验 =====
@@ -275,6 +281,66 @@ Component({
       } else {
         const ssid = 'MockWiFi_' + Math.floor(Math.random() * 9000 + 1000)
         this.setData({ wifi: 'SSID: ' + ssid + '（模拟）' })
+      }
+    },
+
+    // ===== 设备信息实时体验 =====
+    startDevice() {
+      // 设备信息类为点击触发，无需持续监听
+    },
+
+    stopDevice() {
+      this.setData({ sys: '', battery: '', bright: '', clip: '' })
+    },
+
+    getSys() {
+      if (this.getMode() === 'real') {
+        const d = wx.getDeviceInfo()
+        const w = wx.getWindowInfo()
+        this.setData({ sys: d.brand + ' ' + d.model + ' / ' + d.system + ' / 屏高 ' + w.screenHeight })
+      } else {
+        this.setData({ sys: 'Apple iPhone / iOS 16 / 屏高 844（模拟）' })
+      }
+    },
+
+    getBattery() {
+      if (this.getMode() === 'real') {
+        const b = wx.getBatteryInfoSync()
+        this.setData({ battery: '电量 ' + b.level + '%　' + (b.isCharging ? '充电中' : '未充电') })
+      } else {
+        this.setData({ battery: '电量 88%　未充电（模拟）' })
+      }
+    },
+
+    getBright() {
+      if (this.getMode() === 'real') {
+        wx.getScreenBrightness({ success: res => this.setData({ bright: '亮度 ' + res.value }) })
+      } else {
+        this.setData({ bright: '亮度 0.5（模拟）' })
+      }
+    },
+
+    setBright() {
+      if (this.getMode() === 'real') {
+        wx.setScreenBrightness({ value: 0.8 })
+      } else {
+        wx.showToast({ title: '模拟：亮度已设为 0.8', icon: 'none' })
+      }
+    },
+
+    setClip() {
+      if (this.getMode() === 'real') {
+        wx.setClipboardData({ data: '小程序开发教程' })
+      } else {
+        this.setData({ clip: '已写入：小程序开发教程（模拟）' })
+      }
+    },
+
+    getClip() {
+      if (this.getMode() === 'real') {
+        wx.getClipboardData({ success: res => this.setData({ clip: '剪贴板: ' + res.data }) })
+      } else {
+        this.setData({ clip: '剪贴板: 小程序开发教程（模拟）' })
       }
     }
   }

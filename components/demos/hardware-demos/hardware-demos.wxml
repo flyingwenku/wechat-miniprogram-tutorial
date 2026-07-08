@@ -62,6 +62,20 @@
     <text class="hw-mode {{hardwareMode === 'real' ? 'real' : ''}}">当前：{{hardwareMode === 'real' ? '真机实时' : '模拟数据'}}</text>
   </block>
 
+  <!-- 设备信息类 -->
+  <block wx:elif="{{demo.type === 'device'}}">
+    <view class="hw-result" wx:if="{{sys || battery || bright || clip}}">{{sys || battery || bright || clip}}</view>
+    <view class="hw-actions">
+      <button class="hw-btn" wx:if="{{hardwareId === 'systemInfo'}}" bindtap="getSys">获取系统信息</button>
+      <button class="hw-btn" wx:if="{{hardwareId === 'battery'}}" bindtap="getBattery">获取电量</button>
+      <button class="hw-btn" wx:if="{{hardwareId === 'screenBrightness'}}" bindtap="getBright">获取亮度</button>
+      <button class="hw-btn ghost" wx:if="{{hardwareId === 'screenBrightness'}}" bindtap="setBright">设为 0.8</button>
+      <button class="hw-btn" wx:if="{{hardwareId === 'clipboard'}}" bindtap="setClip">写入剪贴板</button>
+      <button class="hw-btn ghost" wx:if="{{hardwareId === 'clipboard'}}" bindtap="getClip">读取剪贴板</button>
+    </view>
+    <text class="hw-mode {{hardwareMode === 'real' ? 'real' : ''}}">当前：{{hardwareMode === 'real' ? '真机实时' : '模拟数据'}}</text>
+  </block>
+
   <!-- 其它类型占位（后续任务实现） -->
   <view wx:else class="hw-todo">
     <text>该硬件能力的实时体验正在开发中</text>
