@@ -25,6 +25,28 @@
     <text class="hw-mode {{hardwareMode === 'real' ? 'real' : ''}}">当前：{{hardwareMode === 'real' ? '真机实时' : '模拟数据'}}</text>
   </block>
 
+  <!-- 影像与音频类 -->
+  <block wx:elif="{{demo.type === 'media'}}">
+    <camera wx:if="{{hardwareId === 'camera' && hardwareMode === 'real'}}" class="hw-camera" device-position="back" flash="off"></camera>
+
+    <image wx:if="{{mediaImg}}" src="{{mediaImg}}" mode="widthFix" class="hw-photo"></image>
+    <view wx:if="{{scanResult}}" class="hw-result">扫码结果：{{scanResult}}</view>
+    <view wx:if="{{hardwareId === 'recorder'}}" class="hw-result">录音状态：{{recState}}　时长：{{recDuration}}s</view>
+    <view wx:if="{{hardwareId === 'audio'}}" class="hw-result">播放进度：{{audioProgress}}%</view>
+
+    <view class="hw-actions">
+      <button class="hw-btn" wx:if="{{hardwareId === 'camera'}}" bindtap="takePhoto">拍照</button>
+      <button class="hw-btn" wx:if="{{hardwareId === 'chooseMedia'}}" bindtap="chooseImg">选择图片</button>
+      <button class="hw-btn" wx:if="{{hardwareId === 'scanCode'}}" bindtap="scan">扫码</button>
+      <button class="hw-btn" wx:if="{{hardwareId === 'recorder' && recState !== 'recording'}}" bindtap="startRec">开始录音</button>
+      <button class="hw-btn ghost" wx:if="{{hardwareId === 'recorder' && recState === 'recording'}}" bindtap="stopRec">停止并播放</button>
+      <button class="hw-btn" wx:if="{{hardwareId === 'audio' && audioState !== 'playing'}}" bindtap="playAudio">播放</button>
+      <button class="hw-btn ghost" wx:if="{{hardwareId === 'audio' && audioState === 'playing'}}" bindtap="pauseAudio">暂停</button>
+      <button class="hw-btn" wx:if="{{hardwareId === 'backgroundAudio'}}" bindtap="playBg">后台播放</button>
+    </view>
+    <text class="hw-mode {{hardwareMode === 'real' ? 'real' : ''}}">当前：{{hardwareMode === 'real' ? '真机实时' : '模拟数据'}}</text>
+  </block>
+
   <!-- 其它类型占位（后续任务实现） -->
   <view wx:else class="hw-todo">
     <text>该硬件能力的实时体验正在开发中</text>

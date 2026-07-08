@@ -111,3 +111,16 @@
   font-size: var(--font-sm);
   padding: 48rpx 0;
 }
+
+/* 摄像头预览 + 照片 */
+.hw-camera {
+  width: 100%;
+  height: 320rpx;
+  border-radius: var(--radius-md);
+  margin-bottom: 16rpx;
+}
+.hw-photo {
+  width: 100%;
+  border-radius: var(--radius-md);
+  margin-bottom: 16rpx;
+}
