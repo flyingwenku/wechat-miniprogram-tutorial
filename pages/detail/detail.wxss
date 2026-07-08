@@ -113,3 +113,37 @@
   color: var(--text-secondary);
   line-height: 1.8;
 }
+
+/* 错误页面 */
+.error-page {
+  min-height: 100vh;
+}
+.error-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200rpx;
+}
+.error-icon {
+  font-size: 120rpx;
+  margin-bottom: 32rpx;
+}
+.error-title {
+  font-size: var(--font-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16rpx;
+}
+.error-desc {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  margin-bottom: 48rpx;
+}
+.error-btn {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: var(--font-md);
+  padding: 20rpx 64rpx;
+  border-radius: var(--radius-full);
+}

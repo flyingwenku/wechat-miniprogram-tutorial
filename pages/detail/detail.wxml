@@ -1,5 +1,20 @@
 <!--pages/detail/detail.wxml-->
-<view class="page {{theme}}" wx:if="{{control}}">
+
+<!-- 加载失败回退 -->
+<view class="page {{theme}} error-page" wx:if="{{loadError || !control}}">
+  <nav-bar title="加载失败" showBack="{{true}}"
+    bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}"
+    textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+  <view class="error-wrap">
+    <text class="error-icon">⚠️</text>
+    <text class="error-title">控件加载失败</text>
+    <text class="error-desc">可能原因：页面缓存过期或控件 id 无效</text>
+    <view class="error-btn" bindtap="onRetry">返回首页</view>
+  </view>
+</view>
+
+<!-- 正常内容 -->
+<view class="page {{theme}}" wx:elif="{{control}}">
   <nav-bar title="{{control.name}}" showBack="{{true}}"
     bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}"
     textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
