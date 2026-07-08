@@ -1,0 +1,44 @@
+<!--pages/quiz-wrong/quiz-wrong.wxml-->
+<nav-bar title="错题本" showBack="{{true}}" />
+
+<view class="wrong-page">
+  <!-- 空状态 -->
+  <empty-state
+    wx:if="{{total === 0}}"
+    icon="📝"
+    title="暂无错题"
+    desc="答错的题目会自动收集到这里"
+  />
+
+  <!-- 错题列表 -->
+  <block wx:if="{{total > 0}}">
+    <!-- 顶部操作 -->
+    <view class="wrong-header">
+      <text class="wrong-count">共 {{total}} 道错题</text>
+      <view class="wrong-actions">
+        <text class="action-text" bindtap="clearAll">清空</text>
+      </view>
+    </view>
+
+    <!-- 练习按钮 -->
+    <view class="practice-btn" bindtap="practiceWrong">
+      <text>重做错题 ({{total}} 题)</text>
+    </view>
+
+    <!-- 错题列表 -->
+    <view class="question-list">
+      <view class="question-item" wx:for="{{wrongQuestions}}" wx:key="id">
+        <view class="q-header">
+          <text class="q-tag">{{item.category}}</text>
+          <text class="q-remove" data-id="{{item.id}}" bindtap="removeWrong">移除</text>
+        </view>
+        <view class="q-text">{{item.question}}</view>
+        <view class="q-answer">
+          <text class="answer-label">正确答案：</text>
+          <text class="answer-text">{{item.options[item.answer]}}</text>
+        </view>
+        <view class="q-explanation">{{item.explanation}}</view>
+      </view>
+    </view>
+  </block>
+</view>

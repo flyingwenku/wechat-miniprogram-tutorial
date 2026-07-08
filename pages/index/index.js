@@ -55,5 +55,9 @@ Page({
 
   goToCaseList() {
     wx.navigateTo({ url: '/pages/case-list/case-list' })
+  },
+
+  goToQuiz() {
+    wx.navigateTo({ url: '/pages/quiz/quiz' })
   }
 })

@@ -1,0 +1,65 @@
+<!--pages/quiz-practice/quiz-practice.wxml-->
+<nav-bar title="{{mode === 'category' ? categoryName + ' 专练' : '随机练习'}}" showBack="{{true}}" />
+
+<view class="practice-page">
+  <!-- 进度条 -->
+  <view class="progress-section">
+    <view class="progress-info">
+      <text class="progress-current">{{currentIndex + 1}} / {{total}}</text>
+      <text class="progress-correct">正确 {{correctCount}}</text>
+    </view>
+    <view class="progress-track">
+      <view class="progress-bar-fill" style="width: {{(currentIndex + 1) / total * 100}}%"></view>
+    </view>
+  </view>
+
+  <!-- 题目区域 -->
+  <view class="question-card" wx:if="{{currentQuestion}}">
+    <view class="question-meta">
+      <text class="q-category">{{currentQuestion.category}}</text>
+    </view>
+    <view class="question-text">{{currentQuestion.question}}</view>
+  </view>
+
+  <!-- 选项区域 -->
+  <view class="options-list" wx:if="{{currentQuestion}}">
+    <view
+      class="option-item {{answered && item.isCorrect ? 'option-correct' : ''}} {{answered && !item.isCorrect && index === selectedOption ? 'option-wrong' : ''}} {{answered && !item.isCorrect && index !== selectedOption ? 'option-dim' : ''}}"
+      wx:for="{{shuffledOptions}}"
+      wx:key="index"
+      data-index="{{index}}"
+      bindtap="selectOption"
+    >
+      <view class="option-label">{{['A', 'B', 'C', 'D'][index]}}</view>
+      <text class="option-text">{{item.text}}</text>
+      <view class="option-icon" wx:if="{{answered && item.isCorrect}}">✓</view>
+      <view class="option-icon icon-wrong" wx:if="{{answered && !item.isCorrect && index === selectedOption}}">✗</view>
+    </view>
+  </view>
+
+  <!-- 解析区域 -->
+  <view class="explanation-card" wx:if="{{answered}}">
+    <view class="explanation-header">
+      <view class="result-badge {{isCorrect ? 'badge-correct' : 'badge-wrong'}}">
+        <text>{{isCorrect ? '回答正确' : '回答错误'}}</text>
+      </view>
+      <text class="explanation-title">解析</text>
+    </view>
+    <view class="explanation-content">{{currentQuestion.explanation}}</view>
+    <view class="explanation-action" wx:if="{{currentQuestion.relatedControlId}}" bindtap="goToControl">
+      <text class="action-link">查看相关控件详情 ›</text>
+    </view>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="bottom-bar" wx:if="{{answered}}">
+    <view class="next-btn" bindtap="nextQuestion">
+      <text>{{currentIndex < total - 1 ? '下一题' : '查看结果'}}</text>
+    </view>
+  </view>
+
+  <!-- 退出按钮 -->
+  <view class="quit-btn" bindtap="quitPractice" wx:if="{{!answered}}">
+    <text>退出练习</text>
+  </view>
+</view>

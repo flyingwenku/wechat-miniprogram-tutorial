@@ -1,0 +1,91 @@
+<!--pages/quiz/quiz.wxml-->
+<nav-bar title="测试练习" />
+
+<view class="quiz-page">
+  <!-- 统计概览 -->
+  <view class="stats-card">
+    <view class="stats-row">
+      <view class="stat-item">
+        <text class="stat-num">{{stats.totalAnswered}}</text>
+        <text class="stat-label">已答题数</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">{{stats.accuracy}}%</text>
+        <text class="stat-label">正确率</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">{{wrongCount}}</text>
+        <text class="stat-label">错题数</text>
+      </view>
+    </view>
+    <view class="stats-progress" wx:if="{{stats.totalAnswered > 0}}">
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{stats.accuracy}}%"></view>
+      </view>
+      <text class="progress-text">正确 {{stats.correctCount}} / {{stats.totalAnswered}}</text>
+    </view>
+  </view>
+
+  <!-- 随机练习 -->
+  <view class="mode-card random-card" bindtap="startRandom">
+    <view class="mode-icon">🎲</view>
+    <view class="mode-info">
+      <text class="mode-title">随机练习</text>
+      <text class="mode-desc">从全题库随机抽取 10 题</text>
+    </view>
+    <view class="mode-arrow">›</view>
+  </view>
+
+  <!-- 错题本 -->
+  <view class="mode-card wrong-card" bindtap="goWrongBook">
+    <view class="mode-icon">📝</view>
+    <view class="mode-info">
+      <text class="mode-title">错题本</text>
+      <text class="mode-desc">{{wrongCount > 0 ? wrongCount + ' 道错题待复习' : '暂无错题'}}</text>
+    </view>
+    <view class="mode-arrow">›</view>
+    <view class="wrong-badge" wx:if="{{wrongCount > 0}}">{{wrongCount}}</view>
+  </view>
+
+  <!-- 分类专练 -->
+  <view class="section-header">
+    <text class="section-title">分类专练</text>
+    <text class="section-sub">共 {{totalCount}} 题</text>
+  </view>
+
+  <view class="category-list">
+    <view
+      class="category-card"
+      wx:for="{{categoryStats}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="startCategory"
+    >
+      <view class="cat-header">
+        <text class="cat-icon">{{item.icon}}</text>
+        <view class="cat-info">
+          <text class="cat-name">{{item.name}}</text>
+          <text class="cat-desc">{{item.desc}}</text>
+        </view>
+        <view class="cat-arrow">›</view>
+      </view>
+      <view class="cat-stats" wx:if="{{item.answered > 0}}">
+        <text class="cat-progress-text">{{item.answered}}/{{item.total}} 已做</text>
+        <view class="cat-progress-bar">
+          <view class="cat-progress-fill" style="width: {{item.rate}}%"></view>
+        </view>
+        <text class="cat-rate">{{item.rate}}%</text>
+      </view>
+      <view class="cat-stats" wx:else>
+        <text class="cat-not-started">{{item.total}} 题 · 未开始</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 清除记录 -->
+  <view class="clear-btn" bindtap="clearStats" wx:if="{{stats.totalAnswered > 0}}">
+    <text>清除答题记录</text>
+  </view>
+</view>

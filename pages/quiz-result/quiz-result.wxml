@@ -1,0 +1,52 @@
+<!--pages/quiz-result/quiz-result.wxml-->
+<nav-bar title="答题结果" showBack="{{true}}" />
+
+<view class="result-page">
+  <!-- 得分卡片 -->
+  <view class="score-card">
+    <view class="score-circle" style="border-color: {{levelColor}}">
+      <text class="score-num" style="color: {{levelColor}}">{{accuracy}}</text>
+      <text class="score-unit" style="color: {{levelColor}}">分</text>
+    </view>
+    <view class="score-level" style="color: {{levelColor}}">{{level}}</view>
+    <view class="score-desc">{{levelDesc}}</view>
+    <view class="score-detail">
+      <text class="detail-item">答对 {{correct}} 题</text>
+      <text class="detail-divider">|</text>
+      <text class="detail-item">共 {{total}} 题</text>
+      <text class="detail-divider">|</text>
+      <text class="detail-item">正确率 {{accuracy}}%</text>
+    </view>
+  </view>
+
+  <!-- 薄弱知识域 -->
+  <view class="weak-section" wx:if="{{weakCategories.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">薄弱知识域</text>
+      <text class="section-sub">正确率低于 60%</text>
+    </view>
+    <view class="weak-list">
+      <view class="weak-item" wx:for="{{weakCategories}}" wx:key="id">
+        <text class="weak-icon">{{item.icon}}</text>
+        <view class="weak-info">
+          <text class="weak-name">{{item.name}}</text>
+          <text class="weak-desc">{{item.correct}}/{{item.answered}} 正确</text>
+        </view>
+        <text class="weak-rate">{{item.rate}}%</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section">
+    <view class="action-btn primary-btn" bindtap="retry">
+      <text>再来一轮</text>
+    </view>
+    <view class="action-btn secondary-btn" bindtap="goWrongBook">
+      <text>查看错题本</text>
+    </view>
+    <view class="action-btn text-btn" bindtap="backToHome">
+      <text>返回测试大厅</text>
+    </view>
+  </view>
+</view>

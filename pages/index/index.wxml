@@ -43,6 +43,22 @@
     <text class="case-entry-arrow">›</text>
   </view>
 
+  <!-- 测试练习入口 -->
+  <view class="section-header">
+    <text class="section-title-text">测试练习</text>
+  </view>
+
+  <view class="quiz-entry hover-scale" bindtap="goToQuiz">
+    <view class="quiz-entry-left">
+      <text class="quiz-entry-icon">📝</text>
+      <view class="quiz-entry-info">
+        <text class="quiz-entry-title">120道测试题 · 以考促学</text>
+        <text class="quiz-entry-desc">控件认知 · 属性事件 · 代码实现 · 文件体系 · API能力 · 实战综合</text>
+      </view>
+    </view>
+    <text class="quiz-entry-arrow">›</text>
+  </view>
+
   <!-- 分类列表 -->
   <view class="section-header">
     <text class="section-title-text">控件分类</text>
