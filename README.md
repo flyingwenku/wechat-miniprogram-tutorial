@@ -38,15 +38,14 @@ miniprogram-tutorial/
 │   ├── nav-bar/              # 自定义导航栏
 │   ├── code-block/           # 代码展示 + 复制
 │   ├── prop-table/           # 属性说明表格
-│   ├── demo-section/         # 演示区域容器
 │   ├── empty-state/          # 空状态组件
-│   ├── skeleton/             # 骨架屏组件
-│   └── demos/                # 控件演示组件
+│   └── demos/                # 控件/案例演示组件
 │       ├── button-demos/     # 按钮类（6个）
 │       ├── form-demos/       # 表单类（9个）
 │       ├── progress-demos/   # 进度类（4个）
 │       ├── feedback-demos/   # 反馈类（5个）
-│       └── display-demos/    # 展示类（18个）
+│       ├── display-demos/    # 展示类（18个）
+│       └── case-demos/       # 实战案例（8个）
 │
 ├── data/
 │   └── controls.js           # 所有控件元数据

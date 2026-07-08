@@ -1,7 +1,6 @@
 {
   "usingComponents": {
     "nav-bar": "/components/nav-bar/nav-bar",
-    "demo-section": "/components/demo-section/demo-section",
     "prop-table": "/components/prop-table/prop-table",
     "code-block": "/components/code-block/code-block",
     "button-demos": "/components/demos/button-demos/button-demos",
