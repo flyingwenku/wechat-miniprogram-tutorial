@@ -10,16 +10,20 @@ App({
   },
 
   onLaunch() {
-    // 获取系统信息
-    const sysInfo = wx.getWindowInfo()
-    const menuButton = wx.getMenuButtonBoundingClientRect()
+    try {
+      // 获取系统信息（兼容新旧 API）
+      const sysInfo = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync()
+      const menuButton = wx.getMenuButtonBoundingClientRect()
 
-    this.globalData.statusBarHeight = sysInfo.statusBarHeight
-    this.globalData.navBarHeight = menuButton.bottom + (menuButton.top - sysInfo.statusBarHeight) * 2
-    this.globalData.menuButton = menuButton
+      this.globalData.statusBarHeight = sysInfo.statusBarHeight || 20
+      this.globalData.navBarHeight = menuButton.bottom + (menuButton.top - sysInfo.statusBarHeight) * 2
+      this.globalData.menuButton = menuButton
 
-    // 加载本地存储
-    this.loadStorage()
+      // 加载本地存储
+      this.loadStorage()
+    } catch (e) {
+      console.error('onLaunch error:', e)
+    }
   },
 
   // 从本地存储加载数据

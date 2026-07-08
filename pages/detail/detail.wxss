@@ -138,7 +138,16 @@
 .error-desc {
   font-size: var(--font-sm);
   color: var(--text-secondary);
+  margin-bottom: 16rpx;
+}
+.error-debug {
+  font-size: var(--font-xs);
+  color: #FF3B30;
+  background: rgba(255, 59, 48, 0.1);
+  padding: 12rpx 24rpx;
+  border-radius: 8rpx;
   margin-bottom: 48rpx;
+  word-break: break-all;
 }
 .error-btn {
   background: var(--color-primary);

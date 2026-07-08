@@ -8,10 +8,12 @@ Page({
     isFavorite: false,
     theme: 'light',
     activeTab: 0,
-    loadError: false
+    loadError: false,
+    debugInfo: ''
   },
 
   onLoad(options) {
+    console.log('[detail] onLoad options:', JSON.stringify(options))
     const id = options.id
     this.findControl(id)
   },
@@ -25,9 +27,11 @@ Page({
   },
 
   findControl(id) {
+    console.log('[detail] findControl id:', id)
+    console.log('[detail] controlsData.categories length:', controlsData.categories ? controlsData.categories.length : 'undefined')
     if (!id) {
       console.error('[detail] 未传入控件 id')
-      this.setData({ loadError: true })
+      this.setData({ loadError: true, debugInfo: '未传入 id 参数' })
       return
     }
     try {
@@ -35,10 +39,12 @@ Page({
         if (!cat.controls) continue
         const control = cat.controls.find(c => c.id === id)
         if (control) {
+          console.log('[detail] 找到控件:', control.name, '分类:', cat.id)
           this.setData({
             control: control,
             categoryId: cat.id,
-            loadError: false
+            loadError: false,
+            debugInfo: ''
           })
           // 记录浏览历史
           getApp().addHistory({
@@ -53,6 +59,7 @@ Page({
       }
       // 未找到控件
       console.error('[detail] 未找到控件 id:', id)
+      this.setData({ loadError: true, debugInfo: '未找到 id=' + id })
       this.setData({ loadError: true })
     } catch (err) {
       console.error('[detail] findControl 异常:', err)

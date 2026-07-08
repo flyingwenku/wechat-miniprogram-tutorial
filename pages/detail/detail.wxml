@@ -9,6 +9,7 @@
     <text class="error-icon">⚠️</text>
     <text class="error-title">控件加载失败</text>
     <text class="error-desc">可能原因：页面缓存过期或控件 id 无效</text>
+    <text class="error-debug" wx:if="{{debugInfo}}">调试信息：{{debugInfo}}</text>
     <view class="error-btn" bindtap="onRetry">返回首页</view>
   </view>
 </view>
