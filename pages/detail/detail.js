@@ -45,7 +45,7 @@ Page({
   },
 
   onTabChange(e) {
-    this.setData({ activeTab: e.currentTarget.dataset.tab })
+    this.setData({ activeTab: Number(e.currentTarget.dataset.tab) })
   },
 
   onFavorite() {
