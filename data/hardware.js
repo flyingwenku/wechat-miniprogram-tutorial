@@ -608,8 +608,67 @@ const categories = [
     icon: '💾',
     desc: '文件系统、保存媒体到相册',
     items: [
-      { id: 'fileSystem', name: '文件系统', desc: '读写本地文件', simulator: '支持', status: 'planned' },
-      { id: 'saveImage', name: '保存媒体', desc: '保存图片/视频到相册', simulator: '真机', status: 'planned' }
+      { id: 'fileSystem', name: '文件系统', desc: '读写本地文件', simulator: '支持', status: 'ready',
+        props: [
+          { name: 'getFileSystemManager', type: 'function', default: '-', desc: '获取全局文件管理器' },
+          { name: 'writeFile', type: 'function', default: '-', desc: '写文件到临时/用户目录' },
+          { name: 'readFile', type: 'function', default: '-', desc: '读取文件内容' }
+        ],
+        code: {
+          wxml: `<button bindtap="writeFile">写入文件</button>
+<button bindtap="readFile">读取文件</button>
+<text wx:if="{{fileContent}}" class="hw-result">{{fileContent}}</text>`,
+          js: `Page({
+  writeFile() {
+    const fs = wx.getFileSystemManager()
+    const path = wx.env.USER_DATA_PATH + '/demo.txt'
+    fs.writeFile({
+      filePath: path, data: 'Hello MiniProgram',
+      success: () => wx.showToast({ title: '写入成功' })
+    })
+  },
+  readFile() {
+    const fs = wx.getFileSystemManager()
+    const path = wx.env.USER_DATA_PATH + '/demo.txt'
+    fs.readFile({
+      filePath: path, encoding: 'utf8',
+      success: res => this.setData({ fileContent: res.data })
+    })
+  }
+})`
+        },
+        tips: [
+          'wx.env.USER_DATA_PATH 是持久化用户目录，应用卸载时清空，适合存用户文件。',
+          '读写前建议用 access / mkdir 判断路径是否存在，避免异常。',
+          '模拟器与真机均支持，是最适合演示的文件能力。'
+        ],
+        demo: { type: 'storage' }
+      },
+      { id: 'saveImage', name: '保存媒体', desc: '保存图片/视频到相册', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'saveImageToPhotosAlbum', type: 'function', default: '-', desc: '保存图片到相册，需 filePath' },
+          { name: 'saveVideoToPhotosAlbum', type: 'function', default: '-', desc: '保存视频到相册' }
+        ],
+        code: {
+          wxml: `<button bindtap="saveImg">保存示例图到相册</button>`,
+          js: `Page({
+  saveImg() {
+    wx.downloadFile({
+      url: 'https://example.com/sample.png',
+      success: r => {
+        wx.saveImageToPhotosAlbum({ filePath: r.tempFilePath })
+      }
+    })
+  }
+})`
+        },
+        tips: [
+          'saveImageToPhotosAlbum 需用户授权 scope.writePhotosAlbum，首次调用弹授权框。',
+          '通常先用 downloadFile / chooseMedia 拿到临时文件路径，再保存。',
+          '真机有效，模拟器无法写入相册。'
+        ],
+        demo: { type: 'storage' }
+      }
     ]
   },
   {
@@ -618,7 +677,34 @@ const categories = [
     icon: '📶',
     desc: 'NFC 读写（需特定机型支持）',
     items: [
-      { id: 'nfc', name: 'NFC', desc: 'HCE 与 NFC 标签读写', simulator: '不支持', status: 'planned' }
+      { id: 'nfc', name: 'NFC', desc: 'HCE 与 NFC 标签读写', simulator: '不支持', status: 'ready',
+        props: [
+          { name: 'getHCEState', type: 'function', default: '-', desc: '获取设备是否支持 HCE' },
+          { name: 'startHCE', type: 'function', default: '-', desc: '初始化 HCE，aid_list 指定应用 ID' },
+          { name: 'onHCEMessage', type: 'callback', default: '-', desc: '监听 NFC 卡片被读取的消息' }
+        ],
+        code: {
+          wxml: `<button bindtap="initNfc">初始化 HCE</button>
+<text wx:if="{{nfcState}}" class="hw-result">{{nfcState}}</text>`,
+          js: `Page({
+  initNfc() {
+    wx.getHCEState({
+      success: () => {
+        wx.startHCE({ aid_list: ['F222222222'] })
+        wx.showToast({ title: 'HCE 已启动' })
+      },
+      fail: () => wx.showToast({ title: '设备不支持', icon: 'none' })
+    })
+  }
+})`
+        },
+        tips: [
+          'HCE（基于主机的卡模拟）仅部分 Android 机型支持，iOS 不支持。',
+          '开发者工具与模拟器均无法模拟 NFC 硬件，必须真机。',
+          'aid_list 为应用标识，需与读卡端约定一致。'
+        ],
+        demo: { type: 'nfc' }
+      }
     ]
   }
 ]
