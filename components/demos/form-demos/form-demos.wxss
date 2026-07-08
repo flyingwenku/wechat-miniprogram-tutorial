@@ -94,9 +94,12 @@
 .input-field {
   background: var(--bg-hover);
   border-radius: 12rpx;
-  padding: 20rpx 24rpx;
+  padding: 0 24rpx;
   font-size: 30rpx;
+  height: 84rpx;
+  line-height: 84rpx;
   border: 1rpx solid transparent;
+  box-sizing: border-box;
 }
 .input-field:focus {
   border-color: var(--color-primary);
