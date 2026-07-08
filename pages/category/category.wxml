@@ -1,0 +1,32 @@
+<!--pages/category/category.wxml-->
+<view class="page {{theme}}">
+  <nav-bar title="{{category.name}}" showBack="{{true}}"
+    bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}"
+    textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+
+  <!-- 分类信息 -->
+  <view class="cat-banner" wx:if="{{category}}">
+    <view class="cat-banner-icon" style="background: {{category.color}}1a;">
+      <text>{{category.icon}}</text>
+    </view>
+    <view class="cat-banner-info">
+      <text class="cat-banner-name">{{category.name}}</text>
+      <text class="cat-banner-desc">{{category.description}}</text>
+    </view>
+  </view>
+
+  <!-- 控件列表 -->
+  <view class="control-list">
+    <view class="control-item hover-scale"
+      wx:for="{{controls}}" wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="goToDetail">
+      <view class="control-index">{{index + 1}}</view>
+      <view class="control-content">
+        <text class="control-name">{{item.name}}</text>
+        <text class="control-desc">{{item.desc}}</text>
+      </view>
+      <text class="control-arrow">›</text>
+    </view>
+  </view>
+</view>

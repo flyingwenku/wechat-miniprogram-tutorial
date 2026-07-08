@@ -1,0 +1,24 @@
+<!--pages/history/history.wxml-->
+<view class="page {{theme}}">
+  <nav-bar title="浏览历史" showBack="{{true}}"
+    bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}"
+    textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+
+  <view class="clear-bar" wx:if="{{historyList.length > 0}}">
+    <text class="history-count">共 {{historyList.length}} 条记录</text>
+    <text class="clear-btn" bindtap="onClear">清空历史</text>
+  </view>
+
+  <view class="history-list" wx:if="{{historyList.length > 0}}">
+    <view class="history-item hover-scale" wx:for="{{historyList}}" wx:key="id"
+      data-id="{{item.id}}" bindtap="goToDetail">
+      <text class="history-name">{{item.name}}</text>
+      <text class="history-time">{{item.timeText}}</text>
+      <text class="history-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="history-empty" wx:else>
+    <empty-state icon="📋" text="暂无浏览历史" />
+  </view>
+</view>

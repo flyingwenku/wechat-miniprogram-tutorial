@@ -1,0 +1,10 @@
+<!--components/skeleton/skeleton.wxml-->
+<view class="skeleton" wx:if="{{loading}}">
+  <view class="sk-avatar"></view>
+  <view class="sk-content">
+    <view class="sk-title"></view>
+    <view class="sk-line" wx:for="{{rowList}}" wx:key="*this"
+      style="width:{{index === rowList.length - 1 ? '60%' : '100%'}}"></view>
+  </view>
+</view>
+<slot wx:else></slot>

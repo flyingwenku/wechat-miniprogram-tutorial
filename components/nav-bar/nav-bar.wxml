@@ -1,0 +1,13 @@
+<!--components/nav-bar/nav-bar.wxml-->
+<view class="nav-bar" style="background:{{bgColor}};">
+  <view class="nav-status" style="height:{{statusBarHeight}}px;"></view>
+  <view class="nav-content" style="height:{{(navBarHeight - statusBarHeight)}}px;">
+    <view class="nav-left" wx:if="{{showBack}}" bindtap="onBack" style="width:{{menuButtonWidth}}px;">
+      <text class="back-icon" style="color:{{textColor}};">‹</text>
+    </view>
+    <view class="nav-left nav-placeholder" wx:else style="width:{{menuButtonWidth}}px;"></view>
+    <view class="nav-title" style="color:{{textColor}};">{{title}}</view>
+    <view class="nav-right" style="width:{{menuButtonWidth}}px;"></view>
+  </view>
+</view>
+<view class="nav-placeholder-block" style="height:{{navBarHeight}}px;"></view>

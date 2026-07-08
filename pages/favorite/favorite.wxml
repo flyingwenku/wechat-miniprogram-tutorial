@@ -1,0 +1,21 @@
+<!--pages/favorite/favorite.wxml-->
+<view class="page {{theme}}">
+  <nav-bar title="我的收藏" bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}" textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+
+  <view class="fav-list" wx:if="{{favorites.length > 0}}">
+    <view class="fav-item hover-scale" wx:for="{{favorites}}" wx:key="id"
+      data-id="{{item.id}}" bindtap="goToDetail">
+      <text class="fav-icon">{{item.categoryIcon}}</text>
+      <view class="fav-info">
+        <text class="fav-name">{{item.name}}</text>
+        <text class="fav-desc">{{item.desc}}</text>
+        <text class="fav-cat">{{item.categoryName}}</text>
+      </view>
+      <view class="fav-unstar" data-id="{{item.id}}" catchtap="onUnfavorite">★</view>
+    </view>
+  </view>
+
+  <view class="fav-empty" wx:else>
+    <empty-state icon="⭐" text="还没有收藏任何控件" btnText="去逛逛" bind:action="goToSearch" />
+  </view>
+</view>

@@ -1,0 +1,84 @@
+<!--components/demos/progress-demos/progress-demos.wxml-->
+
+<!-- 线性进度条 -->
+<view wx:if="{{controlId === 'progress-linear'}}" class="demo-wrap">
+  <progress percent="{{percent}}" show-info
+    activeColor="#4C8BF5" backgroundColor="#E8E8E8"
+    stroke-width="8" active/>
+  <view class="progress-btns">
+    <view class="prog-btn" bindtap="decrease">-10%</view>
+    <view class="prog-btn primary" bindtap="increase">+10%</view>
+  </view>
+  <progress percent="{{percent}}" activeColor="#34C759" stroke-width="4" show-info/>
+  <progress percent="{{percent}}" activeColor="#FF9500" stroke-width="12"/>
+</view>
+
+<!-- 圆形进度条 -->
+<view wx:elif="{{controlId === 'progress-circle'}}" class="demo-wrap circle-demo">
+  <view class="circle-container">
+    <canvas type="2d" id="circleCanvas" class="circle-canvas"
+      style="width:200rpx;height:200rpx"/>
+    <view class="circle-text">
+      <text class="circle-percent">{{percent}}%</text>
+      <text class="circle-label">完成度</text>
+    </view>
+  </view>
+  <view class="progress-btns">
+    <view class="prog-btn" bindtap="decrease">-10%</view>
+    <view class="prog-btn primary" bindtap="increase">+10%</view>
+  </view>
+</view>
+
+<!-- 步骤条 -->
+<view wx:elif="{{controlId === 'progress-steps'}}" class="demo-wrap">
+  <text class="demo-subtitle">横向步骤条</text>
+  <view class="steps-horizontal">
+    <view class="step-h {{index <= currentStep ? 'done' : ''}}"
+      wx:for="{{steps}}" wx:key="index">
+      <view class="step-h-dot">{{index + 1}}</view>
+      <text class="step-h-label">{{item}}</text>
+      <view class="step-h-line" wx:if="{{index < steps.length - 1}}"></view>
+    </view>
+  </view>
+
+  <text class="demo-subtitle">竖向步骤条</text>
+  <view class="steps-vertical">
+    <view class="step-v {{index <= vCurrent ? 'done' : ''}}"
+      wx:for="{{vSteps}}" wx:key="index">
+      <view class="step-v-dot"></view>
+      <view class="step-v-line" wx:if="{{index < vSteps.length - 1}}"></view>
+      <view class="step-v-content">
+        <text class="step-v-title">{{item}}</text>
+        <text class="step-v-desc">{{index === vCurrent ? '进行中...' : index < vCurrent ? '已完成' : '待处理'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="progress-btns">
+    <view class="prog-btn" bindtap="prevStep">上一步</view>
+    <view class="prog-btn primary" bindtap="nextStep">下一步</view>
+  </view>
+</view>
+
+<!-- 骨架屏 -->
+<view wx:elif="{{controlId === 'progress-skeleton'}}" class="demo-wrap">
+  <view class="skeleton-demo" wx:if="{{skeletonLoading}}">
+    <view class="sk-row" wx:for="{{[1,2,3]}}" wx:key="*this">
+      <view class="sk-avatar shimmer"></view>
+      <view class="sk-content">
+        <view class="sk-title shimmer"></view>
+        <view class="sk-line shimmer" style="width: {{item === 3 ? '60%' : '100%'}}"></view>
+      </view>
+    </view>
+  </view>
+  <view class="real-content" wx:else>
+    <view class="rc-row" wx:for="{{['张三','李四','王五']}}" wx:key="*this">
+      <view class="rc-avatar">{{item[0]}}</view>
+      <view class="rc-info">
+        <text class="rc-name">{{item}}</text>
+        <text class="rc-desc">这是一段真实的描述文字</text>
+      </view>
+    </view>
+    <view class="reload-btn" bindtap="reload">重新加载骨架屏</view>
+  </view>
+</view>

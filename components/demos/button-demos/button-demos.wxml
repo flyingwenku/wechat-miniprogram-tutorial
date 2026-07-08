@@ -1,0 +1,76 @@
+<!--components/demos/button-demos/button-demos.wxml-->
+
+<!-- 基础按钮 -->
+<view wx:if="{{controlId === 'button-basic'}}" class="demo-wrap">
+  <button type="default" bindtap="onTap">默认按钮</button>
+  <button type="primary" bindtap="onTap">主要按钮</button>
+  <button type="warn" bindtap="onTap">警告按钮</button>
+  <view class="btn-row">
+    <button type="primary" size="mini" bindtap="onTap">迷你</button>
+    <button type="primary" size="mini" plain bindtap="onTap">镂空</button>
+  </view>
+  <text class="demo-hint">点击次数：{{tapCount}}</text>
+</view>
+
+<!-- 图文按钮 -->
+<view wx:elif="{{controlId === 'button-image'}}" class="demo-wrap">
+  <view class="img-btn" bindtap="onTap">
+    <text class="img-btn-icon">✏️</text>
+    <text class="img-btn-text">编辑</text>
+  </view>
+  <view class="img-btn primary" bindtap="onTap">
+    <text class="img-btn-icon">➕</text>
+    <text class="img-btn-text">添加</text>
+  </view>
+  <view class="img-btn success" bindtap="onTap">
+    <text class="img-btn-icon">✓</text>
+    <text class="img-btn-text">完成</text>
+  </view>
+  <view class="img-btn danger" bindtap="onTap">
+    <text class="img-btn-icon">🗑</text>
+    <text class="img-btn-text">删除</text>
+  </view>
+</view>
+
+<!-- 禁用按钮 -->
+<view wx:elif="{{controlId === 'button-disabled'}}" class="demo-wrap">
+  <button type="primary">正常状态</button>
+  <button type="primary" disabled>禁用状态</button>
+  <button type="warn" disabled>禁用警告</button>
+  <view class="custom-btn-demo">
+    <view class="custom-btn normal" bindtap="onTap">可点击</view>
+    <view class="custom-btn disabled-state">已禁用</view>
+  </view>
+</view>
+
+<!-- 加载按钮 -->
+<view wx:elif="{{controlId === 'button-loading'}}" class="demo-wrap">
+  <button type="primary" loading="{{loading}}" disabled="{{loading}}" bindtap="onSubmit">
+    {{loading ? '提交中...' : '点击提交'}}
+  </button>
+  <text class="demo-hint">{{loading ? '正在提交，请稍候...' : '点击按钮模拟提交'}}</text>
+</view>
+
+<!-- 自定义样式按钮 -->
+<view wx:elif="{{controlId === 'button-custom'}}" class="demo-wrap">
+  <view class="gradient-btn" bindtap="onTap">渐变按钮</view>
+  <view class="shadow-btn" bindtap="onTap">阴影按钮</view>
+  <view class="outline-btn" bindtap="onTap">描边按钮</view>
+  <view class="btn-row">
+    <view class="round-btn" bindtap="onTap">圆角</view>
+    <view class="round-btn purple" bindtap="onTap">紫色</view>
+  </view>
+</view>
+
+<!-- 悬浮按钮 FAB -->
+<view wx:elif="{{controlId === 'button-fab'}}" class="demo-wrap fab-demo">
+  <text class="demo-hint">右下角有一个悬浮按钮，点击试试</text>
+  <view class="fab-demo-area">
+    <view class="fab-list-item" wx:for="{{[1,2,3]}}" wx:key="*this">
+      <text>列表项 {{item}}</text>
+    </view>
+  </view>
+  <view class="fab" bindtap="onFabTap">
+    <text class="fab-plus">+</text>
+  </view>
+</view>

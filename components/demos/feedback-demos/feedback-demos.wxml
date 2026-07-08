@@ -1,0 +1,43 @@
+<!--components/demos/feedback-demos/feedback-demos.wxml-->
+
+<!-- 自定义消息提示条（固定在顶部） -->
+<view class="banner banner-{{bannerType}}" wx:if="{{showBanner}}">
+  <text class="banner-icon">{{bannerIcon}}</text>
+  <text class="banner-text">{{bannerText}}</text>
+</view>
+
+<!-- 对话框 Modal -->
+<view wx:if="{{controlId === 'feedback-modal'}}" class="demo-wrap">
+  <view class="demo-btn" bindtap="showModal">显示确认对话框</view>
+  <view class="demo-btn" bindtap="showModalNoCancel">无取消按钮对话框</view>
+  <view class="demo-hint">点击按钮体验原生 Modal 弹窗效果</view>
+</view>
+
+<!-- 轻提示 Toast -->
+<view wx:elif="{{controlId === 'feedback-toast'}}" class="demo-wrap">
+  <view class="demo-btn success" bindtap="showSuccess">成功提示</view>
+  <view class="demo-btn danger" bindtap="showError">错误提示</view>
+  <view class="demo-btn" bindtap="showLoadingToast">加载提示</view>
+  <view class="demo-btn outline" bindtap="showTextToast">纯文字提示</view>
+</view>
+
+<!-- 操作菜单 ActionSheet -->
+<view wx:elif="{{controlId === 'feedback-action-sheet'}}" class="demo-wrap">
+  <view class="demo-btn primary" bindtap="showAction">显示操作菜单</view>
+  <view class="demo-hint">点击后会从底部弹出操作菜单</view>
+</view>
+
+<!-- 加载弹窗 Loading -->
+<view wx:elif="{{controlId === 'feedback-loading'}}" class="demo-wrap">
+  <view class="demo-btn primary" bindtap="showLoading">显示加载弹窗</view>
+  <view class="demo-hint">点击后显示加载动画，2秒后自动关闭</view>
+</view>
+
+<!-- 消息提示条 Banner -->
+<view wx:elif="{{controlId === 'feedback-banner'}}" class="demo-wrap">
+  <view class="demo-btn success" data-type="success" bindtap="showBanner">成功消息</view>
+  <view class="demo-btn danger" data-type="error" bindtap="showBanner">错误消息</view>
+  <view class="demo-btn warning" data-type="warning" bindtap="showBanner">警告消息</view>
+  <view class="demo-btn" data-type="info" bindtap="showBanner">信息消息</view>
+  <view class="demo-hint">点击按钮查看顶部消息提示条效果</view>
+</view>

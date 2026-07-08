@@ -1,0 +1,42 @@
+/* components/code-block/code-block.wxss */
+.code-block {
+  background: #1e1e1e;
+  border-radius: 16rpx;
+  overflow: hidden;
+  margin: 16rpx 0;
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16rpx 24rpx;
+  background: #2d2d2d;
+}
+.code-lang {
+  color: #888;
+  font-size: 24rpx;
+  font-family: monospace;
+}
+.copy-btn {
+  padding: 6rpx 20rpx;
+  border-radius: 8rpx;
+  background: #3a3a3a;
+}
+.copy-btn text {
+  color: #4C8BF5;
+  font-size: 24rpx;
+}
+.copy-btn.copied text {
+  color: #34C759;
+}
+.code-scroll {
+  padding: 24rpx;
+  white-space: pre;
+}
+.code-content {
+  color: #d4d4d4;
+  font-size: 26rpx;
+  font-family: 'Courier New', monospace;
+  line-height: 1.6;
+  white-space: pre;
+}

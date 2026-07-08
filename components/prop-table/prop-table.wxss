@@ -1,0 +1,46 @@
+/* components/prop-table/prop-table.wxss */
+.prop-table {
+  border-radius: 16rpx;
+  overflow: hidden;
+  border: 1rpx solid var(--border-color);
+}
+.table-header {
+  display: flex;
+  background: var(--bg-hover);
+  padding: 16rpx 0;
+}
+.table-row {
+  display: flex;
+  border-top: 1rpx solid var(--border-light);
+  padding: 16rpx 0;
+}
+.col {
+  padding: 0 12rpx;
+  font-size: 24rpx;
+}
+.col-name {
+  width: 22%;
+  color: var(--color-primary);
+  font-weight: 500;
+  word-break: break-all;
+}
+.col-type {
+  width: 16%;
+  color: var(--color-warning);
+  word-break: break-all;
+}
+.col-default {
+  width: 20%;
+  color: var(--text-secondary);
+  word-break: break-all;
+}
+.col-desc {
+  width: 42%;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  word-break: break-all;
+}
+.table-header .col {
+  color: var(--text-primary);
+  font-weight: 600;
+}

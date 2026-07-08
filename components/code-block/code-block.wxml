@@ -1,0 +1,12 @@
+<!--components/code-block/code-block.wxml-->
+<view class="code-block">
+  <view class="code-header">
+    <text class="code-lang">{{lang}}</text>
+    <view class="copy-btn {{copied ? 'copied' : ''}}" bindtap="onCopy">
+      <text>{{copied ? '已复制' : '复制'}}</text>
+    </view>
+  </view>
+  <scroll-view scroll-x class="code-scroll">
+    <text class="code-content" selectable>{{code}}</text>
+  </scroll-view>
+</view>

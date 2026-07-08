@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "nav-bar": "/components/nav-bar/nav-bar",
+    "demo-section": "/components/demo-section/demo-section",
+    "prop-table": "/components/prop-table/prop-table",
+    "code-block": "/components/code-block/code-block",
+    "button-demos": "/components/demos/button-demos/button-demos",
+    "form-demos": "/components/demos/form-demos/form-demos",
+    "progress-demos": "/components/demos/progress-demos/progress-demos",
+    "feedback-demos": "/components/demos/feedback-demos/feedback-demos",
+    "display-demos": "/components/demos/display-demos/display-demos"
+  }
+}

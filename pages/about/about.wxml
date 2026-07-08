@@ -1,0 +1,72 @@
+<!--pages/about/about.wxml-->
+<view class="page {{theme}}">
+  <nav-bar title="关于" showBack="{{true}}"
+    bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}"
+    textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+
+  <view class="about-logo">
+    <view class="logo-icon">📱</view>
+    <text class="logo-title">控件教程</text>
+    <text class="logo-version">v1.0.0</text>
+  </view>
+
+  <view class="about-section">
+    <text class="section-title">项目简介</text>
+    <text class="section-text">交互控件教程小程序是一款面向微信小程序开发者的学习工具，系统展示了按钮、表单、进度、反馈、文字、图片、视频等各类交互控件的实际效果和用法。</text>
+  </view>
+
+  <view class="about-section">
+    <text class="section-title">功能特性</text>
+    <view class="feature-list">
+      <view class="feature-item">
+        <text class="feature-icon">✅</text>
+        <text class="feature-text">42+ 控件完整演示</text>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">✅</text>
+        <text class="feature-text">可交互的真实效果</text>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">✅</text>
+        <text class="feature-text">完整属性说明文档</text>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">✅</text>
+        <text class="feature-text">示例代码一键复制</text>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">✅</text>
+        <text class="feature-text">深色 / 浅色主题切换</text>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">✅</text>
+        <text class="feature-text">收藏与浏览历史</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="about-section">
+    <text class="section-title">技术栈</text>
+    <view class="tech-tags">
+      <text class="tech-tag">微信小程序原生</text>
+      <text class="tech-tag">WXML</text>
+      <text class="tech-tag">WXSS</text>
+      <text class="tech-tag">JavaScript</text>
+      <text class="tech-tag">Canvas 2D</text>
+      <text class="tech-tag">自定义组件</text>
+    </view>
+  </view>
+
+  <view class="about-section">
+    <text class="section-title">联系方式</text>
+    <view class="contact-row" bindtap="onCopyEmail">
+      <text class="contact-label">邮箱</text>
+      <text class="contact-value">contact@example.com</text>
+    </view>
+  </view>
+
+  <view class="about-footer">
+    <text>© 2026 控件教程小程序</text>
+    <text>完整源码，可商用</text>
+  </view>
+</view>

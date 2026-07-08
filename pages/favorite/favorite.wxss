@@ -1,0 +1,15 @@
+/* pages/favorite/favorite.wxss */
+.page { min-height: 100vh; padding: 0 32rpx 48rpx; }
+.fav-list { display: flex; flex-direction: column; gap: 16rpx; }
+.fav-item {
+  display: flex; align-items: center;
+  background: var(--bg-card); border-radius: var(--radius-lg);
+  padding: 24rpx; box-shadow: var(--shadow-card);
+}
+.fav-icon { font-size: 40rpx; margin-right: 20rpx; }
+.fav-info { flex: 1; }
+.fav-name { font-size: var(--font-lg); font-weight: 600; color: var(--text-primary); display: block; }
+.fav-desc { font-size: var(--font-sm); color: var(--text-secondary); margin-top: 4rpx; display: block; }
+.fav-cat { font-size: 22rpx; color: var(--color-primary); margin-top: 8rpx; display: block; }
+.fav-unstar { font-size: 40rpx; color: #FF9500; padding: 8rpx; }
+.fav-empty { padding-top: 80rpx; }

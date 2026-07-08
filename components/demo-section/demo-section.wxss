@@ -1,0 +1,27 @@
+/* components/demo-section/demo-section.wxss */
+.demo-section {
+  margin-bottom: 32rpx;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.section-bar {
+  width: 6rpx;
+  height: 28rpx;
+  background: var(--color-primary);
+  border-radius: 4rpx;
+  margin-right: 12rpx;
+}
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.section-body {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 32rpx;
+  box-shadow: var(--shadow-card);
+}

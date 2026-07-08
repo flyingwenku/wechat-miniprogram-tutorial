@@ -1,0 +1,259 @@
+<!--components/demos/display-demos/display-demos.wxml-->
+
+<!-- ============ 文字展示 ============ -->
+
+<!-- 多层级排版 -->
+<view wx:if="{{controlId === 'display-typography'}}" class="demo-wrap">
+  <view class="t-title">大标题 H1</view>
+  <view class="t-subtitle">副标题 H2</view>
+  <view class="t-h3">章节标题 H3</view>
+  <view class="t-body">正文内容，默认字号 30rpx，行高 1.6。这是最适合阅读的文字样式，适合展示段落内容。</view>
+  <view class="t-caption">辅助说明文字，颜色更浅，用于次要信息</view>
+  <view class="t-link" bindtap="">链接文字样式 →</view>
+  <view class="t-price">¥99.00</view>
+  <view class="t-deleted">原价 ¥199.00</view>
+</view>
+
+<!-- 富文本 -->
+<view wx:elif="{{controlId === 'display-rich-text'}}" class="demo-wrap">
+  <rich-text nodes="{{htmlContent}}"></rich-text>
+</view>
+
+<!-- 可折叠文本 -->
+<view wx:elif="{{controlId === 'display-collapse'}}" class="demo-wrap">
+  <view class="collapse-text">
+    <text class="collapse-content {{expanded ? '' : 'collapsed'}}">{{longText}}</text>
+    <view class="toggle-btn" bindtap="toggle">
+      <text>{{expanded ? '收起 ▲' : '展开全文 ▼'}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- 代码块 -->
+<view wx:elif="{{controlId === 'display-code'}}" class="demo-wrap">
+  <view class="code-block-demo">
+    <view class="cbd-header">
+      <text class="cbd-lang">JavaScript</text>
+      <view class="cbd-copy {{copied ? 'copied' : ''}}" bindtap="copyCode">
+        {{copied ? '已复制' : '复制'}}
+      </view>
+    </view>
+    <scroll-view scroll-x class="cbd-scroll">
+      <view class="cbd-line" wx:for="{{codeLines}}" wx:key="index">
+        <text class="cbd-num">{{index + 1}}</text>
+        <text class="cbd-content">{{item}}</text>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+
+<!-- ============ 图片展示 ============ -->
+
+<!-- 单图预览 -->
+<view wx:elif="{{controlId === 'display-image-preview'}}" class="demo-wrap">
+  <image src="{{singleImg}}" mode="aspectFill"
+    class="preview-img" bindtap="previewSingle"/>
+  <text class="demo-hint">点击图片可全屏预览</text>
+</view>
+
+<!-- 九宫格图片 -->
+<view wx:elif="{{controlId === 'display-image-grid'}}" class="demo-wrap">
+  <view class="img-grid">
+    <image wx:for="{{gridImages}}" wx:key="index"
+      src="{{item}}" mode="aspectFill"
+      class="grid-item"
+      data-index="{{index}}"
+      bindtap="previewGrid"/>
+  </view>
+  <text class="demo-hint">点击任意图片可预览全部</text>
+</view>
+
+<!-- 图片懒加载 -->
+<view wx:elif="{{controlId === 'display-image-lazy'}}" class="demo-wrap">
+  <scroll-view scroll-y class="lazy-scroll">
+    <view class="lazy-item" wx:for="{{lazyImages}}" wx:key="index">
+      <image src="{{item}}" mode="aspectFill" lazy-load class="lazy-img"/>
+      <text class="lazy-label">图片 {{index + 1}}</text>
+    </view>
+  </scroll-view>
+</view>
+
+<!-- 轮播图 -->
+<view wx:elif="{{controlId === 'display-swiper'}}" class="demo-wrap">
+  <swiper class="banner-swiper" indicator-dots
+    indicator-color="rgba(255,255,255,0.4)"
+    indicator-active-color="#ffffff"
+    autoplay interval="3000" circular
+    bindchange="onSwiperChange">
+    <swiper-item wx:for="{{banners}}" wx:key="index">
+      <image src="{{item}}" mode="aspectFill" class="banner-img"/>
+      <view class="banner-overlay">
+        <text class="banner-title">轮播 {{index + 1}}</text>
+      </view>
+    </swiper-item>
+  </swiper>
+  <view class="swiper-dots">
+    <text>当前第 {{swiperCurrent + 1}} / {{banners.length}} 页</text>
+  </view>
+</view>
+
+<!-- 瀑布流 -->
+<view wx:elif="{{controlId === 'display-waterfall'}}" class="demo-wrap">
+  <view class="waterfall">
+    <view class="wf-col">
+      <view class="wf-item" wx:for="{{leftCol}}" wx:key="id">
+        <image src="{{item.img}}" mode="widthFix" class="wf-img"/>
+        <text class="wf-title">{{item.title}}</text>
+      </view>
+    </view>
+    <view class="wf-col">
+      <view class="wf-item" wx:for="{{rightCol}}" wx:key="id">
+        <image src="{{item.img}}" mode="widthFix" class="wf-img"/>
+        <text class="wf-title">{{item.title}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- ============ 视频展示 ============ -->
+
+<!-- 视频播放器 -->
+<view wx:elif="{{controlId === 'display-video-basic'}}" class="demo-wrap">
+  <video src="{{videoSrc}}" controls
+    poster="https://picsum.photos/750/400?poster"
+    class="video-player"/>
+</view>
+
+<!-- 弹幕视频 -->
+<view wx:elif="{{controlId === 'display-video-danmaku'}}" class="demo-wrap">
+  <video id="danmuVideo"
+    src="{{videoSrc}}" controls
+    danmu-list="{{danmuList}}"
+    enable-danmu danmu-btn
+    class="video-player"/>
+  <view class="danmu-input-row">
+    <input class="danmu-input" placeholder="发个弹幕..."
+      value="{{danmuText}}" bindinput="onDanmuInput"
+      maxlength="20"/>
+    <view class="danmu-send-btn" bindtap="sendDanmu">发送</view>
+  </view>
+</view>
+
+<!-- 视频列表 -->
+<view wx:elif="{{controlId === 'display-video-list'}}" class="demo-wrap">
+  <scroll-view scroll-y class="video-list-scroll">
+    <view class="video-item" wx:for="{{videoList}}" wx:key="id">
+      <image src="{{item.poster}}" mode="aspectFill" class="vi-poster"/>
+      <view class="vi-info">
+        <text class="vi-title">{{item.title}}</text>
+        <text class="vi-views">{{item.views}} 次播放</text>
+      </view>
+      <view class="vi-play">▶</view>
+    </view>
+  </scroll-view>
+</view>
+
+<!-- 全屏播放 -->
+<view wx:elif="{{controlId === 'display-video-fullscreen'}}" class="demo-wrap">
+  <video id="fullVideo"
+    src="{{videoSrc}}" controls
+    class="video-player"/>
+  <view class="fullscreen-btns">
+    <view class="fs-btn" bindtap="enterFullScreen">横屏全屏</view>
+    <view class="fs-btn outline" bindtap="exitFullScreen">退出全屏</view>
+  </view>
+</view>
+
+<!-- ============ 其他展示 ============ -->
+
+<!-- 标签 Tag -->
+<view wx:elif="{{controlId === 'display-tag'}}" class="demo-wrap">
+  <view class="tag-row">
+    <view class="tag default">默认</view>
+    <view class="tag primary">主要</view>
+    <view class="tag success">成功</view>
+    <view class="tag warning">警告</view>
+    <view class="tag danger">危险</view>
+  </view>
+  <view class="tag-row">
+    <view class="tag outline-primary">描边</view>
+    <view class="tag rounded">圆角标签</view>
+    <view class="tag gradient">渐变标签</view>
+  </view>
+  <view class="badge-demo">
+    <view class="badge-wrap">
+      <text class="badge-text">消息</text>
+      <view class="badge-dot">9</view>
+    </view>
+    <view class="badge-wrap">
+      <text class="badge-text">通知</text>
+      <view class="badge-dot dot-large">99+</view>
+    </view>
+  </view>
+</view>
+
+<!-- 卡片 Card -->
+<view wx:elif="{{controlId === 'display-card'}}" class="demo-wrap">
+  <view class="card-demo">
+    <image src="{{cardImg}}" mode="aspectFill" class="card-demo-img"/>
+    <view class="card-demo-body">
+      <view class="card-demo-title">精美卡片组件</view>
+      <view class="card-demo-desc">这是一个卡片组件示例，包含图片、标题、描述和底部操作栏。</view>
+      <view class="card-demo-footer">
+        <view class="card-demo-tag">推荐</view>
+        <text class="card-demo-price">¥99</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 列表 List -->
+<view wx:elif="{{controlId === 'display-list'}}" class="demo-wrap">
+  <view class="list-demo">
+    <view class="list-demo-item" wx:for="{{userList}}" wx:key="id">
+      <image src="{{item.avatar}}" class="list-demo-avatar"/>
+      <view class="list-demo-content">
+        <text class="list-demo-name">{{item.name}}</text>
+        <text class="list-demo-desc">{{item.desc}}</text>
+      </view>
+      <view class="list-demo-action {{item.followed ? 'followed' : ''}}"
+        data-id="{{item.id}}" bindtap="onActionTap">
+        {{item.followed ? '已关注' : '+ 关注'}}
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 分割线 -->
+<view wx:elif="{{controlId === 'display-divider'}}" class="demo-wrap">
+  <view class="divider-section">
+    <text class="divider-section-title">纯分割线</text>
+    <view class="divider-line"></view>
+  </view>
+  <view class="divider-section">
+    <text class="divider-section-title">带文字分割线</text>
+    <view class="divider-text-row">
+      <view class="divider-line-small"></view>
+      <text class="divider-label">分割文字</text>
+      <view class="divider-line-small"></view>
+    </view>
+  </view>
+  <view class="divider-section">
+    <text class="divider-section-title">空状态</text>
+    <view class="empty-demo">
+      <text class="empty-demo-icon">📭</text>
+      <text class="empty-demo-text">暂无数据</text>
+      <view class="empty-demo-btn">重新加载</view>
+    </view>
+  </view>
+</view>
+
+<!-- 图标展示 -->
+<view wx:elif="{{controlId === 'display-icon'}}" class="demo-wrap">
+  <view class="icon-grid">
+    <view class="icon-item" wx:for="{{icons}}" wx:key="name">
+      <text class="icon-glyph">{{item.glyph}}</text>
+      <text class="icon-name">{{item.name}}</text>
+    </view>
+  </view>
+</view>

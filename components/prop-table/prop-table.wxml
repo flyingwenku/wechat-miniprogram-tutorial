@@ -1,0 +1,15 @@
+<!--components/prop-table/prop-table.wxml-->
+<view class="prop-table">
+  <view class="table-header">
+    <text class="col col-name">属性名</text>
+    <text class="col col-type">类型</text>
+    <text class="col col-default">默认值</text>
+    <text class="col col-desc">说明</text>
+  </view>
+  <view class="table-row" wx:for="{{props}}" wx:key="name">
+    <text class="col col-name">{{item.name}}</text>
+    <text class="col col-type">{{item.type}}</text>
+    <text class="col col-default">{{item.default}}</text>
+    <text class="col col-desc">{{item.desc}}</text>
+  </view>
+</view>

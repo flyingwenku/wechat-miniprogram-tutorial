@@ -1,0 +1,61 @@
+<!--pages/detail/detail.wxml-->
+<view class="page {{theme}}" wx:if="{{control}}">
+  <nav-bar title="{{control.name}}" showBack="{{true}}"
+    bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}"
+    textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+
+  <!-- 收藏按钮 -->
+  <view class="fav-btn {{isFavorite ? 'active' : ''}}" bindtap="onFavorite">
+    <text class="fav-icon">{{isFavorite ? '★' : '☆'}}</text>
+    <text class="fav-text">{{isFavorite ? '已收藏' : '收藏'}}</text>
+  </view>
+
+  <!-- 控件描述 -->
+  <view class="control-header">
+    <text class="control-title">{{control.name}}</text>
+    <text class="control-desc">{{control.desc}}</text>
+  </view>
+
+  <!-- Tab 切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === 0 ? 'active' : ''}}"
+      data-tab="0" bindtap="onTabChange">效果演示</view>
+    <view class="tab-item {{activeTab === 1 ? 'active' : ''}}"
+      data-tab="1" bindtap="onTabChange">属性说明</view>
+    <view class="tab-item {{activeTab === 2 ? 'active' : ''}}"
+      data-tab="2" bindtap="onTabChange">示例代码</view>
+    <view class="tab-item {{activeTab === 3 ? 'active' : ''}}"
+      data-tab="3" bindtap="onTabChange">使用提示</view>
+  </view>
+
+  <!-- Tab 内容 -->
+  <view class="tab-content">
+    <!-- 效果演示 -->
+    <view wx:if="{{activeTab === 0}}" class="demo-area">
+      <button-demos wx:if="{{categoryId === 'button'}}" control-id="{{control.id}}" />
+      <form-demos wx:elif="{{categoryId === 'form'}}" control-id="{{control.id}}" />
+      <progress-demos wx:elif="{{categoryId === 'progress'}}" control-id="{{control.id}}" />
+      <feedback-demos wx:elif="{{categoryId === 'feedback'}}" control-id="{{control.id}}" />
+      <display-demos wx:elif="{{categoryId === 'display-text' || categoryId === 'display-image' || categoryId === 'display-video' || categoryId === 'display-other'}}" control-id="{{control.id}}" />
+    </view>
+
+    <!-- 属性说明 -->
+    <view wx:if="{{activeTab === 1}}" class="props-area">
+      <prop-table props="{{control.props}}" />
+    </view>
+
+    <!-- 示例代码 -->
+    <view wx:if="{{activeTab === 2}}" class="code-area">
+      <code-block code="{{control.code.wxml}}" lang="WXML" />
+      <code-block wx:if="{{control.code.js}}" code="{{control.code.js}}" lang="JavaScript" />
+      <code-block wx:if="{{control.code.wxss}}" code="{{control.code.wxss}}" lang="WXSS" />
+    </view>
+
+    <!-- 使用提示 -->
+    <view wx:if="{{activeTab === 3}}" class="tips-area">
+      <view class="tips-card">
+        <text class="tips-text">{{control.tips}}</text>
+      </view>
+    </view>
+  </view>
+</view>

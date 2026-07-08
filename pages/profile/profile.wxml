@@ -1,0 +1,70 @@
+<!--pages/profile/profile.wxml-->
+<view class="page {{theme}}">
+  <nav-bar title="我的" bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}" textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+
+  <!-- 头部 -->
+  <view class="profile-header">
+    <view class="avatar">📱</view>
+    <view class="header-info">
+      <text class="header-title">控件教程</text>
+      <text class="header-desc">交互控件学习平台</text>
+    </view>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="stats-grid">
+    <view class="stat-card">
+      <text class="stat-num">{{totalCount}}</text>
+      <text class="stat-label">控件总数</text>
+    </view>
+    <view class="stat-card" bindtap="goToFavorite">
+      <text class="stat-num">{{favCount}}</text>
+      <text class="stat-label">我的收藏</text>
+    </view>
+    <view class="stat-card" bindtap="goToHistory">
+      <text class="stat-num">{{historyCount}}</text>
+      <text class="stat-label">浏览记录</text>
+    </view>
+  </view>
+
+  <!-- 设置列表 -->
+  <view class="settings-group">
+    <view class="setting-item" bindtap="onToggleTheme">
+      <text class="setting-icon">{{theme === 'dark' ? '☀️' : '🌙'}}</text>
+      <text class="setting-label">{{theme === 'dark' ? '浅色模式' : '深色模式'}}</text>
+      <view class="setting-switch {{theme === 'dark' ? 'on' : ''}}">
+        <view class="switch-dot"></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="settings-group">
+    <view class="setting-item" bindtap="goToFavorite">
+      <text class="setting-icon">⭐</text>
+      <text class="setting-label">我的收藏</text>
+      <text class="setting-arrow">›</text>
+    </view>
+    <view class="setting-item" bindtap="goToHistory">
+      <text class="setting-icon">📋</text>
+      <text class="setting-label">浏览历史</text>
+      <text class="setting-arrow">›</text>
+    </view>
+    <view class="setting-item" bindtap="goToAbout">
+      <text class="setting-icon">ℹ️</text>
+      <text class="setting-label">关于</text>
+      <text class="setting-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="settings-group">
+    <view class="setting-item danger" bindtap="onClearData">
+      <text class="setting-icon">🗑</text>
+      <text class="setting-label">清除数据</text>
+      <text class="setting-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="footer">
+    <text>控件教程小程序 v1.0.0</text>
+  </view>
+</view>
