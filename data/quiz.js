@@ -8,7 +8,8 @@ const quizData = {
     { id: 'code-implementation', name: '代码实现', icon: '💻', desc: 'WXML语法、数据绑定、渲染' },
     { id: 'file-system', name: '文件体系', icon: '📁', desc: '小程序文件类型与职责' },
     { id: 'api-capability', name: 'API与能力', icon: '🔧', desc: '微信API、存储、导航等' },
-    { id: 'practice-comprehensive', name: '实战综合', icon: '🚀', desc: '业务场景方案选择' }
+    { id: 'practice-comprehensive', name: '实战综合', icon: '🚀', desc: '业务场景方案选择' },
+    { id: 'hardware-device', name: '硬件与设备', icon: '📡', desc: '传感器、媒体、位置、外设等硬件 API' }
   ],
 
   questions: [
@@ -1221,6 +1222,188 @@ const quizData = {
       options: ['用转义符 \\\\ 转义内部引号', '外层用双引号包裹，内部用单引号', '外层用反引号模板字符串', '以上方式都可以'],
       answer: 3,
       explanation: '三种方式都可避免引号冲突：1. 转义内部引号 \\\'; 2. 外层用双引号，内部用单引号；3. 用反引号模板字符串。推荐方式 2 最简洁，方式 3 可读性最好但小程序对模板字符串支持在某些版本有差异。',
+      relatedControlId: null
+    },
+
+    // ==================== 硬件与设备 (18题) ====================
+    {
+      id: 'q121',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: 'wx.onGyroscopeChange 回调返回的 x/y/z 表示什么物理量？',
+      options: ['角速度(rad/s)', '重力加速度(m/s²)', '设备方向角(°)', '经纬度坐标'],
+      answer: 0,
+      explanation: '陀螺仪测量角速度，单位为 rad/s，包含重力影响，需积分才能得到角度。',
+      relatedControlId: 'gyroscope'
+    },
+    {
+      id: 'q122',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '在页面 onUnload 时应调用哪个方法释放陀螺仪监听，避免内存泄漏？',
+      options: ['wx.stopGyroscope()', 'wx.offGyroscopeChange()', '无需处理', 'wx.pauseGyroscope()'],
+      answer: 0,
+      explanation: 'wx.stopGyroscope() 停止监听并释放资源；离开页面务必调用，否则监听持续占用。',
+      relatedControlId: 'gyroscope'
+    },
+    {
+      id: 'q123',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '设备静止平放在桌面上时，加速度计返回的 z 值约为？',
+      options: ['0', '9.8', '1', '不确定，随系统变化'],
+      answer: 1,
+      explanation: '加速度计返回含重力的合加速度，静止平放时 z≈9.8m/s²，x/y≈0。',
+      relatedControlId: 'accelerometer'
+    },
+    {
+      id: 'q124',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '关于 camera 原生组件，以下说法正确的是？',
+      options: ['层级最低，可被普通组件覆盖', '层级最高，默认覆盖其他组件', '与 view 同级', '无法在真机预览'],
+      answer: 1,
+      explanation: 'camera 等原生组件层级最高，需用 cover-view 覆盖其上的内容；模拟器无法预览画面。',
+      relatedControlId: 'camera'
+    },
+    {
+      id: 'q125',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '用于从相册或拍摄选择图片/视频的新接口是？',
+      options: ['wx.chooseImage', 'wx.chooseMedia', 'wx.chooseVideo', 'wx.saveImageToPhotosAlbum'],
+      answer: 1,
+      explanation: 'wx.chooseMedia 是新接口，统一替代已废弃的 chooseImage/chooseVideo，返回 tempFiles 数组。',
+      relatedControlId: 'chooseMedia'
+    },
+    {
+      id: 'q126',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '要在真机调用 wx.scanCode，必须在 app.json 的哪个字段声明？',
+      options: ['requiredPrivateInfos', 'permission', 'usingComponents', 'tabBar'],
+      answer: 0,
+      explanation: 'scanCode 需在 app.json 的 requiredPrivateInfos 中声明才能在真机正常调用。',
+      relatedControlId: 'scanCode'
+    },
+    {
+      id: 'q127',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '调用 wx.getLocation 获取位置，requiredPrivateInfos 必须包含？',
+      options: ['getLocation', 'chooseLocation', 'getLocation 和 chooseLocation', '无需声明'],
+      answer: 0,
+      explanation: '仅使用 getLocation 时，requiredPrivateInfos 声明 getLocation 即可；chooseLocation 用于地图选点场景。',
+      relatedControlId: 'getLocation'
+    },
+    {
+      id: 'q128',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: 'app.json 中 permission 的 scope.userLocation 主要用于？',
+      options: ['说明获取位置的用途（授权弹窗文案）', '声明 WiFi 权限', '声明录音权限', '配置 tabBar'],
+      answer: 0,
+      explanation: 'permission.scope.userLocation.desc 是授权弹窗向用户说明的用途文案，提升授权通过率。',
+      relatedControlId: 'getLocation'
+    },
+    {
+      id: 'q129',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '录制音频应调用哪个方法获取录音管理器？',
+      options: ['wx.getRecorderManager()', 'new RecorderManager()', 'wx.createRecorder()', 'wx.startRecord()'],
+      answer: 0,
+      explanation: 'wx.getRecorderManager() 返回全局录音管理器，通过 start/stop 控制，onStop 拿到 tempFilePath。',
+      relatedControlId: 'recorder'
+    },
+    {
+      id: 'q130',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '播放音频文件应使用哪个 API？',
+      options: ['wx.createInnerAudioContext()', 'wx.getAudioContext()', 'wx.createAudioContext()', 'wx.playAudio()'],
+      answer: 0,
+      explanation: 'wx.createInnerAudioContext() 创建实例，设置 src 后 play() 播放；注意 obeyMuteSwitch 的静音行为。',
+      relatedControlId: 'audio'
+    },
+    {
+      id: 'q131',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: 'wx.setScreenBrightness 的 value 参数取值范围是？',
+      options: ['0-1', '0-100', '1-10', '无限制'],
+      answer: 0,
+      explanation: '屏幕亮度 value 范围 0-1（0 最暗，1 最亮），超出会被截断。',
+      relatedControlId: 'screenBrightness'
+    },
+    {
+      id: 'q132',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '调用 wx.setClipboardData 写入剪贴板后，默认会？',
+      options: ['自动弹出"内容已复制"提示', '需要开发者手动 wx.showToast', '无任何提示', '直接报错'],
+      answer: 0,
+      explanation: 'setClipboardData 成功后系统自动 toast"内容已复制"，无需自行提示，避免重复。',
+      relatedControlId: 'clipboard'
+    },
+    {
+      id: 'q133',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '在 iOS 上，wx.vibrateShort 的 type 支持以下哪些值？',
+      options: ['heavy / medium / light 全部', '仅 medium / light', '仅 heavy', '不支持振动'],
+      answer: 1,
+      explanation: 'iOS 仅支持 medium 和 light，heavy 不被识别；且需系统开启振动。',
+      relatedControlId: 'vibrate'
+    },
+    {
+      id: 'q134',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '使用低功耗蓝牙前，必须首先调用哪个方法初始化模块？',
+      options: ['wx.openBluetoothAdapter()', 'wx.startBluetoothDevicesDiscovery()', 'wx.getBluetoothDevices()', '无需初始化'],
+      answer: 0,
+      explanation: 'wx.openBluetoothAdapter() 初始化蓝牙适配器，之后才能搜索/连接设备。',
+      relatedControlId: 'bluetooth'
+    },
+    {
+      id: 'q135',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '在 Android 上搜索蓝牙设备，除蓝牙权限外还需？',
+      options: ['定位权限', '存储权限', '相机权限', '无需额外权限'],
+      answer: 0,
+      explanation: 'Android 系统限制：搜索蓝牙需授予定位权限，否则搜不到设备。',
+      relatedControlId: 'bluetooth'
+    },
+    {
+      id: 'q136',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '小程序中可用于持久化存储用户文件的目录是？',
+      options: ['wx.env.USER_DATA_PATH', 'wx.env.TEMP_FILE', '/tmp', 'wx.env.CACHE_PATH'],
+      answer: 0,
+      explanation: 'wx.env.USER_DATA_PATH 是用户目录，持久保存（卸载时清空）；适合存用户生成文件。',
+      relatedControlId: 'fileSystem'
+    },
+    {
+      id: 'q137',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '关于 NFC（HCE）能力的支持情况，正确的是？',
+      options: ['仅部分 Android 机型支持', '所有平台均支持', '仅 iOS 支持', '开发者工具模拟器支持'],
+      answer: 0,
+      explanation: 'HCE 基于主机的卡模拟仅部分 Android 支持，iOS 不支持，模拟器也无法模拟。',
+      relatedControlId: 'nfc'
+    },
+    {
+      id: 'q138',
+      category: 'hardware-device',
+      type: 'knowledge',
+      question: '本教程"我的"页面中的"模拟/真机"开关，控制哪个全局变量？',
+      options: ['hardwareMode', 'theme', 'debug', 'simulateMode'],
+      answer: 0,
+      explanation: '开关写入并读取 app.globalData.hardwareMode，决定硬件详情页"效果演示"走模拟数据还是真机 API。',
       relatedControlId: null
     }
   ]
