@@ -76,6 +76,18 @@
     <text class="hw-mode {{hardwareMode === 'real' ? 'real' : ''}}">当前：{{hardwareMode === 'real' ? '真机实时' : '模拟数据'}}</text>
   </block>
 
+  <!-- 触感与外设类 -->
+  <block wx:elif="{{demo.type === 'haptic'}}">
+    <view class="hw-result" wx:if="{{ble}}">{{ble}}</view>
+    <view class="hw-actions">
+      <button class="hw-btn" wx:if="{{hardwareId === 'vibrate'}}" bindtap="vib">触发振动</button>
+      <button class="hw-btn" wx:if="{{hardwareId === 'soter'}}" bindtap="auth">发起认证</button>
+      <button class="hw-btn" wx:if="{{hardwareId === 'bluetooth'}}" bindtap="scanBle">扫描蓝牙</button>
+      <button class="hw-btn" wx:if="{{hardwareId === 'makePhoneCall'}}" bindtap="call">拨打电话</button>
+    </view>
+    <text class="hw-mode {{hardwareMode === 'real' ? 'real' : ''}}">当前：{{hardwareMode === 'real' ? '真机实时' : '模拟数据'}}</text>
+  </block>
+
   <!-- 其它类型占位（后续任务实现） -->
   <view wx:else class="hw-todo">
     <text>该硬件能力的实时体验正在开发中</text>

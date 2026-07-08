@@ -25,7 +25,8 @@ Component({
     sys: '',
     battery: '',
     bright: '',
-    clip: ''
+    clip: '',
+    ble: ''
   },
 
   lifetimes: {
@@ -50,6 +51,7 @@ Component({
       else if (type === 'media') this.startMedia()
       else if (type === 'location') this.startLocation()
       else if (type === 'device') this.startDevice()
+      else if (type === 'haptic') this.startHaptic()
     },
 
     stopDemo() {
@@ -58,6 +60,7 @@ Component({
       else if (type === 'media') this.stopMedia()
       else if (type === 'location') this.stopLocation()
       else if (type === 'device') this.stopDevice()
+      else if (type === 'haptic') this.stopHaptic()
     },
 
     // ===== 传感器实时体验 =====
@@ -341,6 +344,57 @@ Component({
         wx.getClipboardData({ success: res => this.setData({ clip: '剪贴板: ' + res.data }) })
       } else {
         this.setData({ clip: '剪贴板: 小程序开发教程（模拟）' })
+      }
+    },
+
+    // ===== 触感与外设实时体验 =====
+    startHaptic() {
+      // 触感外设类为点击触发，无需持续监听
+    },
+
+    stopHaptic() {
+      this.setData({ ble: '' })
+    },
+
+    vib() {
+      if (this.getMode() === 'real') {
+        wx.vibrateShort({ type: 'medium' })
+      } else {
+        wx.showToast({ title: '模拟：触发振动', icon: 'none' })
+      }
+    },
+
+    auth() {
+      if (this.getMode() === 'real') {
+        wx.startSoterAuthentication({
+          requestAuthModes: ['fingerPrint'],
+          challenge: 'demo-challenge',
+          success: () => wx.showToast({ title: '认证成功' }),
+          fail: () => wx.showToast({ title: '认证失败', icon: 'none' })
+        })
+      } else {
+        wx.showToast({ title: '模拟：认证通过', icon: 'none' })
+      }
+    },
+
+    scanBle() {
+      if (this.getMode() === 'real') {
+        wx.openBluetoothAdapter()
+        wx.startBluetoothDevicesDiscovery({ services: [] })
+        wx.onBluetoothDeviceFound(res => {
+          const n = res.devices.length
+          this.setData({ ble: '发现 ' + n + ' 个蓝牙设备' })
+        })
+      } else {
+        this.setData({ ble: '发现 3 个蓝牙设备（模拟）' })
+      }
+    },
+
+    call() {
+      if (this.getMode() === 'real') {
+        wx.makePhoneCall({ phoneNumber: '10086' })
+      } else {
+        wx.showToast({ title: '模拟：调起拨号 10086', icon: 'none' })
       }
     }
   }
