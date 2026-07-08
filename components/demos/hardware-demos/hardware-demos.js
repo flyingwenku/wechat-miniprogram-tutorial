@@ -26,7 +26,9 @@ Component({
     battery: '',
     bright: '',
     clip: '',
-    ble: ''
+    ble: '',
+    fileContent: '',
+    nfcState: ''
   },
 
   lifetimes: {
@@ -52,6 +54,8 @@ Component({
       else if (type === 'location') this.startLocation()
       else if (type === 'device') this.startDevice()
       else if (type === 'haptic') this.startHaptic()
+      else if (type === 'storage') this.startStorage()
+      else if (type === 'nfc') this.startNfc()
     },
 
     stopDemo() {
@@ -61,6 +65,8 @@ Component({
       else if (type === 'location') this.stopLocation()
       else if (type === 'device') this.stopDevice()
       else if (type === 'haptic') this.stopHaptic()
+      else if (type === 'storage') this.stopStorage()
+      else if (type === 'nfc') this.stopNfc()
     },
 
     // ===== 传感器实时体验 =====
@@ -395,6 +401,75 @@ Component({
         wx.makePhoneCall({ phoneNumber: '10086' })
       } else {
         wx.showToast({ title: '模拟：调起拨号 10086', icon: 'none' })
+      }
+    },
+
+    // ===== 本地存储实时体验 =====
+    startStorage() {
+      // 存储类为点击触发，无需持续监听
+    },
+
+    stopStorage() {
+      this.setData({ fileContent: '' })
+    },
+
+    writeFile() {
+      if (this.getMode() === 'real') {
+        const fs = wx.getFileSystemManager()
+        const path = wx.env.USER_DATA_PATH + '/demo.txt'
+        fs.writeFile({
+          filePath: path, data: 'Hello MiniProgram',
+          success: () => wx.showToast({ title: '写入成功' })
+        })
+      } else {
+        wx.showToast({ title: '模拟：写入成功', icon: 'none' })
+      }
+    },
+
+    readFile() {
+      if (this.getMode() === 'real') {
+        const fs = wx.getFileSystemManager()
+        const path = wx.env.USER_DATA_PATH + '/demo.txt'
+        fs.readFile({
+          filePath: path, encoding: 'utf8',
+          success: res => this.setData({ fileContent: res.data })
+        })
+      } else {
+        this.setData({ fileContent: 'Hello MiniProgram（模拟）' })
+      }
+    },
+
+    saveImg() {
+      if (this.getMode() === 'real') {
+        wx.downloadFile({
+          url: 'https://example.com/sample.png',
+          success: r => { wx.saveImageToPhotosAlbum({ filePath: r.tempFilePath }) }
+        })
+      } else {
+        wx.showToast({ title: '模拟：已保存', icon: 'none' })
+      }
+    },
+
+    // ===== 近场通信实时体验 =====
+    startNfc() {
+      // NFC 为点击触发
+    },
+
+    stopNfc() {
+      this.setData({ nfcState: '' })
+    },
+
+    initNfc() {
+      if (this.getMode() === 'real') {
+        wx.getHCEState({
+          success: () => {
+            wx.startHCE({ aid_list: ['F222222222'] })
+            this.setData({ nfcState: 'HCE 已启动' })
+          },
+          fail: () => wx.showToast({ title: '设备不支持', icon: 'none' })
+        })
+      } else {
+        this.setData({ nfcState: '模拟器不支持 NFC，需真机（部分 Android）' })
       }
     }
   }

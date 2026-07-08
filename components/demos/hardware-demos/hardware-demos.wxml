@@ -88,6 +88,26 @@
     <text class="hw-mode {{hardwareMode === 'real' ? 'real' : ''}}">当前：{{hardwareMode === 'real' ? '真机实时' : '模拟数据'}}</text>
   </block>
 
+  <!-- 本地存储类 -->
+  <block wx:elif="{{demo.type === 'storage'}}">
+    <view class="hw-result" wx:if="{{fileContent}}">{{fileContent}}</view>
+    <view class="hw-actions">
+      <button class="hw-btn" wx:if="{{hardwareId === 'fileSystem'}}" bindtap="writeFile">写入文件</button>
+      <button class="hw-btn ghost" wx:if="{{hardwareId === 'fileSystem'}}" bindtap="readFile">读取文件</button>
+      <button class="hw-btn" wx:if="{{hardwareId === 'saveImage'}}" bindtap="saveImg">保存图片到相册</button>
+    </view>
+    <text class="hw-mode {{hardwareMode === 'real' ? 'real' : ''}}">当前：{{hardwareMode === 'real' ? '真机实时' : '模拟数据'}}</text>
+  </block>
+
+  <!-- 近场通信类 -->
+  <block wx:elif="{{demo.type === 'nfc'}}">
+    <view class="hw-result" wx:if="{{nfcState}}">{{nfcState}}</view>
+    <view class="hw-actions">
+      <button class="hw-btn" bindtap="initNfc">初始化 HCE</button>
+    </view>
+    <text class="hw-mode">NFC 仅部分 Android 真机支持，模拟器不可用</text>
+  </block>
+
   <!-- 其它类型占位（后续任务实现） -->
   <view wx:else class="hw-todo">
     <text>该硬件能力的实时体验正在开发中</text>
