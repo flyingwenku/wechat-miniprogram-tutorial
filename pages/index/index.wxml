@@ -26,34 +26,6 @@
     </view>
   </view>
 
-  <!-- 实战案例入口 -->
-  <view class="section-header">
-    <text class="section-title-text">实战案例</text>
-    <text class="section-more" bindtap="goToCaseList">全部 ›</text>
-  </view>
-
-  <view class="case-entry hover-scale" bindtap="goToCaseList">
-    <view class="case-entry-left">
-      <text class="case-entry-icon">🚀</text>
-      <view class="case-entry-info">
-        <text class="case-entry-title">实战案例</text>
-        <text class="case-entry-desc">控件案例 · 硬件案例 · 综合实战，附完整源码</text>
-      </view>
-    </view>
-    <text class="case-entry-arrow">›</text>
-  </view>
-
-  <view class="case-entry hover-scale" bindtap="goToHardware">
-    <view class="case-entry-left">
-      <text class="case-entry-icon">🛠️</text>
-      <view class="case-entry-info">
-        <text class="case-entry-title">硬件操作</text>
-        <text class="case-entry-desc">摄像头 · 麦克风 · 陀螺仪 · 定位 · 蓝牙…</text>
-      </view>
-    </view>
-    <text class="case-entry-arrow">›</text>
-  </view>
-
   <!-- 测试练习入口 -->
   <view class="section-header">
     <text class="section-title-text">测试练习</text>

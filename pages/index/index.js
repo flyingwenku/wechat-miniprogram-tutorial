@@ -53,14 +53,6 @@ Page({
     wx.navigateTo({ url: '/pages/detail/detail?id=' + id })
   },
 
-  goToCaseList() {
-    wx.switchTab({ url: '/pages/case-list/case-list' })
-  },
-
-  goToHardware() {
-    wx.switchTab({ url: '/pages/hardware/hardware' })
-  },
-
   goToQuiz() {
     wx.navigateTo({ url: '/pages/quiz/quiz' })
   }
