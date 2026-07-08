@@ -18,7 +18,10 @@ Component({
     recState: 'idle',
     recDuration: 0,
     audioState: 'idle',
-    audioProgress: 0
+    audioProgress: 0,
+    loc: '',
+    net: '',
+    wifi: ''
   },
 
   lifetimes: {
@@ -41,12 +44,14 @@ Component({
       const type = this.data.demo && this.data.demo.type
       if (type === 'sensor') this.startSensor()
       else if (type === 'media') this.startMedia()
+      else if (type === 'location') this.startLocation()
     },
 
     stopDemo() {
       const type = this.data.demo && this.data.demo.type
       if (type === 'sensor') this.stopSensor()
       else if (type === 'media') this.stopMedia()
+      else if (type === 'location') this.stopLocation()
     },
 
     // ===== 传感器实时体验 =====
@@ -229,6 +234,47 @@ Component({
         bg.src = 'https://example.com/bg.mp3'
       } else {
         wx.showToast({ title: '模拟：已触发后台播放', icon: 'none' })
+      }
+    },
+
+    // ===== 位置与网络实时体验 =====
+    startLocation() {
+      // 位置类为点击触发，无需持续监听
+    },
+
+    stopLocation() {
+      this.setData({ loc: '', net: '', wifi: '' })
+    },
+
+    getLoc() {
+      if (this.getMode() === 'real') {
+        wx.getLocation({
+          type: 'gcj02',
+          success: res => this.setData({ loc: '经度 ' + res.longitude.toFixed(4) + '　纬度 ' + res.latitude.toFixed(4) })
+        })
+      } else {
+        this.setData({ loc: '经度 113.3245　纬度 23.1068（模拟）' })
+      }
+    },
+
+    getNet() {
+      if (this.getMode() === 'real') {
+        wx.getNetworkType({ success: res => this.setData({ net: res.networkType }) })
+      } else {
+        this.setData({ net: 'wifi（模拟）' })
+      }
+    },
+
+    getWifi() {
+      if (this.getMode() === 'real') {
+        wx.startWifi()
+        wx.getConnectedWifi({
+          success: res => this.setData({ wifi: 'SSID: ' + res.wifi.SSID }),
+          fail: () => wx.showToast({ title: '获取失败，请检查授权', icon: 'none' })
+        })
+      } else {
+        const ssid = 'MockWiFi_' + Math.floor(Math.random() * 9000 + 1000)
+        this.setData({ wifi: 'SSID: ' + ssid + '（模拟）' })
       }
     }
   }
