@@ -406,10 +406,102 @@ const categories = [
     icon: '📱',
     desc: '系统信息、电量、屏幕亮度、剪贴板',
     items: [
-      { id: 'systemInfo', name: '系统信息', desc: '获取设备/系统/微信信息', simulator: '支持', status: 'planned' },
-      { id: 'battery', name: '电量', desc: '获取设备电量', simulator: '支持', status: 'planned' },
-      { id: 'screenBrightness', name: '屏幕亮度', desc: '获取/设置屏幕亮度', simulator: '真机', status: 'planned' },
-      { id: 'clipboard', name: '剪贴板', desc: '读写系统剪贴板', simulator: '支持', status: 'planned' }
+      { id: 'systemInfo', name: '系统信息', desc: '获取设备/系统/微信信息', simulator: '支持', status: 'ready',
+        props: [
+          { name: 'getDeviceInfo', type: 'function', default: '-', desc: '获取设备信息（品牌/型号/系统）' },
+          { name: 'getWindowInfo', type: 'function', default: '-', desc: '获取窗口与屏幕信息' },
+          { name: 'getAppBaseInfo', type: 'function', default: '-', desc: '获取微信基础库信息' }
+        ],
+        code: {
+          wxml: `<button bindtap="getSys">获取系统信息</button>
+<text wx:if="{{sys}}" class="hw-result">{{sys}}</text>`,
+          js: `Page({
+  getSys() {
+    const d = wx.getDeviceInfo()
+    const w = wx.getWindowInfo()
+    this.setData({ sys: d.brand + ' ' + d.model + ' / ' + d.system + ' / 屏高 ' + w.screenHeight })
+  }
+})`
+        },
+        tips: [
+          'wx.getSystemInfoSync 已废弃，建议改用 getDeviceInfo / getWindowInfo / getAppBaseInfo 拆分 API。',
+          '模拟器返回的 deviceInfo 为模拟设备（如 iPhone / devtools），真机才是真实机型。',
+          'HarmonyOS 等新平台可通过 getDeviceInfo().host 判断，做兼容处理。'
+        ],
+        demo: { type: 'device' }
+      },
+      { id: 'battery', name: '电量', desc: '获取设备电量', simulator: '支持', status: 'ready',
+        props: [
+          { name: 'getBatteryInfoSync', type: 'function', default: '-', desc: '同步获取电量，返回 {level, isCharging}' },
+          { name: 'onBatteryInfoChange', type: 'callback', default: '-', desc: '监听电量变化（仅 Android）' }
+        ],
+        code: {
+          wxml: `<button bindtap="getBattery">获取电量</button>
+<text wx:if="{{battery}}" class="hw-result">{{battery}}</text>`,
+          js: `Page({
+  getBattery() {
+    const b = wx.getBatteryInfoSync()
+    this.setData({ battery: '电量 ' + b.level + '%　' + (b.isCharging ? '充电中' : '未充电') })
+  }
+})`
+        },
+        tips: [
+          'getBatteryInfoSync 同步返回，iOS 与 Android 均支持。',
+          'onBatteryInfoChange 监听仅在 Android 有效，iOS 无持续回调。',
+          'level 为 0-100 整数，充电状态 isCharging 表示是否在充电。'
+        ],
+        demo: { type: 'device' }
+      },
+      { id: 'screenBrightness', name: '屏幕亮度', desc: '获取/设置屏幕亮度', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'getScreenBrightness', type: 'function', default: '-', desc: '获取当前屏幕亮度(0-1)' },
+          { name: 'setScreenBrightness', type: 'function', default: '-', desc: '设置屏幕亮度，value 范围 0-1' }
+        ],
+        code: {
+          wxml: `<button bindtap="getBright">获取亮度</button>
+<button bindtap="setBright">设为 0.8</button>
+<text wx:if="{{bright}}" class="hw-result">{{bright}}</text>`,
+          js: `Page({
+  getBright() {
+    wx.getScreenBrightness({ success: res => this.setData({ bright: '亮度 ' + res.value }) })
+  },
+  setBright() {
+    wx.setScreenBrightness({ value: 0.8 })
+  }
+})`
+        },
+        tips: [
+          'setScreenBrightness 会影响系统全局亮度，真机有效，模拟器通常无视觉变化。',
+          'iOS 需在全局配置开启屏幕亮度 API 权限才能设置。',
+          'value 范围为 0-1，超出范围会被截断。'
+        ],
+        demo: { type: 'device' }
+      },
+      { id: 'clipboard', name: '剪贴板', desc: '读写系统剪贴板', simulator: '支持', status: 'ready',
+        props: [
+          { name: 'setClipboardData', type: 'function', default: '-', desc: '写入剪贴板，data 为字符串' },
+          { name: 'getClipboardData', type: 'function', default: '-', desc: '读取剪贴板内容' }
+        ],
+        code: {
+          wxml: `<button bindtap="setClip">写入剪贴板</button>
+<button bindtap="getClip">读取剪贴板</button>
+<text wx:if="{{clip}}" class="hw-result">{{clip}}</text>`,
+          js: `Page({
+  setClip() {
+    wx.setClipboardData({ data: '小程序开发教程' })
+  },
+  getClip() {
+    wx.getClipboardData({ success: res => this.setData({ clip: '剪贴板: ' + res.data }) })
+  }
+})`
+        },
+        tips: [
+          'wx.setClipboardData 调用后会自动弹出"内容已复制" toast，无需自行提示。',
+          'iOS 14+ 读取剪贴板需用户触发的事件（如点击按钮）中调用。',
+          '模拟器与真机均支持，是最适合演示的硬件能力之一。'
+        ],
+        demo: { type: 'device' }
+      }
     ]
   },
   {
