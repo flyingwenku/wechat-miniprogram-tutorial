@@ -1,0 +1,438 @@
+<!--components/demos/case-demos/case-demos.wxml-->
+
+<!-- ==================== 案例1: 登录注册 ==================== -->
+<view class="case-demo case-login" wx:if="{{caseId === 'case-login'}}">
+  <view class="login-logo">
+    <text class="login-logo-icon">🔐</text>
+    <text class="login-logo-title">{{loginMode === 'login' ? '欢迎登录' : '创建账号'}}</text>
+  </view>
+
+  <view class="login-form">
+    <view class="login-input-group">
+      <text class="login-label">用户名</text>
+      <input class="login-input" placeholder="请输入用户名" value="{{loginUsername}}"
+        bindinput="onLoginInput" data-field="loginUsername" />
+    </view>
+    <view class="login-input-group">
+      <text class="login-label">密码</text>
+      <view class="login-pwd-row">
+        <input class="login-input" placeholder="请输入密码"
+          password="{{!showPassword}}" value="{{loginPassword}}"
+          bindinput="onLoginInput" data-field="loginPassword" />
+        <text class="login-pwd-toggle" bindtap="togglePassword">{{showPassword ? '🙈' : '👁'}}</text>
+      </view>
+    </view>
+    <view class="login-input-group" wx:if="{{loginMode === 'register'}}">
+      <text class="login-label">确认密码</text>
+      <input class="login-input" placeholder="请再次输入密码" password="{{true}}"
+        value="{{loginConfirm}}" bindinput="onLoginInput" data-field="loginConfirm" />
+    </view>
+  </view>
+
+  <view class="login-options">
+    <view class="login-remember" bindtap="toggleRemember">
+      <text class="login-checkbox {{rememberMe ? 'checked' : ''}}">{{rememberMe ? '☑' : '☐'}}</text>
+      <text>记住我</text>
+    </view>
+    <text class="login-forgot">忘记密码？</text>
+  </view>
+
+  <button class="login-submit {{loginLoading ? 'loading' : ''}}" bindtap="onLoginSubmit"
+    disabled="{{loginLoading}}">
+    {{loginLoading ? '处理中...' : (loginMode === 'login' ? '登 录' : '注 册')}}
+  </button>
+
+  <view class="login-switch-mode" bindtap="switchLoginMode">
+    <text>{{loginMode === 'login' ? '没有账号？去注册' : '已有账号？去登录'}}</text>
+  </view>
+</view>
+
+<!-- ==================== 案例2: 商品列表 ==================== -->
+<view class="case-demo case-product-list" wx:if="{{caseId === 'case-product-list'}}">
+  <scroll-view class="pl-tabs" scroll-x>
+    <view class="pl-tab {{plActiveTab === idx ? 'active' : ''}}"
+      wx:for="{{plTabs}}" wx:key="*this" wx:for-index="idx"
+      data-idx="{{idx}}" bindtap="onPlTabChange">{{item}}</view>
+  </scroll-view>
+
+  <scroll-view class="pl-scroll" scroll-y bindscrolltolower="onLoadMore"
+    refresher-enabled bindrefresherrefresh="onPlRefresh"
+    refresher-triggered="{{plRefreshing}}">
+    <view class="pl-waterfall">
+      <view class="pl-col">
+        <view class="pl-card" wx:for="{{plLeftList}}" wx:key="id"
+          data-id="{{item.id}}" bindtap="onProductTap">
+          <image class="pl-img" src="{{item.image}}" mode="aspectFill" />
+          <view class="pl-info">
+            <text class="pl-name">{{item.name}}</text>
+            <view class="pl-price-row">
+              <text class="pl-price">¥{{item.price}}</text>
+              <view class="pl-add-cart" catchtap="onAddCart">+</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="pl-col">
+        <view class="pl-card" wx:for="{{plRightList}}" wx:key="id"
+          data-id="{{item.id}}" bindtap="onProductTap">
+          <image class="pl-img" src="{{item.image}}" mode="aspectFill" />
+          <view class="pl-info">
+            <text class="pl-name">{{item.name}}</text>
+            <view class="pl-price-row">
+              <text class="pl-price">¥{{item.price}}</text>
+              <view class="pl-add-cart" catchtap="onAddCart">+</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="pl-load-more" wx:if="{{plLoadingMore}}">加载中...</view>
+    <view class="pl-load-more" wx:if="{{plNoMore}}">没有更多了</view>
+  </scroll-view>
+
+  <view class="pl-cart-bar">
+    <text class="pl-cart-icon">🛒</text>
+    <text class="pl-cart-count" wx:if="{{cartCount > 0}}">{{cartCount}}</text>
+  </view>
+</view>
+
+<!-- ==================== 案例3: 商品详情 ==================== -->
+<view class="case-demo case-product-detail" wx:if="{{caseId === 'case-product-detail'}}">
+  <swiper class="pd-banner" indicator-dots autoplay circular>
+    <swiper-item wx:for="{{pdBanners}}" wx:key="*this">
+      <image src="{{item.url}}" mode="aspectFill" class="pd-banner-img" />
+    </swiper-item>
+  </swiper>
+
+  <view class="pd-info">
+    <view class="pd-price-row">
+      <text class="pd-price">¥{{pdProduct.price}}</text>
+      <text class="pd-price-old">¥{{pdProduct.originalPrice}}</text>
+      <text class="pd-sales">已售{{pdProduct.sales}}件</text>
+    </view>
+    <text class="pd-title">{{pdProduct.name}}</text>
+    <text class="pd-desc">{{pdProduct.desc}}</text>
+  </view>
+
+  <view class="pd-spec-row" bindtap="showSpecPanel">
+    <text class="pd-spec-label">已选</text>
+    <text class="pd-spec-value">{{pdSelectedSpec || '请选择规格'}}</text>
+    <text class="pd-arrow">›</text>
+  </view>
+
+  <view class="pd-detail-imgs">
+    <image wx:for="{{pdDetailImages}}" wx:key="*this" src="{{item}}" mode="widthFix" class="pd-detail-img" />
+  </view>
+
+  <view class="pd-bottom-bar">
+    <view class="pd-bar-icon" bindtap="onPdContact">
+      <text>💬</text><text class="pd-bar-text">客服</text>
+    </view>
+    <view class="pd-bar-icon" bindtap="onPdFav">
+      <text>{{pdIsFav ? '❤️' : '🤍'}}</text><text class="pd-bar-text">收藏</text>
+    </view>
+    <button class="pd-btn pd-btn-cart" bindtap="onPdAddCart">加入购物车</button>
+    <button class="pd-btn pd-btn-buy" bindtap="onPdBuy">立即购买</button>
+  </view>
+
+  <view class="pd-spec-mask {{pdSpecVisible ? 'show' : ''}}" bindtap="hideSpecPanel">
+    <view class="pd-spec-panel" catchtap="">
+      <text class="pd-spec-title">选择规格</text>
+      <view class="pd-spec-options">
+        <view class="pd-spec-opt {{pdSelectedSpec === item ? 'active' : ''}}"
+          wx:for="{{pdSpecOptions}}" wx:key="*this"
+          data-spec="{{item}}" bindtap="onSelectSpec">{{item}}</view>
+      </view>
+      <button class="pd-spec-confirm" bindtap="onConfirmSpec">确 定</button>
+    </view>
+  </view>
+</view>
+
+<!-- ==================== 案例4: 订单表单 ==================== -->
+<view class="case-demo case-order" wx:if="{{caseId === 'case-order-form'}}">
+  <view class="order-steps">
+    <view class="order-step {{orderStep >= idx ? 'active' : ''}} {{orderStep > idx ? 'done' : ''}}"
+      wx:for="{{orderSteps}}" wx:key="*this" wx:for-index="idx">
+      <view class="order-step-circle">{{orderStep > idx ? '✓' : idx + 1}}</view>
+      <text class="order-step-label">{{item}}</text>
+    </view>
+  </view>
+
+  <view class="order-content">
+    <block wx:if="{{orderStep === 0}}">
+      <view class="order-form-group">
+        <text class="order-label">收货人</text>
+        <input class="order-input" placeholder="请输入姓名" value="{{orderForm.name}}"
+          bindinput="onOrderInput" data-field="name" />
+      </view>
+      <view class="order-form-group">
+        <text class="order-label">手机号</text>
+        <input class="order-input" placeholder="请输入手机号" type="number" maxlength="11"
+          value="{{orderForm.phone}}" bindinput="onOrderInput" data-field="phone" />
+      </view>
+      <view class="order-form-group">
+        <text class="order-label">所在地区</text>
+        <picker mode="region" value="{{orderForm.region}}" bindchange="onRegionChange">
+          <view class="order-input">{{orderForm.region[0] ? orderForm.region[0] + ' ' + orderForm.region[1] + ' ' + orderForm.region[2] : '请选择省/市/区'}}</view>
+        </picker>
+      </view>
+      <view class="order-form-group">
+        <text class="order-label">详细地址</text>
+        <textarea class="order-textarea" placeholder="请输入详细地址" value="{{orderForm.address}}"
+          bindinput="onOrderInput" data-field="address" />
+      </view>
+    </block>
+
+    <block wx:if="{{orderStep === 1}}">
+      <view class="order-form-group">
+        <text class="order-label">商品名称</text>
+        <input class="order-input" placeholder="商品名称" value="{{orderForm.productName}}"
+          bindinput="onOrderInput" data-field="productName" />
+      </view>
+      <view class="order-form-group">
+        <text class="order-label">购买数量</text>
+        <view class="order-qty-row">
+          <view class="order-qty-btn" bindtap="onQtyMinus">-</view>
+          <text class="order-qty-num">{{orderForm.quantity}}</text>
+          <view class="order-qty-btn" bindtap="onQtyPlus">+</view>
+        </view>
+      </view>
+      <view class="order-form-group">
+        <text class="order-label">满意度评分</text>
+        <view class="order-rating-row">
+          <text class="order-star {{orderForm.rating >= idx + 1 ? 'active' : ''}}"
+            wx:for="{{[1,2,3,4,5]}}" wx:key="*this" wx:for-index="idx"
+            data-idx="{{idx + 1}}" bindtap="onRating">★</text>
+        </view>
+      </view>
+      <view class="order-form-group">
+        <text class="order-label">备注</text>
+        <textarea class="order-textarea" placeholder="选填，备注信息" value="{{orderForm.remark}}"
+          bindinput="onOrderInput" data-field="remark" />
+      </view>
+    </block>
+
+    <block wx:if="{{orderStep === 2}}">
+      <view class="order-confirm" wx:if="{{!orderSubmitting && !orderDone}}">
+        <view class="order-confirm-row"><text class="oc-label">收货人</text><text>{{orderForm.name || '-'}}</text></view>
+        <view class="order-confirm-row"><text class="oc-label">手机号</text><text>{{orderForm.phone || '-'}}</text></view>
+        <view class="order-confirm-row"><text class="oc-label">地区</text><text>{{orderForm.region[0] || '-'}} {{orderForm.region[1] || ''}} {{orderForm.region[2] || ''}}</text></view>
+        <view class="order-confirm-row"><text class="oc-label">地址</text><text>{{orderForm.address || '-'}}</text></view>
+        <view class="order-confirm-row"><text class="oc-label">商品</text><text>{{orderForm.productName || '-'}}</text></view>
+        <view class="order-confirm-row"><text class="oc-label">数量</text><text>{{orderForm.quantity}}</text></view>
+        <view class="order-confirm-row"><text class="oc-label">评分</text><text>{{orderForm.rating}}星</text></view>
+      </view>
+      <view class="order-submit-area" wx:if="{{orderSubmitting}}">
+        <progress percent="{{orderProgress}}" activeColor="#5856D6" stroke-width="12" />
+        <text class="order-submit-text">正在提交...{{orderProgress}}%</text>
+      </view>
+      <view class="order-done-area" wx:if="{{orderDone}}">
+        <text class="order-done-icon">✅</text>
+        <text class="order-done-text">提交成功！</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="order-btn-bar" wx:if="{{!orderDone}}">
+    <button class="order-btn-prev" wx:if="{{orderStep > 0 && !orderSubmitting}}" bindtap="onOrderPrev">上一步</button>
+    <button class="order-btn-next" wx:if="{{orderStep < 2}}" bindtap="onOrderNext">下一步</button>
+    <button class="order-btn-submit" wx:if="{{orderStep === 2 && !orderSubmitting}}" bindtap="onOrderSubmit">确认提交</button>
+  </view>
+</view>
+
+<!-- ==================== 案例5: 个人中心 ==================== -->
+<view class="case-demo case-profile" wx:if="{{caseId === 'case-profile'}}">
+  <view class="profile-user-card">
+    <image class="profile-avatar" src="{{profileUser.avatar}}" />
+    <view class="profile-user-info">
+      <text class="profile-user-name">{{profileUser.name}}</text>
+      <view class="profile-tags">
+        <text class="profile-tag" wx:for="{{profileUser.tags}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+    <text class="profile-edit">编辑</text>
+  </view>
+
+  <view class="profile-stats-row">
+    <view class="profile-stat"><text class="profile-stat-num">{{profileStats.orders}}</text><text class="profile-stat-label">订单</text></view>
+    <view class="profile-stat"><text class="profile-stat-num">{{profileStats.coupons}}</text><text class="profile-stat-label">优惠券</text></view>
+    <view class="profile-stat"><text class="profile-stat-num">{{profileStats.points}}</text><text class="profile-stat-label">积分</text></view>
+  </view>
+
+  <view class="profile-setting-group">
+    <text class="profile-group-title">通用设置</text>
+    <view class="profile-cell" wx:for="{{profileSettings1}}" wx:key="key">
+      <text class="profile-cell-icon">{{item.icon}}</text>
+      <text class="profile-cell-label">{{item.label}}</text>
+      <switch wx:if="{{item.type === 'switch'}}" checked="{{item.value}}"
+        bindchange="onProfileSwitch" data-key="{{item.key}}" color="#4C8BF5" />
+    </view>
+  </view>
+
+  <view class="profile-setting-group">
+    <text class="profile-group-title">其他</text>
+    <view class="profile-cell" wx:for="{{profileSettings2}}" wx:key="key"
+      bindtap="onProfileCellTap" data-key="{{item.key}}">
+      <text class="profile-cell-icon">{{item.icon}}</text>
+      <text class="profile-cell-label">{{item.label}}</text>
+      <text class="profile-cell-value">{{item.value}}</text>
+      <text class="profile-cell-arrow">›</text>
+    </view>
+  </view>
+
+  <button class="profile-logout" bindtap="onLogout">退出登录</button>
+
+  <view class="profile-modal-mask" wx:if="{{showLogoutModal}}" bindtap="closeLogoutModal">
+    <view class="profile-modal" catchtap="">
+      <text class="profile-modal-title">提示</text>
+      <text class="profile-modal-body">确定要退出登录吗？</text>
+      <view class="profile-modal-actions">
+        <button class="profile-modal-btn cancel" bindtap="closeLogoutModal">取消</button>
+        <button class="profile-modal-btn confirm" bindtap="confirmLogout">确定</button>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- ==================== 案例6: 搜索页 ==================== -->
+<view class="case-demo case-search" wx:if="{{caseId === 'case-search'}}">
+  <view class="search-header">
+    <view class="search-box">
+      <text class="search-icon">🔍</text>
+      <input class="search-input" placeholder="搜索商品/店铺" value="{{searchKeyword}}"
+        bindinput="onSearchInput" confirm-type="search" bindconfirm="onSearchConfirm" />
+      <text class="search-clear" wx:if="{{searchKeyword}}" bindtap="onSearchClear">✕</text>
+    </view>
+  </view>
+
+  <view class="search-suggestions" wx:if="{{searchSuggestions.length > 0}}">
+    <view class="search-suggestion" wx:for="{{searchSuggestions}}" wx:key="*this"
+      data-key="{{item}}" bindtap="onSuggestionTap">
+      <text class="search-sug-icon">🔍</text>
+      <text class="search-sug-text">{{item}}</text>
+    </view>
+  </view>
+
+  <block wx:if="{{!searchKeyword && searchSuggestions.length === 0 && !searchSearched}}">
+    <view class="search-hot">
+      <text class="search-section-title">🔥 热门搜索</text>
+      <view class="search-hot-list">
+        <view class="search-hot-item" wx:for="{{searchHot}}" wx:key="*this"
+          wx:for-index="idx" data-key="{{item}}" bindtap="onHotTap">
+          <text class="search-hot-rank {{idx < 3 ? 'top' : ''}}">{{idx + 1}}</text>
+          <text class="search-hot-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="search-history" wx:if="{{searchHistory.length > 0}}">
+      <view class="search-section-header">
+        <text class="search-section-title">🕐 搜索历史</text>
+        <text class="search-clear-history" bindtap="onClearHistory">清空</text>
+      </view>
+      <view class="search-history-tags">
+        <text class="search-history-tag" wx:for="{{searchHistory}}" wx:key="*this"
+          data-key="{{item}}" bindtap="onHistoryTap">{{item}}</text>
+      </view>
+    </view>
+  </block>
+
+  <view class="search-result" wx:if="{{searchSearched}}">
+    <view class="search-result-list" wx:if="{{searchResults.length > 0}}">
+      <view class="search-result-item" wx:for="{{searchResults}}" wx:key="id">
+        <text class="search-result-name">{{item.name}}</text>
+        <text class="search-result-desc">{{item.desc}}</text>
+      </view>
+    </view>
+    <view class="search-empty" wx:else>
+      <text class="search-empty-icon">📭</text>
+      <text class="search-empty-text">没有找到 "{{searchSearchedKeyword}}" 的相关结果</text>
+    </view>
+  </view>
+</view>
+
+<!-- ==================== 案例7: 消息聊天 ==================== -->
+<view class="case-demo case-chat" wx:if="{{caseId === 'case-chat'}}">
+  <scroll-view class="chat-msg-list" scroll-y scroll-into-view="{{chatScrollTo}}"
+    scroll-with-animation>
+    <view class="chat-msg-item {{item.isSelf ? 'self' : 'other'}}"
+      wx:for="{{chatMessages}}" wx:key="id" id="chatmsg-{{item.id}}"
+      bindlongpress="onChatLongPress" data-id="{{item.id}}">
+      <image wx:if="{{!item.isSelf}}" class="chat-avatar" src="{{chatOtherAvatar}}" />
+      <view class="chat-bubble {{item.isSelf ? 'self-bubble' : 'other-bubble'}}">
+        <text class="chat-msg-text">{{item.text}}</text>
+      </view>
+      <image wx:if="{{item.isSelf}}" class="chat-avatar" src="{{chatSelfAvatar}}" />
+    </view>
+  </scroll-view>
+
+  <view class="chat-input-bar">
+    <text class="chat-emoji-btn" bindtap="onChatEmoji">😊</text>
+    <input class="chat-input" placeholder="说点什么..." value="{{chatInput}}"
+      bindinput="onChatInput" confirm-type="send" bindconfirm="onChatSend" />
+    <view class="chat-send-btn {{chatInput ? 'active' : ''}}" bindtap="onChatSend">发送</view>
+  </view>
+
+  <view class="chat-action-mask" wx:if="{{showChatAction}}" bindtap="hideChatAction">
+    <view class="chat-action-sheet" catchtap="">
+      <view class="chat-action-item" bindtap="onChatCopy">复制</view>
+      <view class="chat-action-item danger" bindtap="onChatDelete">删除</view>
+      <view class="chat-action-item cancel" bindtap="hideChatAction">取消</view>
+    </view>
+  </view>
+</view>
+
+<!-- ==================== 案例8: 数据看板 ==================== -->
+<view class="case-demo case-dashboard" wx:if="{{caseId === 'case-dashboard'}}">
+  <view class="dash-tab-bar">
+    <view class="dash-tab {{dashActiveTab === idx ? 'active' : ''}}"
+      wx:for="{{dashTabs}}" wx:key="*this" wx:for-index="idx"
+      data-idx="{{idx}}" bindtap="onDashTabChange">{{item}}</view>
+  </view>
+
+  <view class="dash-kpi-grid">
+    <view class="dash-kpi-card" wx:for="{{dashKpi}}" wx:key="label">
+      <text class="dash-kpi-label">{{item.label}}</text>
+      <text class="dash-kpi-value" style="color: {{item.color}}">{{item.value}}</text>
+      <view class="dash-kpi-trend">
+        <text class="dash-trend-icon">{{item.trend > 0 ? '↑' : '↓'}}</text>
+        <text class="dash-trend-text" style="color: {{item.trend > 0 ? '#34C759' : '#FF3B30'}}">{{item.trend > 0 ? item.trend : -item.trend}}%</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="dash-section">
+    <text class="dash-section-title">项目进度</text>
+    <view class="dash-progress-list">
+      <view class="dash-progress-item" wx:for="{{dashProjects}}" wx:key="name">
+        <view class="dash-progress-header">
+          <text class="dash-progress-name">{{item.name}}</text>
+          <text class="dash-progress-percent">{{item.percent}}%</text>
+        </view>
+        <progress percent="{{item.percent}}" activeColor="{{item.color}}"
+          stroke-width="12" active show-info="{{false}}" />
+        <view class="dash-progress-tags">
+          <text class="dash-tag {{item.statusClass}}">{{item.status}}</text>
+          <text class="dash-tag-owner">负责人: {{item.owner}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="dash-section">
+    <text class="dash-section-title">处理流程</text>
+    <view class="dash-steps-v">
+      <view class="dash-step-v {{dashCurrentStep >= idx ? 'active' : ''}} {{dashCurrentStep > idx ? 'done' : ''}}"
+        wx:for="{{dashStepList}}" wx:key="*this" wx:for-index="idx">
+        <view class="dash-step-v-left">
+          <view class="dash-step-v-circle">{{dashCurrentStep > idx ? '✓' : idx + 1}}</view>
+          <view class="dash-step-v-line" wx:if="{{idx < dashStepList.length - 1}}"></view>
+        </view>
+        <view class="dash-step-v-content">
+          <text class="dash-step-v-title">{{item.title}}</text>
+          <text class="dash-step-v-desc">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

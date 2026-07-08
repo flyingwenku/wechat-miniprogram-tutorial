@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "nav-bar": "/components/nav-bar/nav-bar",
+    "code-block": "/components/code-block/code-block",
+    "case-demos": "/components/demos/case-demos/case-demos"
+  }
+}

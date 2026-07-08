@@ -26,6 +26,23 @@
     </view>
   </view>
 
+  <!-- 实战案例入口 -->
+  <view class="section-header">
+    <text class="section-title-text">实战案例</text>
+    <text class="section-more" bindtap="goToCaseList">全部 ›</text>
+  </view>
+
+  <view class="case-entry hover-scale" bindtap="goToCaseList">
+    <view class="case-entry-left">
+      <text class="case-entry-icon">🚀</text>
+      <view class="case-entry-info">
+        <text class="case-entry-title">8个真实业务场景</text>
+        <text class="case-entry-desc">登录注册 · 商品列表 · 商品详情 · 订单表单 · 个人中心 · 搜索 · 聊天 · 数据看板</text>
+      </view>
+    </view>
+    <text class="case-entry-arrow">›</text>
+  </view>
+
   <!-- 分类列表 -->
   <view class="section-header">
     <text class="section-title-text">控件分类</text>

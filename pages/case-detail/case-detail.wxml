@@ -1,0 +1,62 @@
+<!--pages/case-detail/case-detail.wxml-->
+<view class="page {{theme}}" wx:if="{{caseData}}">
+  <nav-bar title="{{caseData.name}}" showBack="{{true}}"
+    bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}"
+    textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+
+  <!-- 案例头部 -->
+  <view class="case-header">
+    <view class="case-header-top">
+      <text class="case-header-icon">{{caseData.icon}}</text>
+      <view class="case-header-info">
+        <text class="case-header-title">{{caseData.name}}</text>
+        <text class="case-header-desc">{{caseData.desc}}</text>
+      </view>
+    </view>
+    <view class="case-header-tags">
+      <text class="case-header-tag" wx:for="{{caseData.tags}}" wx:key="*this">{{item}}</text>
+    </view>
+  </view>
+
+  <!-- Tab 切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === 0 ? 'active' : ''}}"
+      data-tab="0" bindtap="onTabChange">效果演示</view>
+    <view class="tab-item {{activeTab === 1 ? 'active' : ''}}"
+      data-tab="1" bindtap="onTabChange">结构说明</view>
+    <view class="tab-item {{activeTab === 2 ? 'active' : ''}}"
+      data-tab="2" bindtap="onTabChange">示例代码</view>
+    <view class="tab-item {{activeTab === 3 ? 'active' : ''}}"
+      data-tab="3" bindtap="onTabChange">实现要点</view>
+  </view>
+
+  <!-- Tab 内容 -->
+  <view class="tab-content">
+    <!-- 效果演示 -->
+    <view wx:if="{{activeTab === 0}}" class="demo-area">
+      <case-demos case-id="{{caseData.id}}" />
+    </view>
+
+    <!-- 结构说明 -->
+    <view wx:if="{{activeTab === 1}}" class="structure-area">
+      <view class="structure-card" wx:for="{{caseData.structure}}" wx:key="title">
+        <text class="structure-title">{{item.title}}</text>
+        <text class="structure-content">{{item.content}}</text>
+      </view>
+    </view>
+
+    <!-- 示例代码 -->
+    <view wx:if="{{activeTab === 2}}" class="code-area">
+      <code-block code="{{caseData.code.wxml}}" lang="WXML" />
+      <code-block wx:if="{{caseData.code.js}}" code="{{caseData.code.js}}" lang="JavaScript" />
+      <code-block wx:if="{{caseData.code.wxss}}" code="{{caseData.code.wxss}}" lang="WXSS" />
+    </view>
+
+    <!-- 实现要点 -->
+    <view wx:if="{{activeTab === 3}}" class="tips-area">
+      <view class="tips-card">
+        <text class="tips-text">{{caseData.tips}}</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,505 @@
+// components/demos/case-demos/case-demos.js
+Component({
+  properties: {
+    caseId: { type: String, value: '' }
+  },
+
+  data: {
+    // 通用
+    activeTab: 0,
+
+    // ===== 案例1: 登录注册 =====
+    loginMode: 'login',
+    loginUsername: '',
+    loginPassword: '',
+    loginConfirm: '',
+    showPassword: false,
+    rememberMe: false,
+    loginLoading: false,
+
+    // ===== 案例2: 商品列表 =====
+    plTabs: ['全部', '数码', '服饰', '美食', '家居'],
+    plActiveTab: 0,
+    plLeftList: [],
+    plRightList: [],
+    plPage: 1,
+    plLoadingMore: false,
+    plNoMore: false,
+    plRefreshing: false,
+    cartCount: 0,
+
+    // ===== 案例3: 商品详情 =====
+    pdProduct: { name: '2024新款无线降噪耳机 Pro Max', price: '299.00', originalPrice: '499.00', sales: 3280, desc: '主动降噪 | 蓝牙5.3 | 续航40小时' },
+    pdBanners: [
+      { type: 'image', url: 'https://picsum.photos/750/600?random=10' },
+      { type: 'image', url: 'https://picsum.photos/750/600?random=11' },
+      { type: 'image', url: 'https://picsum.photos/750/600?random=12' }
+    ],
+    pdDetailImages: [
+      'https://picsum.photos/750/400?random=20',
+      'https://picsum.photos/750/500?random=21',
+      'https://picsum.photos/750/300?random=22'
+    ],
+    pdSpecOptions: ['黑色', '白色', '蓝色', '粉色'],
+    pdSelectedSpec: '',
+    pdSpecVisible: false,
+    pdIsFav: false,
+
+    // ===== 案例4: 订单表单 =====
+    orderSteps: ['收货信息', '商品信息', '确认提交'],
+    orderStep: 0,
+    orderSubmitting: false,
+    orderDone: false,
+    orderProgress: 0,
+    orderForm: {
+      name: '', phone: '', region: [], address: '',
+      productName: '', quantity: 1, rating: 5, remark: ''
+    },
+
+    // ===== 案例5: 个人中心 =====
+    profileUser: { name: '张三', avatar: 'https://picsum.photos/200/200?random=30', tags: ['VIP会员', '已实名'] },
+    profileStats: { orders: 12, coupons: 5, points: 3680 },
+    profileSettings1: [
+      { key: 'notify', icon: '🔔', label: '消息通知', type: 'switch', value: true },
+      { key: 'sound', icon: '🔊', label: '声音提醒', type: 'switch', value: false },
+      { key: 'darkMode', icon: '🌙', label: '暗色模式', type: 'switch', value: false }
+    ],
+    profileSettings2: [
+      { key: 'privacy', icon: '🔒', label: '隐私设置', value: '' },
+      { key: 'cache', icon: '🗑', label: '清除缓存', value: '1.2MB' },
+      { key: 'about', icon: 'ℹ️', label: '关于我们', value: '' }
+    ],
+    showLogoutModal: false,
+
+    // ===== 案例6: 搜索页 =====
+    searchKeyword: '',
+    searchSuggestions: [],
+    searchHot: ['无线耳机', '智能手表', '机械键盘', '运动鞋', '咖啡机', '保温杯', '充电宝', '背包'],
+    searchHistory: [],
+    searchResults: [],
+    searchSearched: false,
+    searchSearchedKeyword: '',
+
+    // ===== 案例7: 消息聊天 =====
+    chatMessages: [
+      { id: 1, text: '你好！欢迎使用小程序教程案例演示 😊', isSelf: false },
+      { id: 2, text: '你好！这个聊天界面做得不错', isSelf: true },
+      { id: 3, text: '谢谢！这里用到了 scroll-view 自动滚动到底部', isSelf: false }
+    ],
+    chatInput: '',
+    chatScrollTo: '',
+    chatSelfAvatar: 'https://picsum.photos/100/100?random=40',
+    chatOtherAvatar: 'https://picsum.photos/100/100?random=41',
+    showChatAction: false,
+    chatSelectedId: null,
+    chatIdCounter: 4,
+
+    // ===== 案例8: 数据看板 =====
+    dashTabs: ['今日', '本周', '本月'],
+    dashActiveTab: 0,
+    dashKpi: [],
+    dashProjects: [],
+    dashStepList: [
+      { title: '需求确认', desc: '产品经理确认需求文档' },
+      { title: '设计评审', desc: 'UI设计稿通过评审' },
+      { title: '开发中', desc: '前端+后端并行开发' },
+      { title: '测试验收', desc: 'QA测试并修复Bug' },
+      { title: '上线发布', desc: '正式环境部署上线' }
+    ],
+    dashCurrentStep: 2
+  },
+
+  lifetimes: {
+    attached() {
+      // 初始化需要异步加载的数据
+      if (this.data.caseId === 'case-product-list') {
+        this.loadProducts()
+      }
+      if (this.data.caseId === 'case-search') {
+        const history = wx.getStorageSync('search_history') || []
+        this.setData({ searchHistory: history })
+      }
+      if (this.data.caseId === 'case-chat') {
+        this.chatScrollBottom()
+      }
+      if (this.data.caseId === 'case-dashboard') {
+        this.dashLoadData()
+      }
+    }
+  },
+
+  methods: {
+    // ==================== 案例1: 登录注册 ====================
+    onLoginInput(e) {
+      const field = e.currentTarget.dataset.field
+      this.setData({ [field]: e.detail.value })
+    },
+    togglePassword() {
+      this.setData({ showPassword: !this.data.showPassword })
+    },
+    toggleRemember() {
+      this.setData({ rememberMe: !this.data.rememberMe })
+    },
+    switchLoginMode() {
+      this.setData({ loginMode: this.data.loginMode === 'login' ? 'register' : 'login' })
+    },
+    validateLogin() {
+      const { loginUsername: u, loginPassword: p, loginConfirm: c, loginMode: m } = this.data
+      if (!u) return '请输入用户名'
+      if (u.length < 3) return '用户名至少3个字符'
+      if (!p) return '请输入密码'
+      if (p.length < 6) return '密码至少6位'
+      if (m === 'register' && p !== c) return '两次密码不一致'
+      return null
+    },
+    onLoginSubmit() {
+      const err = this.validateLogin()
+      if (err) {
+        wx.showToast({ title: err, icon: 'none' })
+        return
+      }
+      this.setData({ loginLoading: true })
+      setTimeout(() => {
+        this.setData({ loginLoading: false })
+        wx.showToast({
+          title: this.data.loginMode === 'login' ? '登录成功' : '注册成功',
+          icon: 'success'
+        })
+      }, 1500)
+    },
+
+    // ==================== 案例2: 商品列表 ====================
+    loadProducts() {
+      const names = ['无线耳机', '智能手表', '帆布鞋', '咖啡豆', '香薰灯', '蓝牙音箱', '棉T恤', '坚果礼盒', '收纳盒', '充电宝', '马克杯', '抱枕']
+      const images = [
+        'https://picsum.photos/300/400?random=1', 'https://picsum.photos/300/350?random=2',
+        'https://picsum.photos/300/420?random=3', 'https://picsum.photos/300/380?random=4',
+        'https://picsum.photos/300/360?random=5', 'https://picsum.photos/300/400?random=6'
+      ]
+      const list = []
+      for (let i = 0; i < 6; i++) {
+        list.push({
+          id: this.data.plPage * 100 + i,
+          name: names[Math.floor(Math.random() * names.length)],
+          price: (Math.random() * 200 + 29).toFixed(2),
+          image: images[i % images.length]
+        })
+      }
+      const leftList = [...this.data.plLeftList]
+      const rightList = [...this.data.plRightList]
+      list.forEach((item, idx) => {
+        if (idx % 2 === 0) leftList.push(item)
+        else rightList.push(item)
+      })
+      this.setData({ plLeftList: leftList, plRightList: rightList, plLoadingMore: false })
+    },
+    onPlTabChange(e) {
+      this.setData({
+        plActiveTab: Number(e.currentTarget.dataset.idx),
+        plLeftList: [], plRightList: [], plPage: 1, plNoMore: false
+      })
+      this.loadProducts()
+    },
+    onLoadMore() {
+      if (this.data.plLoadingMore || this.data.plNoMore) return
+      this.setData({ plLoadingMore: true })
+      setTimeout(() => {
+        this.setData({ plPage: this.data.plPage + 1 })
+        if (this.data.plPage > 3) {
+          this.setData({ plNoMore: true, plLoadingMore: false })
+          return
+        }
+        this.loadProducts()
+      }, 800)
+    },
+    onPlRefresh() {
+      this.setData({
+        plRefreshing: true, plLeftList: [], plRightList: [],
+        plPage: 1, plNoMore: false
+      })
+      setTimeout(() => {
+        this.loadProducts()
+        this.setData({ plRefreshing: false })
+        wx.showToast({ title: '刷新成功', icon: 'success' })
+      }, 1000)
+    },
+    onAddCart() {
+      this.setData({ cartCount: this.data.cartCount + 1 })
+      wx.vibrateShort({ type: 'light' })
+      wx.showToast({ title: '已加入购物车', icon: 'none' })
+    },
+    onProductTap(e) {
+      wx.showToast({ title: '商品ID: ' + e.currentTarget.dataset.id, icon: 'none' })
+    },
+
+    // ==================== 案例3: 商品详情 ====================
+    showSpecPanel() {
+      this.setData({ pdSpecVisible: true })
+    },
+    hideSpecPanel() {
+      this.setData({ pdSpecVisible: false })
+    },
+    onSelectSpec(e) {
+      this.setData({ pdSelectedSpec: e.currentTarget.dataset.spec })
+    },
+    onConfirmSpec() {
+      if (!this.data.pdSelectedSpec) {
+        wx.showToast({ title: '请选择规格', icon: 'none' })
+        return
+      }
+      this.setData({ pdSpecVisible: false })
+      wx.showToast({ title: '已选: ' + this.data.pdSelectedSpec, icon: 'none' })
+    },
+    onPdFav() {
+      this.setData({ pdIsFav: !this.data.pdIsFav })
+      wx.vibrateShort({ type: 'light' })
+      wx.showToast({ title: this.data.pdIsFav ? '已收藏' : '已取消', icon: 'none' })
+    },
+    onPdAddCart() {
+      this.showSpecPanel()
+    },
+    onPdBuy() {
+      if (!this.data.pdSelectedSpec) {
+        this.showSpecPanel()
+        return
+      }
+      wx.showToast({ title: '正在跳转结算...', icon: 'none' })
+    },
+    onPdContact() {
+      wx.showToast({ title: '客服功能演示', icon: 'none' })
+    },
+
+    // ==================== 案例4: 订单表单 ====================
+    onOrderInput(e) {
+      const field = e.currentTarget.dataset.field
+      this.setData({ ['orderForm.' + field]: e.detail.value })
+    },
+    onRegionChange(e) {
+      this.setData({ 'orderForm.region': e.detail.value })
+    },
+    onQtyPlus() {
+      this.setData({ 'orderForm.quantity': this.data.orderForm.quantity + 1 })
+    },
+    onQtyMinus() {
+      if (this.data.orderForm.quantity > 1) {
+        this.setData({ 'orderForm.quantity': this.data.orderForm.quantity - 1 })
+      }
+    },
+    onRating(e) {
+      this.setData({ 'orderForm.rating': Number(e.currentTarget.dataset.idx) })
+    },
+    validateOrderStep() {
+      const { orderForm: f, orderStep: s } = this.data
+      if (s === 0) {
+        if (!f.name) return '请输入收货人'
+        if (!f.phone || f.phone.length !== 11) return '请输入正确的手机号'
+        if (!f.region.length) return '请选择地区'
+        if (!f.address) return '请输入详细地址'
+      }
+      if (s === 1) {
+        if (!f.productName) return '请输入商品名称'
+      }
+      return null
+    },
+    onOrderNext() {
+      const err = this.validateOrderStep()
+      if (err) {
+        wx.showToast({ title: err, icon: 'none' })
+        return
+      }
+      this.setData({ orderStep: this.data.orderStep + 1 })
+    },
+    onOrderPrev() {
+      this.setData({ orderStep: this.data.orderStep - 1 })
+    },
+    onOrderSubmit() {
+      this.setData({ orderSubmitting: true })
+      const timer = setInterval(() => {
+        const p = this.data.orderProgress + 10
+        if (p >= 100) {
+          clearInterval(timer)
+          this.setData({ orderProgress: 100, orderDone: true, orderSubmitting: false })
+          wx.showToast({ title: '提交成功', icon: 'success' })
+        } else {
+          this.setData({ orderProgress: p })
+        }
+      }, 200)
+    },
+
+    // ==================== 案例5: 个人中心 ====================
+    onProfileSwitch(e) {
+      const key = e.currentTarget.dataset.key
+      const value = e.detail.value
+      const settings = this.data.profileSettings1.map(item =>
+        item.key === key ? { ...item, value } : item
+      )
+      this.setData({ profileSettings1: settings })
+      wx.showToast({ title: value ? '已开启' : '已关闭', icon: 'none' })
+    },
+    onProfileCellTap(e) {
+      const key = e.currentTarget.dataset.key
+      if (key === 'cache') {
+        this.setData({ 'profileSettings2[1].value': '0KB' })
+        wx.showToast({ title: '缓存已清除', icon: 'success' })
+      } else {
+        wx.showToast({ title: '功能演示', icon: 'none' })
+      }
+    },
+    onLogout() {
+      this.setData({ showLogoutModal: true })
+    },
+    closeLogoutModal() {
+      this.setData({ showLogoutModal: false })
+    },
+    confirmLogout() {
+      this.setData({ showLogoutModal: false })
+      wx.showToast({ title: '已退出登录', icon: 'none' })
+    },
+
+    // ==================== 案例6: 搜索页 ====================
+    onSearchInput(e) {
+      const keyword = e.detail.value
+      this.setData({ searchKeyword: keyword, searchSearched: false })
+      if (this.searchTimer) clearTimeout(this.searchTimer)
+      if (!keyword) {
+        this.setData({ searchSuggestions: [] })
+        return
+      }
+      this.searchTimer = setTimeout(() => {
+        const all = ['无线耳机', '无线充电器', '无线鼠标', '智能手表', '智能音箱', '机械键盘', '机械臂']
+        const suggestions = all.filter(item => item.includes(keyword))
+        this.setData({ searchSuggestions: suggestions })
+      }, 300)
+    },
+    onSearchClear() {
+      this.setData({ searchKeyword: '', searchSuggestions: [], searchSearched: false })
+    },
+    doSearch(keyword) {
+      keyword = (keyword || this.data.searchKeyword).trim()
+      if (!keyword) return
+      const history = this.data.searchHistory.filter(h => h !== keyword)
+      history.unshift(keyword)
+      if (history.length > 10) history.pop()
+      wx.setStorageSync('search_history', history)
+      const allProducts = [
+        { id: 1, name: keyword + ' Pro', desc: '高品质产品' },
+        { id: 2, name: keyword + ' Lite', desc: '入门款' },
+        { id: 3, name: keyword + ' Max', desc: '旗舰款' }
+      ]
+      this.setData({
+        searchHistory: history,
+        searchSearched: true,
+        searchSearchedKeyword: keyword,
+        searchSuggestions: [],
+        searchKeyword: keyword,
+        searchResults: Math.random() > 0.3 ? allProducts : []
+      })
+    },
+    onSearchConfirm() {
+      this.doSearch()
+    },
+    onSuggestionTap(e) {
+      this.doSearch(e.currentTarget.dataset.key)
+    },
+    onHotTap(e) {
+      this.doSearch(e.currentTarget.dataset.key)
+    },
+    onHistoryTap(e) {
+      this.doSearch(e.currentTarget.dataset.key)
+    },
+    onClearHistory() {
+      wx.showModal({
+        title: '提示',
+        content: '确定清空搜索历史？',
+        success: (res) => {
+          if (res.confirm) {
+            wx.removeStorageSync('search_history')
+            this.setData({ searchHistory: [] })
+          }
+        }
+      })
+    },
+
+    // ==================== 案例7: 消息聊天 ====================
+    onChatInput(e) {
+      this.setData({ chatInput: e.detail.value })
+    },
+    onChatSend() {
+      const text = this.data.chatInput.trim()
+      if (!text) return
+      const id = this.data.chatIdCounter++
+      const messages = [...this.data.chatMessages, { id, text, isSelf: true }]
+      this.setData({ chatMessages: messages, chatInput: '' })
+      this.chatScrollBottom()
+      setTimeout(() => {
+        const replyId = this.data.chatIdCounter++
+        const replies = ['收到！', '好的 👍', '嗯嗯，明白了', '这个想法不错', '哈哈，有意思']
+        const reply = {
+          id: replyId,
+          text: replies[Math.floor(Math.random() * replies.length)],
+          isSelf: false
+        }
+        this.setData({ chatMessages: [...this.data.chatMessages, reply] })
+        this.chatScrollBottom()
+      }, 1000)
+    },
+    onChatEmoji() {
+      const emojis = ['😊', '👍', '🎉', '❤️', '😂', '🔥']
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)]
+      this.setData({ chatInput: this.data.chatInput + emoji })
+    },
+    chatScrollBottom() {
+      const last = this.data.chatMessages[this.data.chatMessages.length - 1]
+      if (last) {
+        setTimeout(() => {
+          this.setData({ chatScrollTo: 'chatmsg-' + last.id })
+        }, 100)
+      }
+    },
+    onChatLongPress(e) {
+      this.setData({ showChatAction: true, chatSelectedId: Number(e.currentTarget.dataset.id) })
+    },
+    hideChatAction() {
+      this.setData({ showChatAction: false })
+    },
+    onChatCopy() {
+      const msg = this.data.chatMessages.find(m => m.id === this.data.chatSelectedId)
+      if (msg) {
+        wx.setClipboardData({
+          data: msg.text,
+          success: () => wx.showToast({ title: '已复制', icon: 'success' })
+        })
+      }
+      this.hideChatAction()
+    },
+    onChatDelete() {
+      const messages = this.data.chatMessages.filter(m => m.id !== this.data.chatSelectedId)
+      this.setData({ chatMessages: messages, showChatAction: false })
+      wx.showToast({ title: '已删除', icon: 'none' })
+    },
+
+    // ==================== 案例8: 数据看板 ====================
+    dashLoadData() {
+      const multipliers = [1, 7, 30]
+      const m = multipliers[this.data.dashActiveTab]
+      this.setData({
+        dashKpi: [
+          { label: '总订单', value: (128 * m).toString(), color: '#4C8BF5', trend: 12 },
+          { label: '总收入', value: '¥' + (8680 * m).toString(), color: '#34C759', trend: 8 },
+          { label: '新用户', value: (56 * m).toString(), color: '#FF9500', trend: 15 },
+          { label: '转化率', value: '3.2%', color: '#5856D6', trend: -2 }
+        ],
+        dashProjects: [
+          { name: '小程序教程项目', percent: 85, color: '#4C8BF5', status: '进行中', statusClass: 'tag-blue', owner: '张三' },
+          { name: '官网改版', percent: 60, color: '#FF9500', status: '进行中', statusClass: 'tag-orange', owner: '李四' },
+          { name: '后台管理系统', percent: 100, color: '#34C759', status: '已完成', statusClass: 'tag-green', owner: '王五' },
+          { name: '数据中台', percent: 30, color: '#FF3B30', status: '延期', statusClass: 'tag-red', owner: '赵六' }
+        ]
+      })
+    },
+    onDashTabChange(e) {
+      this.setData({ dashActiveTab: Number(e.currentTarget.dataset.idx) })
+      this.dashLoadData()
+    }
+  }
+})

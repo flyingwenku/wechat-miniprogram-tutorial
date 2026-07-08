@@ -50,6 +50,10 @@ Page({
 
   goToDetail(e) {
     const id = e.currentTarget.dataset.id
-    wx.navigateTo({ url: `/pages/detail/detail?id=${id}` })
+    wx.navigateTo({ url: '/pages/detail/detail?id=' + id })
+  },
+
+  goToCaseList() {
+    wx.navigateTo({ url: '/pages/case-list/case-list' })
   }
 })

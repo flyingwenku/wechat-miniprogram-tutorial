@@ -3,6 +3,8 @@
     "pages/index/index",
     "pages/category/category",
     "pages/detail/detail",
+    "pages/case-list/case-list",
+    "pages/case-detail/case-detail",
     "pages/search/search",
     "pages/favorite/favorite",
     "pages/history/history",
