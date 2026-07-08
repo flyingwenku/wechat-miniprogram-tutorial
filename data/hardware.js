@@ -9,12 +9,175 @@ const categories = [
     icon: '🎥',
     desc: '摄像头、相册、扫码、录音、播放等媒体硬件能力',
     items: [
-      { id: 'camera', name: '摄像头', desc: '调用系统摄像头实时预览与拍照', simulator: '真机', status: 'planned' },
-      { id: 'chooseMedia', name: '相册选择', desc: '从相册或拍摄选择图片/视频', simulator: '真机', status: 'planned' },
-      { id: 'scanCode', name: '扫码', desc: '调起微信扫一扫识别二维码/条码', simulator: '真机', status: 'planned' },
-      { id: 'recorder', name: '录音', desc: '使用 RecorderManager 录制并播放音频', simulator: '真机', status: 'planned' },
-      { id: 'audio', name: '音频播放', desc: '使用 innerAudioContext 播放音频', simulator: '真机', status: 'planned' },
-      { id: 'backgroundAudio', name: '背景音频', desc: '后台播放音频（音乐类小程序）', simulator: '真机', status: 'planned' }
+      {
+        id: 'camera', name: '摄像头', desc: '调用系统摄像头实时预览与拍照', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'device-position', type: 'string', default: 'back', desc: '摄像头朝向：front(前)/back(后)' },
+          { name: 'flash', type: 'string', default: 'auto', desc: '闪光灯：auto/on/off' },
+          { name: 'bindscancode', type: 'event', default: '-', desc: '摄像头内扫码成功事件' },
+          { name: 'binderror', type: 'event', default: '-', desc: '摄像头错误事件' }
+        ],
+        code: {
+          wxml: `<camera class="hw-camera" device-position="back" flash="off" binderror="onCameraError"></camera>
+<button bindtap="takePhoto">拍照</button>
+<image wx:if="{{photo}}" src="{{photo}}" mode="widthFix" class="hw-photo"></image>`,
+          js: `Page({
+  takePhoto() {
+    const ctx = wx.createCameraContext()
+    ctx.takePhoto({
+      quality: 'high',
+      success: res => this.setData({ photo: res.tempImagePath })
+    })
+  },
+  onCameraError() { wx.showToast({ title: '摄像头不可用', icon: 'none' }) }
+})`
+        },
+        tips: [
+          'camera 是原生组件，层级最高，默认覆盖在其他组件之上，需用 cover-view 覆盖。',
+          '仅真机有效，模拟器无法预览画面；首次使用需用户授权摄像头。',
+          '拍照通过 wx.createCameraContext().takePhoto() 获取临时文件路径。'
+        ],
+        demo: { type: 'media' }
+      },
+      {
+        id: 'chooseMedia', name: '相册选择', desc: '从相册或拍摄选择图片/视频', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'count', type: 'number', default: '9', desc: '最多可选素材数量' },
+          { name: 'mediaType', type: 'array', default: "['image','video']", desc: '文件类型：image/video' },
+          { name: 'sourceType', type: 'array', default: "['album','camera']", desc: '来源：相册/拍摄' },
+          { name: 'sizeType', type: 'array', default: "['original','compressed']", desc: '图片尺寸' }
+        ],
+        code: {
+          wxml: `<button bindtap="chooseImg">选择图片</button>
+<image wx:if="{{img}}" src="{{img}}" mode="widthFix" class="hw-photo"></image>`,
+          js: `Page({
+  chooseImg() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      success: res => this.setData({ img: res.tempFiles[0].tempFilePath })
+    })
+  }
+})`
+        },
+        tips: [
+          'wx.chooseMedia 是新接口，替代已废弃的 wx.chooseImage / wx.chooseVideo。',
+          '返回 res.tempFiles，每项含 tempFilePath(临时路径) 与 size/duration 等元信息。',
+          '临时文件仅本次会话有效，长期保存需先 wx.saveImageToPhotosAlbum 或上传服务器。'
+        ],
+        demo: { type: 'media' }
+      },
+      {
+        id: 'scanCode', name: '扫码', desc: '调起微信扫一扫识别二维码/条码', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'onlyFromCamera', type: 'boolean', default: 'false', desc: '是否只允许相机扫码（不允许从相册选图）' },
+          { name: 'scanType', type: 'array', default: "['qrCode','barCode']", desc: '扫码类型' }
+        ],
+        code: {
+          wxml: `<button bindtap="scan">扫码</button>
+<text wx:if="{{result}}" class="hw-result">结果：{{result}}</text>`,
+          js: `Page({
+  scan() {
+    wx.scanCode({
+      success: res => this.setData({ result: res.result }),
+      fail: () => wx.showToast({ title: '已取消', icon: 'none' })
+    })
+  }
+})`
+        },
+        tips: [
+          '扫码结果在 res.result（字符串），res.scanType 表示识别的类型。',
+          '需在 app.json 的 requiredPrivateInfos 声明 scanCode 才可在真机正常调用。',
+          '模拟器无法调用相机扫码，需真机预览体验。'
+        ],
+        demo: { type: 'media' }
+      },
+      {
+        id: 'recorder', name: '录音', desc: '使用 RecorderManager 录制并播放音频', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'duration', type: 'number', default: '60000', desc: '录音时长上限(ms)' },
+          { name: 'sampleRate', type: 'number', default: '8000', desc: '采样率' },
+          { name: 'numberOfChannels', type: 'number', default: '1', desc: '声道数' },
+          { name: 'encodeBitRate', type: 'number', default: '48000', desc: '编码码率' },
+          { name: 'format', type: 'string', default: 'mp3', desc: '音频格式：mp3/aac/wav' }
+        ],
+        code: {
+          wxml: `<button bindtap="startRec">开始录音</button>
+<button bindtap="stopRec">停止并播放</button>`,
+          js: `Page({
+  onLoad() { this.rec = wx.getRecorderManager() },
+  startRec() {
+    this.rec.start({ duration: 60000, format: 'mp3' })
+  },
+  stopRec() {
+    this.rec.onStop(res => {
+      const audio = wx.createInnerAudioContext()
+      audio.src = res.tempFilePath
+      audio.play()
+    })
+    this.rec.stop()
+  }
+})`
+        },
+        tips: [
+          '通过 wx.getRecorderManager() 获取全局录音管理器，start/stop 控制录音。',
+          '录音需在真机并授权 scope.record；首次调用会弹授权框。',
+          '停止后 onStop 回调返回 tempFilePath，可直接交给 innerAudioContext 播放。'
+        ],
+        demo: { type: 'media' }
+      },
+      {
+        id: 'audio', name: '音频播放', desc: '使用 innerAudioContext 播放音频', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'src', type: 'string', default: '-', desc: '音频资源地址（网络或临时路径）' },
+          { name: 'autoplay', type: 'boolean', default: 'false', desc: '是否自动播放' },
+          { name: 'loop', type: 'boolean', default: 'false', desc: '是否循环播放' },
+          { name: 'obeyMuteSwitch', type: 'boolean', default: 'true', desc: '是否遵循静音开关' }
+        ],
+        code: {
+          wxml: `<button bindtap="play">播放音频</button>
+<button bindtap="pause">暂停</button>`,
+          js: `Page({
+  onLoad() {
+    this.audio = wx.createInnerAudioContext()
+    this.audio.src = 'https://example.com/sample.mp3' // 请替换为有效音频地址
+  },
+  play() { this.audio.play() },
+  pause() { this.audio.pause() }
+})`
+        },
+        tips: [
+          'wx.createInnerAudioContext() 创建实例，设置 src 后调用 play() 播放。',
+          '注意 obeyMuteSwitch：为 true 时静音模式下不发声，体验不符合预期可设为 false。',
+          '页面卸载时建议调用 destroy() 释放资源，避免后台持续播放。'
+        ],
+        demo: { type: 'media' }
+      },
+      {
+        id: 'backgroundAudio', name: '背景音频', desc: '后台播放音频（音乐类小程序）', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'title', type: 'string', default: '-', desc: '音频标题（必填，锁屏显示）' },
+          { name: 'src', type: 'string', default: '-', desc: '音频资源地址' },
+          { name: 'coverImgUrl', type: 'string', default: '-', desc: '封面图地址' }
+        ],
+        code: {
+          wxml: `<button bindtap="playBg">后台播放</button>`,
+          js: `Page({
+  playBg() {
+    const bg = wx.getBackgroundAudioManager()
+    bg.title = '示例音乐'
+    bg.src = 'https://example.com/bg.mp3' // 请替换为有效音频地址
+  }
+})`
+        },
+        tips: [
+          'wx.getBackgroundAudioManager() 支持退出小程序后继续播放（需配网络音频）。',
+          'title 为必填项，否则 iOS 上可能无法正常后台播放。',
+          '需在 app.json 配置 requiredPrivateInfos 含背景音频相关声明。'
+        ],
+        demo: { type: 'media' }
+      }
     ]
   },
   {
