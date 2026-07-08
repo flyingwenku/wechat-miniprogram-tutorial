@@ -510,10 +510,96 @@ const categories = [
     icon: '📳',
     desc: '振动、生物识别、蓝牙、拨打电话',
     items: [
-      { id: 'vibrate', name: '振动', desc: '触发设备振动反馈', simulator: '真机', status: 'planned' },
-      { id: 'soter', name: '生物识别', desc: '指纹/人脸 SOTER 认证', simulator: '真机', status: 'planned' },
-      { id: 'bluetooth', name: '蓝牙', desc: '低功耗蓝牙连接与通信', simulator: '真机', status: 'planned' },
-      { id: 'makePhoneCall', name: '拨打电话', desc: '调起系统拨号界面', simulator: '真机', status: 'planned' }
+      { id: 'vibrate', name: '振动', desc: '触发设备振动反馈', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'vibrateShort', type: 'function', default: '-', desc: '短振动，type: heavy/medium/light' },
+          { name: 'vibrateLong', type: 'function', default: '-', desc: '长振动（约 400ms）' }
+        ],
+        code: {
+          wxml: `<button bindtap="vib">触发振动</button>`,
+          js: `Page({
+  vib() {
+    wx.vibrateShort({ type: 'medium' })
+  }
+})`
+        },
+        tips: [
+          'vibrateShort 的 type 在 iOS 仅支持 medium / light，且系统需开启振动。',
+          '模拟器与 PC 无振动马达，需真机预览才能感知效果。'
+        ],
+        demo: { type: 'haptic' }
+      },
+      { id: 'soter', name: '生物识别', desc: '指纹/人脸 SOTER 认证', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'checkIsSoterEnrolledInDevice', type: 'function', default: '-', desc: '检查设备是否已录入生物信息' },
+          { name: 'startSoterAuthentication', type: 'function', default: '-', desc: '发起指纹/人脸认证，requestAuthModes 指定模式' }
+        ],
+        code: {
+          wxml: `<button bindtap="auth">发起认证</button>`,
+          js: `Page({
+  auth() {
+    wx.startSoterAuthentication({
+      requestAuthModes: ['fingerPrint'],
+      challenge: 'demo-challenge',
+      success: res => wx.showToast({ title: '认证成功' }),
+      fail: () => wx.showToast({ title: '认证失败', icon: 'none' })
+    })
+  }
+})`
+        },
+        tips: [
+          'SOTER 提供硬件级安全认证，需真机支持指纹/人脸，模拟器无法演示。',
+          'requestAuthModes 可选 fingerPrint / facial / speech（按平台支持）。',
+          'challenge 用于防重放，应由后端下发并在验证时校验。'
+        ],
+        demo: { type: 'haptic' }
+      },
+      { id: 'bluetooth', name: '蓝牙', desc: '低功耗蓝牙连接与通信', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'openBluetoothAdapter', type: 'function', default: '-', desc: '初始化蓝牙模块' },
+          { name: 'startBluetoothDevicesDiscovery', type: 'function', default: '-', desc: '开始搜索附近蓝牙设备' },
+          { name: 'getBluetoothDevices', type: 'function', default: '-', desc: '获取已搜索到的设备列表' }
+        ],
+        code: {
+          wxml: `<button bindtap="scanBle">扫描蓝牙设备</button>
+<text wx:if="{{ble}}" class="hw-result">{{ble}}</text>`,
+          js: `Page({
+  scanBle() {
+    wx.openBluetoothAdapter()
+    wx.startBluetoothDevicesDiscovery({ services: [] })
+    wx.onBluetoothDeviceFound(res => {
+      const list = res.devices.map(d => d.name || d.deviceId)
+      this.setData({ ble: '发现 ' + list.length + ' 个设备' })
+    })
+  }
+})`
+        },
+        tips: [
+          '使用蓝牙前必须 wx.openBluetoothAdapter() 初始化，并申请 scope.bluetooth 授权。',
+          'Android 搜索蓝牙需同时授予定位权限（系统限制），否则搜不到设备。',
+          '真机才可用，模拟器不支持蓝牙模块。'
+        ],
+        demo: { type: 'haptic' }
+      },
+      { id: 'makePhoneCall', name: '拨打电话', desc: '调起系统拨号界面', simulator: '真机', status: 'ready',
+        props: [
+          { name: 'phoneNumber', type: 'string', default: '-', desc: '要拨打的电话号码' }
+        ],
+        code: {
+          wxml: `<button bindtap="call">拨打电话</button>`,
+          js: `Page({
+  call() {
+    wx.makePhoneCall({ phoneNumber: '10086' })
+  }
+})`
+        },
+        tips: [
+          'wx.makePhoneCall 仅调起系统拨号界面，不会自动拨出，需用户确认。',
+          '真机有效，模拟器无法拨号。',
+          '号码格式建议带区号，避免漫游误解。'
+        ],
+        demo: { type: 'haptic' }
+      }
     ]
   },
   {
