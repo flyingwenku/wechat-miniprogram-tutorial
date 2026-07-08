@@ -1,0 +1,33 @@
+<!-- components/demos/hardware-demos/hardware-demos.wxml -->
+<view class="hw-demo {{theme}}">
+
+  <!-- 传感器类 -->
+  <block wx:if="{{demo.type === 'sensor'}}">
+    <view class="hw-readout" wx:if="{{hardwareId === 'gyroscope' || hardwareId === 'accelerometer'}}">
+      <text class="hw-line">x: {{sensor.x}}</text>
+      <text class="hw-line">y: {{sensor.y}}</text>
+      <text class="hw-line">z: {{sensor.z}}</text>
+    </view>
+    <view class="hw-readout" wx:elif="{{hardwareId === 'compass'}}">
+      <text class="hw-line">方向角: {{sensor.direction}}°</text>
+      <text class="hw-line">精度: {{sensor.accuracy}}</text>
+    </view>
+    <view class="hw-readout" wx:elif="{{hardwareId === 'deviceMotion'}}">
+      <text class="hw-line">α: {{sensor.alpha}}</text>
+      <text class="hw-line">β: {{sensor.beta}}</text>
+      <text class="hw-line">γ: {{sensor.gamma}}</text>
+    </view>
+
+    <view class="hw-actions">
+      <button class="hw-btn" bindtap="startDemo" wx:if="{{!running}}">开始监听</button>
+      <button class="hw-btn ghost" bindtap="stopDemo" wx:else>停止</button>
+    </view>
+    <text class="hw-mode {{hardwareMode === 'real' ? 'real' : ''}}">当前：{{hardwareMode === 'real' ? '真机实时' : '模拟数据'}}</text>
+  </block>
+
+  <!-- 其它类型占位（后续任务实现） -->
+  <view wx:else class="hw-todo">
+    <text>该硬件能力的实时体验正在开发中</text>
+  </view>
+
+</view>

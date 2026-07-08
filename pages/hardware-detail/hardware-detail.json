@@ -1,0 +1,9 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "nav-bar": "/components/nav-bar/nav-bar",
+    "hardware-demos": "/components/demos/hardware-demos/hardware-demos",
+    "prop-table": "/components/prop-table/prop-table",
+    "code-block": "/components/code-block/code-block"
+  }
+}

@@ -25,10 +25,10 @@ Page({
     })
   },
 
-  // 点击硬件能力项（详情页后续开发，目前提示规划中）
+  // 点击硬件能力项 -> 跳转硬件详情页
   onTapItem(e) {
-    const name = e.currentTarget.dataset.name
-    wx.showToast({ title: name + ' · 开发中', icon: 'none' })
+    const id = e.currentTarget.dataset.id
+    wx.navigateTo({ url: '/pages/hardware-detail/hardware-detail?id=' + id })
   },
 
   // 跳转到控件学习 Tab

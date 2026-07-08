@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/hardware/hardware",
+    "pages/hardware-detail/hardware-detail",
     "pages/category/category",
     "pages/detail/detail",
     "pages/case-list/case-list",
@@ -47,5 +48,13 @@
       }
     ]
   },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于获取当前位置信息以演示定位能力"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
   "sitemapLocation": "sitemap.json"
 }

@@ -42,7 +42,7 @@
       <view class="chip-wrap">
         <view class="chip hover-scale"
           wx:for="{{item.items}}" wx:for-item="hw" wx:key="id"
-          data-name="{{hw.name}}" bindtap="onTapItem">
+          data-id="{{hw.id}}" bindtap="onTapItem">
           <text class="chip-name">{{hw.name}}</text>
           <text class="chip-sim sim-{{hw.simClass}}">{{hw.simulator}}</text>
         </view>
@@ -51,6 +51,6 @@
   </view>
 
   <view class="footer-note">
-    <text>小程序开发教程 · 硬件模块建设中</text>
+    <text>小程序开发教程 · 硬件能力实时体验</text>
   </view>
 </view>

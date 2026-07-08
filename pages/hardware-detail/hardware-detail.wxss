@@ -1,0 +1,178 @@
+/* pages/hardware-detail/hardware-detail.wxss */
+.page {
+  min-height: 100vh;
+  padding: 0 32rpx 48rpx;
+}
+
+/* 运行模式横幅 */
+.mode-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 20rpx 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: var(--shadow-card);
+}
+.mode-banner.real {
+  background: rgba(52, 199, 89, 0.12);
+}
+.mode-info {
+  display: flex;
+  flex-direction: column;
+}
+.mode-title {
+  font-size: var(--font-md);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.mode-desc {
+  font-size: var(--font-xs);
+  color: var(--text-tertiary);
+  margin-top: 4rpx;
+}
+.mode-tag {
+  font-size: var(--font-sm);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.mode-banner.real .mode-tag {
+  color: var(--color-success);
+}
+
+/* 控件头部 */
+.control-header {
+  margin-bottom: 24rpx;
+}
+.control-title {
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  display: block;
+}
+.control-desc {
+  font-size: var(--font-md);
+  color: var(--text-secondary);
+  margin-top: 8rpx;
+  display: block;
+}
+
+/* Tab 栏 */
+.tab-bar {
+  display: flex;
+  background: var(--bg-card);
+  border-radius: var(--radius-full);
+  padding: 6rpx;
+  margin-bottom: 24rpx;
+  box-shadow: var(--shadow-card);
+}
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 14rpx 0;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  border-radius: var(--radius-full);
+  transition: var(--transition);
+}
+.tab-item.active {
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Tab 内容 */
+.tab-content {
+  min-height: 400rpx;
+}
+
+/* 演示区域 */
+.demo-area {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 32rpx;
+  box-shadow: var(--shadow-card);
+  min-height: 300rpx;
+}
+
+/* 属性说明 */
+.props-area {
+  padding: 0;
+}
+
+/* 代码区域 */
+.code-area {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 提示区域 */
+.tips-area {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+.tips-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24rpx 32rpx;
+  box-shadow: var(--shadow-card);
+  border-left: 6rpx solid var(--color-warning);
+}
+.tips-text {
+  font-size: var(--font-md);
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+/* 占位提示 */
+.hw-todo {
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: var(--font-sm);
+  padding: 56rpx 0;
+}
+
+/* 错误页面 */
+.error-page {
+  min-height: 100vh;
+}
+.error-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200rpx;
+}
+.error-icon {
+  font-size: 120rpx;
+  margin-bottom: 32rpx;
+}
+.error-title {
+  font-size: var(--font-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16rpx;
+}
+.error-desc {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  margin-bottom: 16rpx;
+}
+.error-debug {
+  font-size: var(--font-xs);
+  color: #FF3B30;
+  background: rgba(255, 59, 48, 0.1);
+  padding: 12rpx 24rpx;
+  border-radius: 8rpx;
+  margin-bottom: 48rpx;
+  word-break: break-all;
+}
+.error-btn {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: var(--font-md);
+  padding: 20rpx 64rpx;
+  border-radius: var(--radius-full);
+}

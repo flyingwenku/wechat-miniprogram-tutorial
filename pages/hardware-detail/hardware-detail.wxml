@@ -1,0 +1,75 @@
+<!--pages/hardware-detail/hardware-detail.wxml-->
+
+<!-- 加载失败回退 -->
+<view class="page {{theme}} error-page" wx:if="{{loadError || !hardware}}">
+  <nav-bar title="加载失败" showBack="{{true}}"
+    bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}"
+    textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+  <view class="error-wrap">
+    <text class="error-icon">⚠️</text>
+    <text class="error-title">硬件加载失败</text>
+    <text class="error-desc">可能原因：页面缓存过期或硬件 id 无效</text>
+    <text class="error-debug" wx:if="{{debugInfo}}">调试信息：{{debugInfo}}</text>
+    <view class="error-btn" bindtap="onRetry">返回硬件</view>
+  </view>
+</view>
+
+<!-- 正常内容 -->
+<view class="page {{theme}}" wx:elif="{{hardware}}">
+  <nav-bar title="{{hardware.name}}" showBack="{{true}}"
+    bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}"
+    textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+
+  <!-- 运行模式横幅 -->
+  <view class="mode-banner {{hardwareMode === 'real' ? 'real' : ''}}">
+    <view class="mode-info">
+      <text class="mode-title">{{hardwareMode === 'real' ? '真机实时调用' : '模拟数据演示'}}</text>
+      <text class="mode-desc">当前模式：在「我的」中可切换</text>
+    </view>
+    <text class="mode-tag">{{hardwareMode === 'real' ? '真机' : '模拟'}}</text>
+  </view>
+
+  <!-- 硬件描述 -->
+  <view class="control-header">
+    <text class="control-title">{{hardware.name}}</text>
+    <text class="control-desc">{{hardware.desc}}</text>
+  </view>
+
+  <!-- Tab 切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === 0 ? 'active' : ''}}" data-tab="0" bindtap="onTabChange">效果演示</view>
+    <view class="tab-item {{activeTab === 1 ? 'active' : ''}}" data-tab="1" bindtap="onTabChange">属性说明</view>
+    <view class="tab-item {{activeTab === 2 ? 'active' : ''}}" data-tab="2" bindtap="onTabChange">示例代码</view>
+    <view class="tab-item {{activeTab === 3 ? 'active' : ''}}" data-tab="3" bindtap="onTabChange">使用提示</view>
+  </view>
+
+  <!-- Tab 内容 -->
+  <view class="tab-content">
+    <!-- 效果演示 -->
+    <view wx:if="{{activeTab === 0}}" class="demo-area">
+      <hardware-demos wx:if="{{hardware.demo}}" hardware-id="{{hardware.id}}" demo="{{hardware.demo}}" theme="{{theme}}" hardware-mode="{{hardwareMode}}" />
+      <view wx:else class="hw-todo"><text>该硬件能力的实时体验正在开发中</text></view>
+    </view>
+
+    <!-- 属性说明 -->
+    <view wx:if="{{activeTab === 1}}" class="props-area">
+      <prop-table props="{{hardware.props}}" wx:if="{{hardware.props}}" />
+      <view wx:else class="hw-todo"><text>暂无属性说明</text></view>
+    </view>
+
+    <!-- 示例代码 -->
+    <view wx:if="{{activeTab === 2}}" class="code-area">
+      <code-block wx:if="{{hardware.code.wxml}}" code="{{hardware.code.wxml}}" lang="WXML" />
+      <code-block wx:if="{{hardware.code.js}}" code="{{hardware.code.js}}" lang="JavaScript" />
+      <view wx:if="{{!hardware.code}}" class="hw-todo"><text>暂无示例代码</text></view>
+    </view>
+
+    <!-- 使用提示 -->
+    <view wx:if="{{activeTab === 3}}" class="tips-area">
+      <view class="tips-card" wx:for="{{hardware.tips}}" wx:key="*this" wx:for-item="tip">
+        <text class="tips-text">· {{tip}}</text>
+      </view>
+      <view wx:if="{{!hardware.tips || hardware.tips.length === 0}}" class="hw-todo"><text>暂无使用提示</text></view>
+    </view>
+  </view>
+</view>

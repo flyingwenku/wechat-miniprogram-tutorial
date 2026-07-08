@@ -1,0 +1,113 @@
+/* components/demos/hardware-demos/hardware-demos.wxss */
+.hw-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+/* 读数面板 */
+.hw-readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  background: var(--bg-hover);
+  border-radius: var(--radius-md);
+  padding: 28rpx;
+}
+.hw-line {
+  flex: 1 1 30%;
+  min-width: 30%;
+  font-size: var(--font-md);
+  color: var(--text-primary);
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+  text-align: center;
+}
+
+/* 可视化环（模拟/真机数据动效） */
+.hw-gauge {
+  position: relative;
+  width: 240rpx;
+  height: 240rpx;
+  margin: 8rpx auto;
+  border-radius: 50%;
+  background: conic-gradient(var(--color-primary) calc(var(--angle, 0) * 1%), var(--bg-hover) 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hw-gauge-inner {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 50%;
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-lg);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* 操作按钮 */
+.hw-actions {
+  display: flex;
+  gap: 20rpx;
+}
+.hw-btn {
+  flex: 1;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: var(--font-md);
+  border-radius: var(--radius-md);
+  padding: 18rpx 0;
+}
+.hw-btn.ghost {
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+}
+
+/* 模式提示 */
+.hw-mode {
+  font-size: var(--font-xs);
+  color: var(--text-tertiary);
+  text-align: center;
+}
+.hw-mode.real {
+  color: var(--color-success);
+}
+
+/* 媒体/位置等结果展示 */
+.hw-result {
+  background: var(--bg-hover);
+  border-radius: var(--radius-md);
+  padding: 24rpx;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  word-break: break-all;
+  line-height: 1.7;
+}
+.hw-image {
+  width: 100%;
+  height: 320rpx;
+  border-radius: var(--radius-md);
+  background: var(--bg-hover);
+}
+.hw-map {
+  width: 100%;
+  height: 320rpx;
+  border-radius: var(--radius-md);
+  background: var(--bg-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  font-size: var(--font-sm);
+}
+
+/* 开发中占位 */
+.hw-todo {
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: var(--font-sm);
+  padding: 48rpx 0;
+}
