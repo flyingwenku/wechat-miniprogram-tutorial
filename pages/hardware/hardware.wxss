@@ -1,0 +1,70 @@
+/* pages/hardware/hardware.wxss */
+.page { min-height: 100vh; padding: 0 32rpx 48rpx; }
+
+/* 运行模式横幅 */
+.mode-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(135deg, #8E8E93, #B0B0B5);
+  border-radius: var(--radius-lg);
+  padding: 28rpx 32rpx; margin-bottom: 24rpx;
+}
+.mode-banner.real { background: linear-gradient(135deg, #4C8BF5, #6BA0F7); }
+.mode-left { display: flex; align-items: center; }
+.mode-icon { font-size: 48rpx; margin-right: 20rpx; }
+.mode-info { display: flex; flex-direction: column; }
+.mode-title { font-size: var(--font-lg); font-weight: 700; color: #fff; }
+.mode-desc { font-size: var(--font-xs); color: rgba(255,255,255,0.85); margin-top: 4rpx; }
+.mode-tag {
+  font-size: var(--font-xs); color: #fff; background: rgba(255,255,255,0.25);
+  padding: 6rpx 20rpx; border-radius: var(--radius-full);
+}
+
+/* 简介卡片 */
+.intro-card {
+  background: var(--bg-card); border-radius: var(--radius-lg);
+  padding: 32rpx; margin-bottom: 32rpx; box-shadow: var(--shadow-card);
+}
+.intro-title { font-size: var(--font-xl); font-weight: 700; color: var(--text-primary); display: block; }
+.intro-text { font-size: var(--font-sm); color: var(--text-secondary); line-height: 1.7; margin-top: 12rpx; display: block; }
+.intro-stats { display: flex; align-items: center; margin-top: 28rpx; }
+.intro-stat { flex: 1; display: flex; flex-direction: column; align-items: center; }
+.intro-num { font-size: var(--font-2xl); font-weight: 700; color: var(--color-primary); }
+.intro-label { font-size: var(--font-xs); color: var(--text-tertiary); margin-top: 4rpx; }
+.intro-divider { width: 1rpx; height: 60rpx; background: var(--border-light); }
+
+/* 区块标题 */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin: 16rpx 0 20rpx; }
+.section-title-text { font-size: var(--font-lg); font-weight: 600; color: var(--text-primary); }
+
+/* 分类块 */
+.cat-list { display: flex; flex-direction: column; gap: 24rpx; }
+.cat-block {
+  background: var(--bg-card); border-radius: var(--radius-lg);
+  padding: 28rpx; box-shadow: var(--shadow-card);
+}
+.cat-block-head { display: flex; align-items: center; margin-bottom: 20rpx; }
+.cat-block-icon {
+  width: 72rpx; height: 72rpx; border-radius: var(--radius-md);
+  background: var(--bg-tag); display: flex; align-items: center; justify-content: center;
+  font-size: 40rpx; margin-right: 20rpx;
+}
+.cat-block-info { flex: 1; }
+.cat-block-name { font-size: var(--font-lg); font-weight: 600; color: var(--text-primary); display: block; }
+.cat-block-desc { font-size: var(--font-xs); color: var(--text-tertiary); margin-top: 4rpx; display: block; }
+
+/* 能力 chip */
+.chip-wrap { display: flex; flex-wrap: wrap; gap: 16rpx; }
+.chip {
+  display: flex; align-items: center; gap: 10rpx;
+  background: var(--bg-hover); border-radius: var(--radius-full);
+  padding: 14rpx 24rpx;
+}
+.chip-name { font-size: var(--font-sm); color: var(--text-primary); }
+.chip-sim { font-size: 20rpx; padding: 2rpx 12rpx; border-radius: var(--radius-full); color: #fff; }
+.sim-支持 { background: var(--color-success); }
+.sim-部分 { background: var(--color-warning); }
+.sim-真机 { background: var(--color-primary); }
+.sim-不支持 { background: var(--color-info); }
+
+/* 页脚 */
+.footer-note { text-align: center; padding: 40rpx 0 16rpx; color: var(--text-tertiary); font-size: var(--font-xs); }

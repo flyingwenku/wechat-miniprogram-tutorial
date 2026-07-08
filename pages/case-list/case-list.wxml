@@ -1,16 +1,25 @@
 <!--pages/case-list/case-list.wxml-->
 <view class="page {{theme}}">
-  <nav-bar title="实战案例" showBack="{{true}}"
+  <nav-bar title="案例" showBack="{{true}}"
     bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}"
     textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
 
   <view class="intro-card">
-    <text class="intro-text">基于基础控件组合的 8 个真实业务场景，每个案例可交互体验，附带完整源码和实现要点。</text>
+    <text class="intro-text">控件案例、硬件案例、综合实战三类场景，每个案例可交互体验，附带完整源码和实现要点。</text>
+  </view>
+
+  <!-- 类型筛选 -->
+  <view class="filter-bar">
+    <view class="filter-tab {{activeType === item.key ? 'active' : ''}}"
+      wx:for="{{types}}" wx:key="key"
+      data-type="{{item.key}}" bindtap="onTypeChange">
+      {{item.name}}
+    </view>
   </view>
 
   <view class="case-list">
     <view class="case-card hover-scale"
-      wx:for="{{cases}}" wx:key="id"
+      wx:for="{{filtered}}" wx:key="id"
       data-id="{{item.id}}"
       bindtap="goToCaseDetail"
       style="border-left: 6rpx solid {{item.color}};">
@@ -28,7 +37,12 @@
     </view>
   </view>
 
+  <view class="empty" wx:if="{{filtered.length === 0}}">
+    <text class="empty-icon">📦</text>
+    <text class="empty-text">该分类案例正在整理中</text>
+  </view>
+
   <view class="footer-note">
-    <text>共 {{cases.length}} 个实战案例 · 完整源码可商用</text>
+    <text>共 {{filtered.length}} 个案例 · 完整源码可商用</text>
   </view>
 </view>

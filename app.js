@@ -2,6 +2,7 @@
 App({
   globalData: {
     theme: 'light',        // 主题：light / dark
+    hardwareMode: 'simulate', // 硬件演示模式：simulate 模拟 / real 真机
     favorites: [],          // 收藏的控件 id 列表
     history: [],            // 浏览历史 [{id, name, category, time}]
     statusBarHeight: 0,     // 状态栏高度
@@ -32,6 +33,9 @@ App({
       const theme = wx.getStorageSync('theme')
       if (theme) this.globalData.theme = theme
 
+      const hardwareMode = wx.getStorageSync('hardwareMode')
+      if (hardwareMode) this.globalData.hardwareMode = hardwareMode
+
       const favorites = wx.getStorageSync('favorites')
       if (favorites) this.globalData.favorites = favorites
 
@@ -47,6 +51,18 @@ App({
     this.globalData.theme = this.globalData.theme === 'light' ? 'dark' : 'light'
     wx.setStorageSync('theme', this.globalData.theme)
     return this.globalData.theme
+  },
+
+  // 设置硬件演示模式：simulate 模拟 / real 真机
+  setHardwareMode(mode) {
+    this.globalData.hardwareMode = mode
+    wx.setStorageSync('hardwareMode', mode)
+    return mode
+  },
+
+  // 获取硬件演示模式（默认 simulate）
+  getHardwareMode() {
+    return this.globalData.hardwareMode || 'simulate'
   },
 
   // 收藏 / 取消收藏

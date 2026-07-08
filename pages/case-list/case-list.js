@@ -3,12 +3,29 @@ const casesData = require('../../data/cases.js')
 
 Page({
   data: {
-    cases: [],
+    allCases: [],
+    filtered: [],
+    activeType: 'control',
+    types: [
+      { key: 'control', name: '控件案例' },
+      { key: 'hardware', name: '硬件案例' },
+      { key: 'composite', name: '综合案例' }
+    ],
     theme: 'light'
   },
 
   onLoad() {
-    this.loadData()
+    const allCases = casesData.cases.map(c => ({
+      id: c.id,
+      name: c.name,
+      icon: c.icon,
+      color: c.color,
+      desc: c.desc,
+      tags: c.tags,
+      type: c.type || 'control'
+    }))
+    this.setData({ allCases })
+    this.applyFilter('control')
   },
 
   onShow() {
@@ -16,16 +33,17 @@ Page({
     this.setData({ theme: app.globalData.theme })
   },
 
-  loadData() {
-    const cases = casesData.cases.map(c => ({
-      id: c.id,
-      name: c.name,
-      icon: c.icon,
-      color: c.color,
-      desc: c.desc,
-      tags: c.tags
-    }))
-    this.setData({ cases })
+  // 切换案例类型筛选
+  onTypeChange(e) {
+    const type = e.currentTarget.dataset.type
+    if (type === this.data.activeType) return
+    this.setData({ activeType: type })
+    this.applyFilter(type)
+  },
+
+  applyFilter(type) {
+    const filtered = this.data.allCases.filter(c => c.type === type)
+    this.setData({ filtered })
   },
 
   goToCaseDetail(e) {

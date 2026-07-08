@@ -1,6 +1,6 @@
 <!--pages/favorite/favorite.wxml-->
 <view class="page {{theme}}">
-  <nav-bar title="我的收藏" bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}" textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+  <nav-bar title="我的收藏" showBack="{{true}}" bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}" textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
 
   <view class="fav-list" wx:if="{{favorites.length > 0}}">
     <view class="fav-item hover-scale" wx:for="{{favorites}}" wx:key="id"

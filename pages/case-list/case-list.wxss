@@ -18,6 +18,39 @@
   line-height: 1.6;
 }
 
+/* 类型筛选 */
+.filter-bar {
+  display: flex;
+  background: var(--bg-hover);
+  border-radius: var(--radius-full);
+  padding: 6rpx;
+  margin-bottom: 24rpx;
+}
+.filter-tab {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 0;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  border-radius: var(--radius-full);
+  transition: var(--transition);
+}
+.filter-tab.active {
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 空状态 */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100rpx 0;
+}
+.empty-icon { font-size: 80rpx; }
+.empty-text { font-size: var(--font-sm); color: var(--text-tertiary); margin-top: 16rpx; }
+
 .case-list {
   display: flex;
   flex-direction: column;

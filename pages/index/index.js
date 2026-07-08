@@ -54,7 +54,11 @@ Page({
   },
 
   goToCaseList() {
-    wx.navigateTo({ url: '/pages/case-list/case-list' })
+    wx.switchTab({ url: '/pages/case-list/case-list' })
+  },
+
+  goToHardware() {
+    wx.switchTab({ url: '/pages/hardware/hardware' })
   },
 
   goToQuiz() {

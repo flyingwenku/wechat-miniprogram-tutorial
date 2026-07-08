@@ -57,4 +57,20 @@
 }
 .setting-switch.on .switch-dot { left: 40rpx; }
 
+/* 分段控件（硬件模式） */
+.mode-item { padding-top: 28rpx; padding-bottom: 28rpx; }
+.seg {
+  display: flex; background: var(--bg-hover);
+  border-radius: var(--radius-full); padding: 4rpx;
+}
+.seg-item {
+  padding: 10rpx 32rpx; font-size: var(--font-sm); color: var(--text-secondary);
+  border-radius: var(--radius-full); transition: var(--transition);
+}
+.seg-item.active { background: var(--color-primary); color: #fff; font-weight: 600; }
+.setting-hint {
+  padding: 0 28rpx 24rpx; font-size: var(--font-xs);
+  color: var(--text-tertiary); line-height: 1.5;
+}
+
 .footer { text-align: center; padding: 32rpx 0; color: var(--text-tertiary); font-size: var(--font-xs); }

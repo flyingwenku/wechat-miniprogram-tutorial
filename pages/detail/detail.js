@@ -83,7 +83,7 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: `${this.data.control.name} - 控件教程`,
+      title: `${this.data.control.name} - 小程序开发教程`,
       path: `/pages/detail/detail?id=${this.data.control.id}`
     }
   },

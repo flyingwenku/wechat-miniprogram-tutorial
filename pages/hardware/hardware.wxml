@@ -1,0 +1,56 @@
+<!--pages/hardware/hardware.wxml-->
+<view class="page {{theme}}">
+  <nav-bar title="硬件操作" bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}" textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+
+  <!-- 运行模式横幅 -->
+  <view class="mode-banner {{hardwareMode === 'real' ? 'real' : ''}}">
+    <view class="mode-left">
+      <text class="mode-icon">{{hardwareMode === 'real' ? '📱' : '🧪'}}</text>
+      <view class="mode-info">
+        <text class="mode-title">{{hardwareMode === 'real' ? '真机实时调用' : '模拟数据演示'}}</text>
+        <text class="mode-desc">当前模式：在「我的」中可切换</text>
+      </view>
+    </view>
+    <text class="mode-tag">{{hardwareMode === 'real' ? '真机' : '模拟'}}</text>
+  </view>
+
+  <!-- 简介 + 统计 -->
+  <view class="intro-card">
+    <text class="intro-title">用真实 API 学硬件能力</text>
+    <text class="intro-text">摄像头、麦克风、陀螺仪、定位、蓝牙…… 点一点就能看到设备实时反馈。建议结合真机预览体验完整效果。</text>
+    <view class="intro-stats">
+      <view class="intro-stat"><text class="intro-num">{{totalCount}}</text><text class="intro-label">硬件能力</text></view>
+      <view class="intro-divider"></view>
+      <view class="intro-stat"><text class="intro-num">{{categories.length}}</text><text class="intro-label">能力分类</text></view>
+    </view>
+  </view>
+
+  <!-- 分类列表 -->
+  <view class="section-header">
+    <text class="section-title-text">能力分类</text>
+  </view>
+
+  <view class="cat-list">
+    <view class="cat-block" wx:for="{{categories}}" wx:key="id">
+      <view class="cat-block-head">
+        <text class="cat-block-icon">{{item.icon}}</text>
+        <view class="cat-block-info">
+          <text class="cat-block-name">{{item.name}}</text>
+          <text class="cat-block-desc">{{item.desc}}</text>
+        </view>
+      </view>
+      <view class="chip-wrap">
+        <view class="chip hover-scale"
+          wx:for="{{item.items}}" wx:for-item="hw" wx:key="id"
+          data-name="{{hw.name}}" bindtap="onTapItem">
+          <text class="chip-name">{{hw.name}}</text>
+          <text class="chip-sim sim-{{hw.simulator}}">{{hw.simulator}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer-note">
+    <text>小程序开发教程 · 硬件模块建设中</text>
+  </view>
+</view>

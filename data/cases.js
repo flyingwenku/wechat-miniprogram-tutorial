@@ -5,6 +5,7 @@ module.exports = {
   cases: [
     {
       id: 'case-login',
+      type: 'control',
       name: '登录注册',
       icon: '🔐',
       color: '#4C8BF5',
@@ -25,6 +26,7 @@ module.exports = {
     },
     {
       id: 'case-product-list',
+      type: 'control',
       name: '商品列表',
       icon: '🛍️',
       color: '#FF6B00',
@@ -45,6 +47,7 @@ module.exports = {
     },
     {
       id: 'case-product-detail',
+      type: 'control',
       name: '商品详情',
       icon: '📦',
       color: '#34C759',
@@ -65,6 +68,7 @@ module.exports = {
     },
     {
       id: 'case-order-form',
+      type: 'control',
       name: '订单表单',
       icon: '📋',
       color: '#5856D6',
@@ -85,6 +89,7 @@ module.exports = {
     },
     {
       id: 'case-profile',
+      type: 'control',
       name: '个人中心',
       icon: '👤',
       color: '#FF9500',
@@ -105,6 +110,7 @@ module.exports = {
     },
     {
       id: 'case-search',
+      type: 'control',
       name: '搜索页',
       icon: '🔍',
       color: '#00C7BE',
@@ -125,6 +131,7 @@ module.exports = {
     },
     {
       id: 'case-chat',
+      type: 'control',
       name: '消息聊天',
       icon: '💬',
       color: '#FF3B30',
@@ -145,6 +152,7 @@ module.exports = {
     },
     {
       id: 'case-dashboard',
+      type: 'control',
       name: '数据看板',
       icon: '📊',
       color: '#007AFF',
@@ -162,6 +170,75 @@ module.exports = {
         wxss: '.dashboard-page { padding: 24rpx 32rpx; }\n.tab-bar { display: flex; background: #fff; border-radius: 32rpx; padding: 6rpx; margin-bottom: 24rpx; }\n.tab-item { flex: 1; text-align: center; padding: 14rpx 0; font-size: 28rpx; color: #666; border-radius: 32rpx; }\n.tab-item.active { background: #007AFF; color: #fff; font-weight: 600; }\n.kpi-grid { display: flex; flex-wrap: wrap; gap: 16rpx; }\n.kpi-card { width: calc(50% - 8rpx); background: #fff; border-radius: 16rpx; padding: 28rpx; }\n.kpi-label { font-size: 26rpx; color: #999; }\n.kpi-value { font-size: 44rpx; font-weight: 700; margin-top: 8rpx; display: block; }\n.kpi-trend { display: flex; align-items: center; margin-top: 8rpx; gap: 4rpx; }\n.trend-icon { font-size: 24rpx; }\n.trend-text { font-size: 24rpx; }\n.section { margin-top: 32rpx; }\n.section-title { font-size: 32rpx; font-weight: 600; color: #333; margin-bottom: 20rpx; display: block; }\n.progress-list { background: #fff; border-radius: 16rpx; padding: 24rpx; }\n.progress-item { margin-bottom: 32rpx; }\n.progress-item:last-child { margin-bottom: 0; }\n.progress-header { display: flex; justify-content: space-between; margin-bottom: 12rpx; }\n.progress-name { font-size: 28rpx; color: #333; }\n.progress-percent { font-size: 28rpx; font-weight: 600; color: #333; }\n.progress-tags { display: flex; justify-content: space-between; margin-top: 12rpx; }\n.tag { font-size: 22rpx; padding: 4rpx 16rpx; border-radius: 20rpx; }\n.tag-blue { background: #E3F2FD; color: #4C8BF5; }\n.tag-orange { background: #FFF3E0; color: #FF9500; }\n.tag-green { background: #E8F5E9; color: #34C759; }\n.tag-red { background: #FFEBEE; color: #FF3B30; }\n.tag-owner { font-size: 22rpx; color: #999; }\n.steps-vertical { background: #fff; border-radius: 16rpx; padding: 32rpx; }\n.step-v { display: flex; align-items: flex-start; position: relative; padding-bottom: 40rpx; }\n.step-v:last-child { padding-bottom: 0; }\n.step-v-circle { width: 48rpx; height: 48rpx; border-radius: 50%; background: #e0e0e0; color: #999; text-align: center; line-height: 48rpx; font-size: 24rpx; flex-shrink: 0; z-index: 1; }\n.step-v.active .step-v-circle { background: #007AFF; color: #fff; }\n.step-v.done .step-v-circle { background: #34C759; color: #fff; }\n.step-v-line { position: absolute; left: 24rpx; top: 48rpx; width: 2rpx; height: 40rpx; background: #e0e0e0; }\n.step-v.done .step-v-line { background: #34C759; }\n.step-v-content { margin-left: 20rpx; }\n.step-v-title { font-size: 28rpx; color: #333; font-weight: 500; display: block; }\n.step-v-desc { font-size: 24rpx; color: #999; margin-top: 4rpx; display: block; }'
       },
       tips: '1. KPI 卡片用 flex-wrap 自动换行，calc(50% - 8rpx) 实现双列\n2. progress 组件的 active 属性启用动画效果\n3. 竖向步骤条用绝对定位的 line 连接各步骤\n4. Tab 切换时重新请求数据，用 multiplier 模拟不同时间维度'
+    },
+
+    {
+      id: 'case-voice-recorder',
+      type: 'hardware',
+      status: 'planned',
+      name: '录音笔记',
+      icon: '🎙️',
+      color: '#FF3B30',
+      desc: 'RecorderManager 录音 + 列表回放（硬件能力案例）',
+      tags: ['录音', '列表', '播放'],
+      structure: [
+        { title: '布局结构', content: '顶部录音按钮 + 录音状态提示 + 录音列表（可点击回放）' },
+        { title: '交互逻辑', content: '点击开始/停止录音，录音完成加入列表，点击列表项用 innerAudioContext 回放' },
+        { title: '数据流', content: '点击录音 -> RecorderManager.start/stop -> 临时文件 -> 加入列表 -> 点击回放' },
+        { title: '用到的硬件', content: 'RecorderManager 录音、innerAudioContext 播放、列表渲染' }
+      ],
+      code: {
+        wxml: '<view class="rec-page"><button bindtap="onToggle" class="rec-btn">{{btnText}}</button><view class="list"><view class="item" wx:for="{{list}}" wx:key="id" bindtap="onPlay" data-src="{{item}}">{{item.name}}</view></view></view>',
+        js: 'Page({ data: { btnText: "开始录音", recording: false, list: [] }, onToggle() { const r = !this.data.recording; this.setData({ recording: r, btnText: r ? "停止录音" : "开始录音" }) }, onPlay(e) { wx.showToast({ title: "回放: " + e.currentTarget.dataset.src.name }) } })',
+        wxss: '.rec-page { padding: 32rpx; }.rec-btn { background: #4C8BF5; color: #fff; border-radius: 16rpx; margin-bottom: 24rpx; }.item { padding: 24rpx; border-bottom: 1rpx solid #eee; }'
+      },
+      tips: '1. 录音前需用户授权 scope.record\n2. RecorderManager 的 onStop 回调里拿到临时文件路径\n3. 回放用 innerAudioContext，记得销毁避免内存泄漏'
+    },
+
+    {
+      id: 'case-scan-order',
+      type: 'composite',
+      status: 'planned',
+      name: '扫码点餐',
+      icon: '🍽️',
+      color: '#FF6B00',
+      desc: 'scanCode 扫码 + 商品列表 + 提交订单（控件+硬件结合）',
+      tags: ['扫码', '列表', '按钮'],
+      structure: [
+        { title: '布局结构', content: '扫码按钮 + 商品列表（名称/价格）+ 提交订单按钮' },
+        { title: '交互逻辑', content: '扫桌码识别桌号，展示该桌可点商品，提交后模拟下单' },
+        { title: '数据流', content: '扫码 -> 解析桌号 -> 拉取菜单 -> 选择商品 -> 提交订单' },
+        { title: '用到的能力', content: 'wx.scanCode 硬件扫码 + list/button 控件' }
+      ],
+      code: {
+        wxml: '<view class="order-page"><button bindtap="onScan" class="scan-btn">扫桌码点餐</button><view class="list"><view class="item" wx:for="{{goods}}" wx:key="id"><text class="name">{{item.name}}</text><text class="price">¥{{item.price}}</text></view></view></view>',
+        js: 'Page({ data: { goods: [] }, onScan() { wx.scanCode({ success: (res) => { wx.showToast({ title: "桌号 " + res.result }) } }) } })',
+        wxss: '.order-page { padding: 32rpx; }.scan-btn { background: #FF6B00; color: #fff; border-radius: 16rpx; margin-bottom: 24rpx; }.item { display: flex; justify-content: space-between; padding: 24rpx; border-bottom: 1rpx solid #eee; }.name { font-size: 30rpx; }.price { color: #FF6B00; }'
+      },
+      tips: '1. scanCode 真机可用，模拟器受限\n2. 扫码结果 res.result 为码内容\n3. 可结合 checkbox 实现多商品选择'
+    },
+
+    {
+      id: 'case-nearby-store',
+      type: 'composite',
+      status: 'planned',
+      name: '附近门店',
+      icon: '📍',
+      color: '#34C759',
+      desc: 'getLocation 定位 + 门店列表 + 拨号导航（控件+硬件结合）',
+      tags: ['定位', '列表', '拨号'],
+      structure: [
+        { title: '布局结构', content: '定位按钮 + 门店列表（名称/地址/拨号入口）' },
+        { title: '交互逻辑', content: '点击定位获取经纬度后展示附近门店，点击门店可拨打电话' },
+        { title: '数据流', content: '获取位置 -> 计算距离/排序 -> 展示门店 -> 点击拨号' },
+        { title: '用到的能力', content: 'wx.getLocation 硬件定位 + list/view 控件 + makePhoneCall' }
+      ],
+      code: {
+        wxml: '<view class="near-page"><button bindtap="onLocate" class="loc-btn">获取附近门店</button><view class="list"><view class="item" wx:for="{{stores}}" wx:key="id" bindtap="onCall" data-phone="{{item.phone}}"><view class="info"><text class="name">{{item.name}}</text><text class="addr">{{item.address}}</text></view><text class="call">📞</text></view></view></view>',
+        js: 'Page({ data: { stores: [] }, onLocate() { wx.getLocation({ type: "gcj02", success: () => { this.setData({ stores: [{ id: 1, name: "旗舰店", address: "深圳南山区", phone: "10086" }] }) } }) }, onCall(e) { wx.makePhoneCall({ phoneNumber: e.currentTarget.dataset.phone }) } })',
+        wxss: '.near-page { padding: 32rpx; }.loc-btn { background: #34C759; color: #fff; border-radius: 16rpx; margin-bottom: 24rpx; }.item { display: flex; align-items: center; justify-content: space-between; padding: 24rpx; border-bottom: 1rpx solid #eee; }.name { font-size: 30rpx; font-weight: 600; }.addr { font-size: 24rpx; color: #999; }.call { font-size: 40rpx; }'
+      },
+      tips: '1. getLocation 需在 app.json 配置 requiredPrivateInfos 与 permission\n2. 模拟器可返回模拟坐标\n3. makePhoneCall 真机可拨号'
     }
   ]
 }

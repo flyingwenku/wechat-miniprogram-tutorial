@@ -1,6 +1,6 @@
 <!--pages/index/index.wxml-->
 <view class="page {{theme}}">
-  <nav-bar title="控件教程" bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}" textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+  <nav-bar title="控件" bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}" textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
 
   <!-- 搜索入口 -->
   <view class="search-bar hover-opacity" bindtap="goToSearch">
@@ -36,8 +36,19 @@
     <view class="case-entry-left">
       <text class="case-entry-icon">🚀</text>
       <view class="case-entry-info">
-        <text class="case-entry-title">8个真实业务场景</text>
-        <text class="case-entry-desc">登录注册 · 商品列表 · 商品详情 · 订单表单 · 个人中心 · 搜索 · 聊天 · 数据看板</text>
+        <text class="case-entry-title">实战案例</text>
+        <text class="case-entry-desc">控件案例 · 硬件案例 · 综合实战，附完整源码</text>
+      </view>
+    </view>
+    <text class="case-entry-arrow">›</text>
+  </view>
+
+  <view class="case-entry hover-scale" bindtap="goToHardware">
+    <view class="case-entry-left">
+      <text class="case-entry-icon">🛠️</text>
+      <view class="case-entry-info">
+        <text class="case-entry-title">硬件操作</text>
+        <text class="case-entry-desc">摄像头 · 麦克风 · 陀螺仪 · 定位 · 蓝牙…</text>
       </view>
     </view>
     <text class="case-entry-arrow">›</text>
@@ -102,6 +113,6 @@
 
   <!-- 底部说明 -->
   <view class="footer-note">
-    <text>交互控件教程小程序 · 完整源码</text>
+    <text>小程序开发教程 · 完整源码</text>
   </view>
 </view>

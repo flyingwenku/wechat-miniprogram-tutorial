@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/hardware/hardware",
     "pages/category/category",
     "pages/detail/detail",
     "pages/case-list/case-list",
@@ -16,7 +17,7 @@
     "pages/about/about"
   ],
   "window": {
-    "navigationBarTitleText": "控件教程",
+    "navigationBarTitleText": "小程序开发教程",
     "navigationStyle": "custom",
     "backgroundColor": "#f5f6f8",
     "backgroundTextStyle": "dark",
@@ -30,11 +31,15 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "text": "控件"
       },
       {
-        "pagePath": "pages/favorite/favorite",
-        "text": "收藏"
+        "pagePath": "pages/hardware/hardware",
+        "text": "硬件"
+      },
+      {
+        "pagePath": "pages/case-list/case-list",
+        "text": "案例"
       },
       {
         "pagePath": "pages/profile/profile",
