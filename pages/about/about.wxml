@@ -16,6 +16,18 @@
   </view>
 
   <view class="about-section">
+    <text class="section-title">作者简介</text>
+    <view class="author-head">
+      <view class="author-avatar">💻</view>
+      <view class="author-meta">
+        <text class="author-name">Fred Wu</text>
+        <text class="author-tag">独立开发者</text>
+      </view>
+    </view>
+    <text class="section-text">本小程序由作者利用业余时间独立开发与维护，旨在帮助微信小程序开发者系统掌握组件与设备能力的用法。内容持续完善中，欢迎通过下方邮箱交流或反馈。</text>
+  </view>
+
+  <view class="about-section">
     <text class="section-title">功能特性</text>
     <view class="feature-list">
       <view class="feature-item">
@@ -61,7 +73,7 @@
     <text class="section-title">联系方式</text>
     <view class="contact-row" bindtap="onCopyEmail">
       <text class="contact-label">邮箱</text>
-      <text class="contact-value">contact@example.com</text>
+      <text class="contact-value">fredwuchn@qq.com</text>
     </view>
   </view>
 

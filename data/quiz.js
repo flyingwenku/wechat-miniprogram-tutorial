@@ -1072,7 +1072,7 @@ const quizData = {
       options: ['每次输入都立即请求', '用 setTimeout 延迟请求，每次输入清除上一个定时器', '用 setInterval 定时检查', '只在回车时请求'],
       answer: 1,
       explanation: '防抖核心：每次输入时清除上一个 setTimeout，重新设置新的延时。只有用户停止输入一段时间（如 300ms）后才真正发起请求，减少无效请求。',
-      relatedControlId: 'case-search'
+      relatedControlId: null
     },
     {
       id: 'q106',
@@ -1082,7 +1082,7 @@ const quizData = {
       options: ['用 scroll-view 的 scroll-into-view 指向最后一条消息', '无法自动滚动', '用 swiper 切换', '设置 scroll-top 为最大值'],
       answer: 0,
       explanation: '两种方式：1. scroll-view 的 scroll-into-view 属性设为最后一条消息的 id；2. scroll-top 设为一个大数值。推荐方式 1，更精确。发送后 setData 更新列表再触发滚动。',
-      relatedControlId: 'case-chat'
+      relatedControlId: null
     },
     {
       id: 'q107',
@@ -1092,7 +1092,7 @@ const quizData = {
       options: ['用 CSS animation', '用 JS 定时器逐步增加数值并 setData', '用 Canvas 绘制', '用 swiper 切换'],
       answer: 1,
       explanation: '数字滚动动画：用 setInterval 或 requestAnimationFrame 在定时器中逐步增加数值并 setData 更新显示。动画结束后清除定时器。注意 setData 频率不要太高（建议 16ms 间隔）。',
-      relatedControlId: 'case-dashboard'
+      relatedControlId: null
     },
     {
       id: 'q108',
@@ -1152,7 +1152,7 @@ const quizData = {
       options: ['wx.showModal', 'wx.showActionSheet', '自定义弹窗组件', 'bindlongpress + 自定义菜单'],
       answer: 1,
       explanation: '如果操作固定且简单，wx.showActionSheet 最方便。如果需要更复杂的 UI（带图标、自定义样式），则用 bindlongpress 事件 + 自定义弹出层。实际项目中两者都常见。',
-      relatedControlId: 'case-chat'
+      relatedControlId: null
     },
     {
       id: 'q114',
@@ -1202,7 +1202,7 @@ const quizData = {
       options: ['永久保存所有搜索记录', '限制数量（如最多 20 条）+ 可单条删除 + 可清空', '每次打开页面自动清空', '存在后端'],
       answer: 1,
       explanation: '最佳实践：搜索记录存 localStorage，限制最多保存 N 条（如 20），新搜索去重并插入头部。支持单条删除（左滑或长按）和一键清空。提供热搜榜引导用户。',
-      relatedControlId: 'case-search'
+      relatedControlId: null
     },
     {
       id: 'q119',

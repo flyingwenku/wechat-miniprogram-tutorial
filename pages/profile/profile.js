@@ -60,14 +60,6 @@ Page({
     wx.navigateTo({ url: '/pages/about/about' })
   },
 
-  // 赞助作者：预览二维码，长按可识别转账
-  onPreviewSponsor() {
-    wx.previewImage({
-      urls: ['/images/sponsor-qr.png'],
-      current: '/images/sponsor-qr.png'
-    })
-  },
-
   onClearData() {
     wx.showModal({
       title: '清除数据',

@@ -45,3 +45,9 @@
   color: var(--text-tertiary); font-size: var(--font-xs);
   display: flex; flex-direction: column; gap: 4rpx;
 }
+
+.author-head { display: flex; align-items: center; margin-bottom: 16rpx; }
+.author-avatar { width: 88rpx; height: 88rpx; border-radius: 50%; background: var(--bg-hover); display: flex; align-items: center; justify-content: center; font-size: 44rpx; margin-right: 20rpx; }
+.author-meta { display: flex; flex-direction: column; }
+.author-name { font-size: 32rpx; font-weight: 600; color: var(--text-primary); }
+.author-tag { font-size: 24rpx; color: var(--text-tertiary); margin-top: 4rpx; }
