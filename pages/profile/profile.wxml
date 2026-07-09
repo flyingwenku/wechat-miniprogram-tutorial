@@ -79,6 +79,22 @@
     </view>
   </view>
 
+  <!-- 赞助作者 -->
+  <view class="sponsor-card">
+    <view class="sponsor-head">
+      <text class="sponsor-icon">💝</text>
+      <text class="sponsor-title">赞助作者</text>
+    </view>
+    <view class="sponsor-desc">
+      <text>如果这个小程序帮到了你，欢迎请作者喝杯奶茶 ☕</text>
+      <text>一元、两元都是鼓励，随缘就好～</text>
+    </view>
+    <view class="sponsor-qr-wrap" bindtap="onPreviewSponsor">
+      <image class="sponsor-qr" src="/images/sponsor-qr.png" mode="aspectFit" />
+    </view>
+    <text class="sponsor-tip">长按上方二维码，识别后即可转账</text>
+  </view>
+
   <view class="footer">
     <text>小程序开发教程 v1.0.0</text>
   </view>
