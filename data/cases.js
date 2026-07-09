@@ -175,7 +175,6 @@ module.exports = {
     {
       id: 'case-voice-recorder',
       type: 'hardware',
-      status: 'planned',
       name: '录音笔记',
       icon: '🎙️',
       color: '#FF3B30',
@@ -198,7 +197,6 @@ module.exports = {
     {
       id: 'case-scan-order',
       type: 'composite',
-      status: 'planned',
       name: '扫码点餐',
       icon: '🍽️',
       color: '#FF6B00',
@@ -221,7 +219,6 @@ module.exports = {
     {
       id: 'case-nearby-store',
       type: 'composite',
-      status: 'planned',
       name: '附近门店',
       icon: '📍',
       color: '#34C759',

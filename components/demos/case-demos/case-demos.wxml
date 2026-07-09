@@ -436,3 +436,84 @@
     </view>
   </view>
 </view>
+
+<!-- ==================== 综合案例: 扫码点餐 ==================== -->
+<view class="case-demo case-scan-order" wx:if="{{caseId === 'case-scan-order'}}">
+  <view class="so-banner">
+    <text class="so-banner-icon">🍽️</text>
+    <view class="so-banner-info">
+      <text class="so-banner-title">扫码点餐</text>
+      <text class="so-table">当前桌号：{{soTable}}</text>
+    </view>
+    <button class="so-scan-btn" bindtap="onSoScan">扫桌码</button>
+  </view>
+
+  <view class="so-list">
+    <view class="so-item" wx:for="{{soGoods}}" wx:key="id">
+      <view class="so-item-info">
+        <text class="so-item-name">{{item.name}}</text>
+        <text class="so-item-price">¥{{item.price}}</text>
+      </view>
+      <view class="so-stepper">
+        <view class="so-step-btn" wx:if="{{item.count > 0}}" bindtap="onSoMinus" data-id="{{item.id}}">-</view>
+        <text class="so-step-num" wx:if="{{item.count > 0}}">{{item.count}}</text>
+        <view class="so-step-btn" bindtap="onSoPlus" data-id="{{item.id}}">+</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="so-cart-bar">
+    <view class="so-cart-info">
+      <text class="so-cart-count">已选 {{soCartCount}} 件</text>
+      <text class="so-cart-total">合计 ¥{{soCartTotal}}</text>
+    </view>
+    <button class="so-submit {{soCartCount > 0 ? '' : 'disabled'}}" bindtap="onSoSubmit">提交订单</button>
+  </view>
+</view>
+
+<!-- ==================== 综合案例: 附近门店 ==================== -->
+<view class="case-demo case-nearby" wx:if="{{caseId === 'case-nearby-store'}}">
+  <view class="nb-locate-bar">
+    <view class="nb-locate-info">
+      <text class="nb-locate-title">附近门店</text>
+      <text class="nb-locate-sub">{{nbLocated ? '已定位，按距离排序' : '点击定位获取最近门店'}}</text>
+    </view>
+    <button class="nb-locate-btn" bindtap="onNbLocate">获取位置</button>
+  </view>
+
+  <view class="nb-list">
+    <view class="nb-item" wx:for="{{nbStores}}" wx:key="id">
+      <view class="nb-item-main">
+        <text class="nb-item-name">{{item.name}}</text>
+        <text class="nb-item-addr">{{item.address}}</text>
+      </view>
+      <view class="nb-item-right">
+        <text class="nb-item-dist">{{item.distance}}</text>
+        <view class="nb-call-btn" bindtap="onNbCall" data-phone="{{item.phone}}">📞</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- ==================== 硬件案例: 录音笔记 ==================== -->
+<view class="case-demo case-voice" wx:if="{{caseId === 'case-voice-recorder'}}">
+  <view class="vr-record-area">
+    <button class="vr-rec-btn {{vrRecording ? 'recording' : ''}}" bindtap="onVrToggle">{{vrRecording ? '停止录音' : '开始录音'}}</button>
+    <text class="vr-status">{{vrStatus}}</text>
+  </view>
+
+  <view class="vr-list" wx:if="{{vrList.length > 0}}">
+    <view class="vr-item" wx:for="{{vrList}}" wx:key="id">
+      <view class="vr-item-play" bindtap="onVrPlay" data-src="{{item.src}}">{{item.playing ? '⏸' : '▶'}}</view>
+      <view class="vr-item-info">
+        <text class="vr-item-name">录音 {{item.index}}</text>
+        <text class="vr-item-dur">{{item.duration}}s</text>
+      </view>
+      <view class="vr-item-del" bindtap="onVrDelete" data-id="{{item.id}}">🗑</view>
+    </view>
+  </view>
+  <view class="vr-empty" wx:else>
+    <text class="vr-empty-icon">🎙️</text>
+    <text class="vr-empty-text">点击上方按钮开始录音（需真机授权）</text>
+  </view>
+</view>

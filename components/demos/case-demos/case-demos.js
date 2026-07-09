@@ -106,7 +106,33 @@ Component({
       { title: '测试验收', desc: 'QA测试并修复Bug' },
       { title: '上线发布', desc: '正式环境部署上线' }
     ],
-    dashCurrentStep: 2
+    dashCurrentStep: 2,
+
+    // ===== 综合案例: 扫码点餐 =====
+    soTable: 'A12（演示）',
+    soGoods: [
+      { id: 1, name: '招牌牛肉面', price: 38, count: 0 },
+      { id: 2, name: '宫保鸡丁', price: 42, count: 0 },
+      { id: 3, name: '清炒时蔬', price: 22, count: 0 },
+      { id: 4, name: '酸梅汤', price: 12, count: 0 },
+      { id: 5, name: '米饭', price: 3, count: 0 }
+    ],
+    soCartCount: 0,
+    soCartTotal: 0,
+
+    // ===== 综合案例: 附近门店 =====
+    nbLocated: false,
+    nbStores: [
+      { id: 1, name: '海岸城旗舰店', address: '南山区文心五路33号', phone: '075586661234', lat: 22.520, lng: 113.934, distance: '1.2km' },
+      { id: 2, name: '科技园店', address: '南山区高新南一道', phone: '075586665678', lat: 22.537, lng: 113.951, distance: '2.5km' },
+      { id: 3, name: '万象天地店', address: '南山区深南大道9668号', phone: '075586669999', lat: 22.541, lng: 113.973, distance: '3.1km' }
+    ],
+
+    // ===== 硬件案例: 录音笔记 =====
+    vrRecording: false,
+    vrStatus: '准备就绪',
+    vrList: [],
+    vrCounter: 1
   },
 
   lifetimes: {
@@ -124,6 +150,27 @@ Component({
       }
       if (this.data.caseId === 'case-dashboard') {
         this.dashLoadData()
+      }
+      if (this.data.caseId === 'case-voice-recorder') {
+        this.vrMgr = wx.getRecorderManager()
+        this.vrMgr.onStop((res) => {
+          const list = this.data.vrList.concat([{
+            id: Date.now(),
+            src: res.tempFilePath,
+            index: this.data.vrCounter,
+            duration: Math.max(1, Math.round((res.duration || 0) / 1000)),
+            playing: false
+          }])
+          this.setData({
+            vrList: list,
+            vrCounter: this.data.vrCounter + 1,
+            vrRecording: false,
+            vrStatus: '录音完成，点击播放'
+          })
+        })
+        this.vrMgr.onError(() => {
+          this.setData({ vrRecording: false, vrStatus: '录音失败（请用真机授权）' })
+        })
       }
     }
   },
@@ -500,6 +547,107 @@ Component({
     onDashTabChange(e) {
       this.setData({ dashActiveTab: Number(e.currentTarget.dataset.idx) })
       this.dashLoadData()
+    },
+
+    // ==================== 综合案例: 扫码点餐 ====================
+    onSoScan() {
+      wx.scanCode({
+        success: (res) => {
+          const table = (res.result || '').trim() || '未知桌号'
+          const goods = this.data.soGoods.map(g => {
+            const n = Object.assign({}, g); n.count = 0; return n
+          })
+          this.setData({ soTable: table, soGoods: goods, soCartCount: 0, soCartTotal: 0 })
+          wx.showToast({ title: '已扫码：' + table, icon: 'success' })
+        },
+        fail: () => {
+          wx.showToast({ title: '扫码已取消', icon: 'none' })
+        }
+      })
+    },
+    onSoPlus(e) { this._soUpdate(e.currentTarget.dataset.id, 1) },
+    onSoMinus(e) { this._soUpdate(e.currentTarget.dataset.id, -1) },
+    _soUpdate(id, delta) {
+      let count = 0, total = 0
+      const goods = this.data.soGoods.map(g => {
+        if (g.id !== id) return g
+        const c = Math.max(0, g.count + delta)
+        return Object.assign({}, g, { count: c })
+      })
+      goods.forEach(g => { count += g.count; total += g.count * g.price })
+      this.setData({ soGoods: goods, soCartCount: count, soCartTotal: total })
+    },
+    onSoSubmit() {
+      if (this.data.soCartCount === 0) {
+        wx.showToast({ title: '请先选择商品', icon: 'none' })
+        return
+      }
+      wx.showModal({
+        title: '下单成功',
+        content: '桌号 ' + this.data.soTable + '\n共 ' + this.data.soCartCount + ' 件，合计 ¥' + this.data.soCartTotal,
+        showCancel: false,
+        success: () => {
+          const goods = this.data.soGoods.map(g => Object.assign({}, g, { count: 0 }))
+          this.setData({ soGoods: goods, soCartCount: 0, soCartTotal: 0 })
+        }
+      })
+    },
+
+    // ==================== 综合案例: 附近门店 ====================
+    onNbLocate() {
+      wx.getLocation({
+        type: 'gcj02',
+        success: (res) => {
+          const stores = this.data.nbStores.map(s => {
+            const R = 6371
+            const dLat = (s.lat - res.latitude) * Math.PI / 180
+            const dLng = (s.lng - res.longitude) * Math.PI / 180
+            const a = Math.pow(Math.sin(dLat / 2), 2) +
+              Math.cos(res.latitude * Math.PI / 180) * Math.cos(s.lat * Math.PI / 180) *
+              Math.pow(Math.sin(dLng / 2), 2)
+            const d = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+            const dist = d < 1 ? Math.round(d * 1000) + 'm' : d.toFixed(1) + 'km'
+            return Object.assign({}, s, { distance: dist })
+          }).sort((x, y) => parseFloat(x.distance) - parseFloat(y.distance))
+          this.setData({ nbStores: stores, nbLocated: true })
+          wx.showToast({ title: '已定位', icon: 'success' })
+        },
+        fail: () => {
+          wx.showToast({ title: '定位失败，展示默认门店', icon: 'none' })
+        }
+      })
+    },
+    onNbCall(e) {
+      wx.makePhoneCall({ phoneNumber: e.currentTarget.dataset.phone })
+    },
+
+    // ==================== 硬件案例: 录音笔记 ====================
+    onVrToggle() {
+      if (!this.vrMgr) this.vrMgr = wx.getRecorderManager()
+      if (this.data.vrRecording) {
+        this.vrMgr.stop()
+      } else {
+        this.vrMgr.start({ duration: 60000, format: 'mp3' })
+        this.setData({ vrRecording: true, vrStatus: '录音中...' })
+      }
+    },
+    onVrPlay(e) {
+      const src = e.currentTarget.dataset.src
+      if (this.vrAudio) { this.vrAudio.destroy(); this.vrAudio = null }
+      const list = this.data.vrList.map(i => Object.assign({}, i, { playing: i.src === src }))
+      this.setData({ vrList: list })
+      const audio = wx.createInnerAudioContext()
+      audio.src = src
+      audio.obeyMuteSwitch = false
+      audio.onEnded(() => {
+        this.setData({ vrList: this.data.vrList.map(i => Object.assign({}, i, { playing: false })) })
+      })
+      audio.play()
+      this.vrAudio = audio
+    },
+    onVrDelete(e) {
+      const id = e.currentTarget.dataset.id
+      this.setData({ vrList: this.data.vrList.filter(i => i.id !== id) })
     }
   }
 })
