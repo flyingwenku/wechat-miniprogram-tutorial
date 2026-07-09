@@ -30,8 +30,8 @@
   <!-- 设置列表 -->
   <view class="settings-group">
     <view class="setting-item" bindtap="onToggleTheme">
-      <text class="setting-icon">{{theme === 'dark' ? '☀️' : '🌙'}}</text>
-      <text class="setting-label">{{theme === 'dark' ? '浅色模式' : '深色模式'}}</text>
+      <text class="setting-icon">🌙</text>
+      <text class="setting-label">深色模式</text>
       <view class="setting-switch {{theme === 'dark' ? 'on' : ''}}">
         <view class="switch-dot"></view>
       </view>

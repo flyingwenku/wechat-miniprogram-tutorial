@@ -13,14 +13,15 @@
 
 <!-- 复选框 -->
 <view wx:elif="{{controlId === 'form-checkbox'}}" class="demo-wrap">
-  <checkbox-group bindchange="onCheckboxChange">
-    <label class="check-item" wx:for="{{['apple','banana','orange','grape']}}" wx:key="*this">
+  <view class="check-list">
+    <view class="check-item" wx:for="{{checkboxOptions}}" wx:key="*this"
+      data-val="{{item}}" bindtap="onCheckTap">
       <checkbox value="{{item}}" checked="{{checkValues.indexOf(item) > -1}}" color="#4C8BF5"/>
       <text class="check-label">
         {{item === 'apple' ? '苹果' : item === 'banana' ? '香蕉' : item === 'orange' ? '橙子' : '葡萄'}}
       </text>
-    </label>
-  </checkbox-group>
+    </view>
+  </view>
   <view class="result-box">已选：{{checkValues.length}} 项 — {{checkValues}}</view>
 </view>
 
@@ -145,7 +146,7 @@
         class="star {{item <= rateHover ? 'active' : ''}}"
         data-val="{{item}}"
         bindtap="onRateTap"
-        catchtouchstart="onRateHover">★</text>
+        bindtouchstart="onRateHover">★</text>
     </view>
     <text class="rate-text">{{rate}} 分</text>
   </view>

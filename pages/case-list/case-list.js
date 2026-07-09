@@ -5,12 +5,6 @@ Page({
   data: {
     allCases: [],
     filtered: [],
-    activeType: 'control',
-    types: [
-      { key: 'control', name: '控件案例' },
-      { key: 'hardware', name: '硬件案例' },
-      { key: 'composite', name: '综合案例' }
-    ],
     theme: 'light'
   },
 
@@ -24,26 +18,12 @@ Page({
       tags: c.tags,
       type: c.type || 'control'
     }))
-    this.setData({ allCases })
-    this.applyFilter('control')
+    this.setData({ allCases, filtered: allCases })
   },
 
   onShow() {
     const app = getApp()
     this.setData({ theme: app.globalData.theme })
-  },
-
-  // 切换案例类型筛选
-  onTypeChange(e) {
-    const type = e.currentTarget.dataset.type
-    if (type === this.data.activeType) return
-    this.setData({ activeType: type })
-    this.applyFilter(type)
-  },
-
-  applyFilter(type) {
-    const filtered = this.data.allCases.filter(c => c.type === type)
-    this.setData({ filtered })
   },
 
   goToCaseDetail(e) {

@@ -11,6 +11,12 @@
   align-items: center;
   padding: 16rpx 0;
 }
+.check-list .check-item {
+  border-bottom: 1rpx solid var(--border-light);
+}
+.check-list .check-item:last-child {
+  border-bottom: none;
+}
 .radio-label, .check-label {
   margin-left: 12rpx;
   font-size: 30rpx;

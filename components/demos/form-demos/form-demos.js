@@ -17,15 +17,21 @@ Component({
     time: '',
     region: ['广东省', '广州市', '海珠区'],
     rate: 0,
-    rateHover: 0
+    rateHover: 0,
+    checkboxOptions: ['apple', 'banana', 'orange', 'grape']
   },
   methods: {
     onRadioChange(e) {
       this.setData({ radioValue: e.detail.value })
       wx.vibrateShort({ type: 'light' })
     },
-    onCheckboxChange(e) {
-      this.setData({ checkValues: e.detail.value })
+    onCheckTap(e) {
+      const val = e.currentTarget.dataset.val
+      const list = this.data.checkValues.slice()
+      const idx = list.indexOf(val)
+      if (idx > -1) list.splice(idx, 1)
+      else list.push(val)
+      this.setData({ checkValues: list })
     },
     onSwitchChange(e) {
       this.setData({ switchVal: e.detail.value })

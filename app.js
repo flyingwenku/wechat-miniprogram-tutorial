@@ -22,6 +22,8 @@ App({
 
       // 加载本地存储
       this.loadStorage()
+      // 按已保存主题同步底部 tabBar 颜色（原生 tabBar 不跟随应用内手动深色）
+      this.applyTabBarTheme()
     } catch (e) {
       console.error('onLaunch error:', e)
     }
@@ -50,7 +52,23 @@ App({
   toggleTheme() {
     this.globalData.theme = this.globalData.theme === 'light' ? 'dark' : 'light'
     wx.setStorageSync('theme', this.globalData.theme)
+    this.applyTabBarTheme()
     return this.globalData.theme
+  },
+
+  // 按当前主题设置原生 tabBar 颜色（深色模式同步底部 bar）
+  applyTabBarTheme() {
+    const dark = this.globalData.theme === 'dark'
+    try {
+      wx.setTabBarStyle({
+        color: dark ? '#8a8a8a' : '#999999',
+        selectedColor: dark ? '#6BA0F7' : '#4C8BF5',
+        backgroundColor: dark ? '#1e1e1e' : '#ffffff',
+        borderStyle: dark ? 'black' : 'white'
+      })
+    } catch (e) {
+      // tabBar 尚未就绪时静默忽略（切换主题时再调用即可生效）
+    }
   },
 
   // 设置硬件演示模式：simulate 模拟 / real 真机
