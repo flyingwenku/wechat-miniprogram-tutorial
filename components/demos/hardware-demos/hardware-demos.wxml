@@ -1,21 +1,36 @@
 <!-- components/demos/hardware-demos/hardware-demos.wxml -->
 <view class="hw-demo {{theme}}">
 
-  <!-- 传感器类 -->
+  <!-- 传感器类：三轴进度条 + 指南针 -->
   <block wx:if="{{demo.type === 'sensor'}}">
-    <view class="hw-readout" wx:if="{{hardwareId === 'gyroscope' || hardwareId === 'accelerometer'}}">
-      <text class="hw-line">x: {{sensor.x}}</text>
-      <text class="hw-line">y: {{sensor.y}}</text>
-      <text class="hw-line">z: {{sensor.z}}</text>
+    <!-- 罗盘：指南针指针 -->
+    <view wx:if="{{hardwareId === 'compass'}}" class="hw-compass-wrap">
+      <view class="hw-compass">
+        <view class="hw-compass-n">N</view>
+        <view class="hw-needle" style="transform: rotate({{sensor.direction}}deg);"></view>
+        <view class="hw-compass-center"></view>
+      </view>
+      <view class="hw-compass-read">方向 {{sensor.direction}}°　精度 {{sensor.accuracy}}</view>
     </view>
-    <view class="hw-readout" wx:elif="{{hardwareId === 'compass'}}">
-      <text class="hw-line">方向角: {{sensor.direction}}°</text>
-      <text class="hw-line">精度: {{sensor.accuracy}}</text>
-    </view>
-    <view class="hw-readout" wx:elif="{{hardwareId === 'deviceMotion'}}">
-      <text class="hw-line">α: {{sensor.alpha}}</text>
-      <text class="hw-line">β: {{sensor.beta}}</text>
-      <text class="hw-line">γ: {{sensor.gamma}}</text>
+
+    <!-- 三轴进度条（加速度/陀螺仪/设备方向） -->
+    <view wx:else class="hw-axes">
+      <view class="hw-axis">
+        <text class="hw-axis-label">{{hardwareId === 'deviceMotion' ? 'α' : 'X'}}</text>
+        <view class="hw-axis-track"><view class="hw-axis-fill" style="width: {{axis.x}}%;"></view></view>
+        <text class="hw-axis-val">{{sensor.x}}</text>
+      </view>
+      <view class="hw-axis">
+        <text class="hw-axis-label">{{hardwareId === 'deviceMotion' ? 'β' : 'Y'}}</text>
+        <view class="hw-axis-track"><view class="hw-axis-fill" style="width: {{axis.y}}%;"></view></view>
+        <text class="hw-axis-val">{{sensor.y}}</text>
+      </view>
+      <view class="hw-axis">
+        <text class="hw-axis-label">{{hardwareId === 'deviceMotion' ? 'γ' : 'Z'}}</text>
+        <view class="hw-axis-track"><view class="hw-axis-fill" style="width: {{axis.z}}%;"></view></view>
+        <text class="hw-axis-val">{{sensor.z}}</text>
+      </view>
+      <view class="hw-axis-hint">进度条长度表示三轴数值大小，旋转/倾斜手机即可看到变化</view>
     </view>
 
     <view class="hw-actions">
@@ -31,18 +46,47 @@
 
     <image wx:if="{{mediaImg}}" src="{{mediaImg}}" mode="widthFix" class="hw-photo"></image>
     <view wx:if="{{scanResult}}" class="hw-result">扫码结果：{{scanResult}}</view>
-    <view wx:if="{{hardwareId === 'recorder'}}" class="hw-result">录音状态：{{recState}}　时长：{{recDuration}}s</view>
-    <view wx:if="{{hardwareId === 'audio'}}" class="hw-result">播放进度：{{audioProgress}}%</view>
+
+    <!-- 录音：录制 + 回放闭环 -->
+    <view wx:if="{{hardwareId === 'recorder'}}" class="hw-rec">
+      <view wx:if="{{recState !== 'idle'}}" class="hw-rec-status">
+        <text wx:if="{{recState === 'recording'}}" class="hw-rec-dot"></text>
+        <text>{{recState === 'recording' ? '录音中' : '已录制'}}　{{recDuration}}s</text>
+      </view>
+      <view wx:if="{{recState === 'recorded'}}" class="hw-progress">
+        <view class="hw-progress-fill" style="width: {{recProgress}}%;"></view>
+      </view>
+      <view wx:if="{{recState === 'recorded'}}" class="hw-result">点击播放，回听你的录音（已关闭静音开关，确保出声）</view>
+    </view>
+
+    <!-- 音频播放：本地示例 -->
+    <view wx:if="{{hardwareId === 'audio'}}" class="hw-progress-wrap">
+      <view class="hw-progress"><view class="hw-progress-fill" style="width: {{audioProgress}}%;"></view></view>
+      <view class="hw-result">播放进度 {{audioProgress}}%</view>
+    </view>
+
+    <!-- 背景音频状态 -->
+    <view wx:if="{{hardwareId === 'backgroundAudio' && bgState === 'playing'}}" class="hw-result">背景音频播放中（锁屏/切后台仍会继续）…</view>
 
     <view class="hw-actions">
       <button class="hw-btn" wx:if="{{hardwareId === 'camera'}}" bindtap="takePhoto">拍照</button>
       <button class="hw-btn" wx:if="{{hardwareId === 'chooseMedia'}}" bindtap="chooseImg">选择图片</button>
       <button class="hw-btn" wx:if="{{hardwareId === 'scanCode'}}" bindtap="scan">扫码</button>
+
+      <!-- 录音控制 -->
       <button class="hw-btn" wx:if="{{hardwareId === 'recorder' && recState !== 'recording'}}" bindtap="startRec">开始录音</button>
-      <button class="hw-btn ghost" wx:if="{{hardwareId === 'recorder' && recState === 'recording'}}" bindtap="stopRec">停止并播放</button>
-      <button class="hw-btn" wx:if="{{hardwareId === 'audio' && audioState !== 'playing'}}" bindtap="playAudio">播放</button>
+      <button class="hw-btn ghost" wx:if="{{hardwareId === 'recorder' && recState === 'recording'}}" bindtap="stopRec">停止录音</button>
+      <button class="hw-btn" wx:if="{{hardwareId === 'recorder' && recState === 'recorded' && !recPlaying}}" bindtap="playRec">播放回听</button>
+      <button class="hw-btn ghost" wx:if="{{hardwareId === 'recorder' && recState === 'recorded' && recPlaying}}" bindtap="pauseRec">暂停</button>
+      <button class="hw-btn ghost" wx:if="{{hardwareId === 'recorder' && recState === 'recorded'}}" bindtap="startRec">重新录制</button>
+
+      <!-- 音频播放控制 -->
+      <button class="hw-btn" wx:if="{{hardwareId === 'audio' && audioState !== 'playing'}}" bindtap="playAudio">播放示例</button>
       <button class="hw-btn ghost" wx:if="{{hardwareId === 'audio' && audioState === 'playing'}}" bindtap="pauseAudio">暂停</button>
-      <button class="hw-btn" wx:if="{{hardwareId === 'backgroundAudio'}}" bindtap="playBg">后台播放</button>
+
+      <!-- 背景音频控制 -->
+      <button class="hw-btn" wx:if="{{hardwareId === 'backgroundAudio' && bgState !== 'playing'}}" bindtap="playBg">后台播放</button>
+      <button class="hw-btn ghost" wx:if="{{hardwareId === 'backgroundAudio' && bgState === 'playing'}}" bindtap="stopBg">停止 / 关闭</button>
     </view>
     <text class="hw-mode {{hardwareMode === 'real' ? 'real' : ''}}">当前：{{hardwareMode === 'real' ? '真机实时' : '模拟数据'}}</text>
   </block>
@@ -78,9 +122,13 @@
 
   <!-- 触感与外设类 -->
   <block wx:elif="{{demo.type === 'haptic'}}">
+    <view wx:if="{{hardwareId === 'vibrate'}}" class="hw-vib-wrap">
+      <view class="hw-vib {{vibState === 'vibrating' ? 'on' : ''}}">📳</view>
+      <text class="hw-vib-tip">{{vibState === 'vibrating' ? '振动中…' : '点击下方按钮触发振动'}}</text>
+    </view>
     <view class="hw-result" wx:if="{{ble}}">{{ble}}</view>
     <view class="hw-actions">
-      <button class="hw-btn" wx:if="{{hardwareId === 'vibrate'}}" bindtap="vib">触发振动</button>
+      <button class="hw-btn {{vibState === 'vibrating' ? 'on' : ''}}" wx:if="{{hardwareId === 'vibrate'}}" bindtap="vib">触发振动</button>
       <button class="hw-btn" wx:if="{{hardwareId === 'soter'}}" bindtap="auth">发起认证</button>
       <button class="hw-btn" wx:if="{{hardwareId === 'bluetooth'}}" bindtap="scanBle">扫描蓝牙</button>
       <button class="hw-btn" wx:if="{{hardwareId === 'makePhoneCall'}}" bindtap="call">拨打电话</button>

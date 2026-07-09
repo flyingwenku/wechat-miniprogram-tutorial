@@ -104,26 +104,28 @@ const categories = [
         ],
         code: {
           wxml: `<button bindtap="startRec">开始录音</button>
-<button bindtap="stopRec">停止并播放</button>`,
+<button bindtap="stopRec">停止录音</button>
+<button bindtap="playRec">播放回听</button>`,
           js: `Page({
   onLoad() { this.rec = wx.getRecorderManager() },
   startRec() {
+    this.rec.onStop(res => this.playRec(res.tempFilePath)) // 停止后自动回放
     this.rec.start({ duration: 60000, format: 'mp3' })
   },
-  stopRec() {
-    this.rec.onStop(res => {
-      const audio = wx.createInnerAudioContext()
-      audio.src = res.tempFilePath
-      audio.play()
-    })
-    this.rec.stop()
+  stopRec() { this.rec.stop() },
+  playRec(path) {
+    const audio = wx.createInnerAudioContext()
+    audio.src = path // 录音返回的本地临时文件，无需联网
+    audio.obeyMuteSwitch = false // 关闭静音开关，确保真机出声
+    audio.play()
   }
 })`
         },
         tips: [
           '通过 wx.getRecorderManager() 获取全局录音管理器，start/stop 控制录音。',
           '录音需在真机并授权 scope.record；首次调用会弹授权框。',
-          '停止后 onStop 回调返回 tempFilePath，可直接交给 innerAudioContext 播放。'
+          '停止后 onStop 回调返回 tempFilePath（本地文件），直接交给 innerAudioContext 即可回放，无需联网。',
+          '演示已默认 obeyMuteSwitch=false，避免手机静音时“录了却没声音”的错觉。'
         ],
         demo: { type: 'media' }
       },
@@ -141,7 +143,7 @@ const categories = [
           js: `Page({
   onLoad() {
     this.audio = wx.createInnerAudioContext()
-    this.audio.src = 'https://example.com/sample.mp3' // 请替换为有效音频地址
+    this.audio.src = 'audio/sample.wav' // 打包到工程的本地音频，真机必出声
   },
   play() { this.audio.play() },
   pause() { this.audio.pause() }
@@ -149,8 +151,9 @@ const categories = [
         },
         tips: [
           'wx.createInnerAudioContext() 创建实例，设置 src 后调用 play() 播放。',
-          '注意 obeyMuteSwitch：为 true 时静音模式下不发声，体验不符合预期可设为 false。',
-          '页面卸载时建议调用 destroy() 释放资源，避免后台持续播放。'
+          '演示使用打包在工程内的本地音频（audio/sample.wav），真机无需联网、无需配置域名白名单即可发声。',
+          'obeyMuteSwitch 默认 true（静音模式不发声）；演示已设为 false，确保任何状态都听得到。',
+          '页面卸载时调用 destroy() 释放资源，避免后台持续播放。'
         ],
         demo: { type: 'media' }
       },
@@ -162,19 +165,24 @@ const categories = [
           { name: 'coverImgUrl', type: 'string', default: '-', desc: '封面图地址' }
         ],
         code: {
-          wxml: `<button bindtap="playBg">后台播放</button>`,
+          wxml: `<button bindtap="playBg">后台播放</button>
+<button bindtap="stopBg">停止 / 关闭</button>`,
           js: `Page({
   playBg() {
     const bg = wx.getBackgroundAudioManager()
     bg.title = '示例音乐'
-    bg.src = 'https://example.com/bg.mp3' // 请替换为有效音频地址
-  }
+    bg.src = 'audio/sample.wav' // 本地示例；正式场景用网络音频并配置域名白名单
+    bg.obeyMuteSwitch = false
+    bg.play()
+  },
+  stopBg() { bg.stop() } // 停止并移除系统播放图标
 })`
         },
         tips: [
-          'wx.getBackgroundAudioManager() 支持退出小程序后继续播放（需配网络音频）。',
+          'wx.getBackgroundAudioManager() 支持退出小程序后继续播放（锁屏/切后台仍继续）。',
           'title 为必填项，否则 iOS 上可能无法正常后台播放。',
-          '需在 app.json 配置 requiredPrivateInfos 含背景音频相关声明。'
+          '停止播放用 bg.stop()，可关闭系统播放图标，避免“关不掉”的困扰。',
+          '演示用本地音频文件；正式上线若用网络音频，需在小程序后台配置 request 合法域名（音频域名白名单）。'
         ],
         demo: { type: 'media' }
       }
@@ -216,7 +224,8 @@ const categories = [
         tips: [
           '陀螺仪返回的是角速度（单位 rad/s），包含重力影响，需自行积分才能得到角度。',
           '示例需在真机运行以观察真实数据；开发者工具模拟器仅部分支持，可能返回 0。',
-          '调用 onGyroscopeChange 后务必在 onUnload 中调用 stopGyroscope 释放监听，避免内存泄漏。'
+          '调用 onGyroscopeChange 后务必在 onUnload 中调用 stopGyroscope 释放监听，避免内存泄漏。',
+          '本教程以三轴进度条直观展示 x/y/z 角速度大小，旋转手机即可看到进度条此消彼长。'
         ],
         demo: { type: 'sensor' }
       },
@@ -248,7 +257,8 @@ const categories = [
         tips: [
           '加速度计返回包含重力（约 9.8m/s²）的合加速度，静止平放时 z≈9.8。',
           '要得到「线性加速度」需减去重力分量，可借助设备方向 API 做坐标变换。',
-          '模拟器部分支持，真机效果最佳；离开页面记得 stopAccelerometer。'
+          '模拟器部分支持，真机效果最佳；离开页面记得 stopAccelerometer。',
+          '本教程以三轴进度条展示 x/y/z 加速度，平放时 z≈9.8（重力），倾斜时 x/y 随之变化。'
         ],
         demo: { type: 'sensor' }
       },
@@ -279,7 +289,8 @@ const categories = [
         tips: [
           'direction 为设备与正北方向的夹角（0-360°，顺时针），需真机校准磁场干扰。',
           'accuracy 越低越准确，金属或磁场环境会导致读数漂移。',
-          'iOS 调用前需用户授权 scope.userLocation；模拟器通常返回固定值。'
+          'iOS 调用前需用户授权 scope.userLocation；模拟器通常返回固定值。',
+          '本教程额外绘制指南针指针，方向角直接映射到指针旋转，比纯数字更直观。'
         ],
         demo: { type: 'sensor' }
       },
@@ -311,7 +322,8 @@ const categories = [
         tips: [
           'alpha 绕 Z 轴旋转角、beta 绕 X 轴前后倾、gamma 绕 Y 轴左右倾，单位均为度。',
           '与陀螺仪（角速度）不同，设备方向直接给出角度，更适合做体感交互。',
-          '模拟器部分支持；离开页面记得 stopDeviceMotionListening 释放资源。'
+          '模拟器部分支持；离开页面记得 stopDeviceMotionListening 释放资源。',
+          '本教程以三轴进度条展示 α/β/γ 角度，前后倾与左右倾一目了然。'
         ],
         demo: { type: 'sensor' }
       }
@@ -519,12 +531,17 @@ const categories = [
           wxml: `<button bindtap="vib">触发振动</button>`,
           js: `Page({
   vib() {
-    wx.vibrateShort({ type: 'medium' })
+    wx.vibrateShort({
+      type: 'medium',
+      fail: () => wx.vibrateShort({ fail: () => wx.vibrateLong() }) // 降级重试，确保有反馈
+    })
   }
 })`
         },
         tips: [
           'vibrateShort 的 type 在 iOS 仅支持 medium / light，且系统需开启振动。',
+          'vibrateShort 仅约 15ms，很弱；演示在失败时降级为 vibrateLong（约 400ms），更易察觉。',
+          '演示额外提供界面“振动中”动效，即使设备无马达也能看到反馈。',
           '模拟器与 PC 无振动马达，需真机预览才能感知效果。'
         ],
         demo: { type: 'haptic' }
