@@ -149,11 +149,17 @@
 
   <!-- 近场通信类 -->
   <block wx:elif="{{demo.type === 'nfc'}}">
+    <view wx:if="{{nfcCard}}" class="hw-nfc-card">
+      <view class="hw-nfc-icon">NFC</view>
+      <view class="hw-nfc-row">UID：{{nfcCard.uid}}</view>
+      <view class="hw-nfc-row">类型：{{nfcCard.type}}</view>
+    </view>
     <view class="hw-result" wx:if="{{nfcState}}">{{nfcState}}</view>
     <view class="hw-actions">
       <button class="hw-btn" bindtap="initNfc">初始化 HCE</button>
+      <button class="hw-btn ghost" wx:if="{{nfcCard}}" bindtap="initNfc">再次读取</button>
     </view>
-    <text class="hw-mode">NFC 仅部分 Android 真机支持，模拟器不可用</text>
+    <text class="hw-mode">模拟模式为虚拟卡片演示；真机（部分 Android）可真实读卡</text>
   </block>
 
   <!-- 其它类型占位（后续任务实现） -->
