@@ -25,7 +25,7 @@ Page({
     let levelColor = ''
     if (accuracy >= 90) {
       level = '优秀'
-      levelDesc = '你对小程序控件掌握得非常扎实！'
+      levelDesc = '你对小程序组件掌握得非常扎实！'
       levelColor = '#07c160'
     } else if (accuracy >= 70) {
       level = '良好'
@@ -37,7 +37,7 @@ Page({
       levelColor = '#ff9800'
     } else {
       level = '需加油'
-      levelDesc = '建议回到控件详情页重新学习。'
+      levelDesc = '建议回到组件详情页重新学习。'
       levelColor = '#ee0a24'
     }
 

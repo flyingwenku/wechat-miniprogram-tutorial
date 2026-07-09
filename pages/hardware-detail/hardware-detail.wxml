@@ -7,10 +7,10 @@
     textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
   <view class="error-wrap">
     <text class="error-icon">⚠️</text>
-    <text class="error-title">硬件加载失败</text>
-    <text class="error-desc">可能原因：页面缓存过期或硬件 id 无效</text>
+    <text class="error-title">设备能力加载失败</text>
+    <text class="error-desc">可能原因：页面缓存过期或设备能力 id 无效</text>
     <text class="error-debug" wx:if="{{debugInfo}}">调试信息：{{debugInfo}}</text>
-    <view class="error-btn" bindtap="onRetry">返回硬件</view>
+    <view class="error-btn" bindtap="onRetry">返回设备能力</view>
   </view>
 </view>
 
@@ -29,7 +29,7 @@
     <text class="mode-tag">{{hardwareMode === 'real' ? '真机' : '模拟'}}</text>
   </view>
 
-  <!-- 硬件描述 -->
+  <!-- 设备能力描述 -->
   <view class="control-header">
     <text class="control-title">{{hardware.name}}</text>
     <text class="control-desc">{{hardware.desc}}</text>
@@ -48,7 +48,7 @@
     <!-- 效果演示 -->
     <view wx:if="{{activeTab === 0}}" class="demo-area">
       <hardware-demos wx:if="{{hardware.demo}}" hardware-id="{{hardware.id}}" demo="{{hardware.demo}}" theme="{{theme}}" hardware-mode="{{hardwareMode}}" />
-      <view wx:else class="hw-todo"><text>该硬件能力的实时体验正在开发中</text></view>
+      <view wx:else class="hw-todo"><text>该设备能力的实时体验正在开发中</text></view>
     </view>
 
     <!-- 属性说明 -->

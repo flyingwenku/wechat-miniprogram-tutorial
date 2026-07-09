@@ -12,7 +12,7 @@
 
   <view class="about-section">
     <text class="section-title">项目简介</text>
-    <text class="section-text">小程序开发教程是一款面向微信小程序开发者的学习工具，系统展示了按钮、表单、进度、反馈、文字、图片、视频等各类控件，以及摄像头、麦克风、陀螺仪、定位等硬件能力的实际效果和用法。</text>
+    <text class="section-text">小程序开发教程是一款面向微信小程序开发者的学习工具，系统展示了按钮、表单、进度、反馈、文字、图片、视频等各类组件，以及摄像头、麦克风、陀螺仪、定位等设备能力的实际效果和用法。</text>
   </view>
 
   <view class="about-section">
@@ -20,7 +20,7 @@
     <view class="feature-list">
       <view class="feature-item">
         <text class="feature-icon">✅</text>
-        <text class="feature-text">42+ 控件完整演示</text>
+        <text class="feature-text">42+ 组件完整演示</text>
       </view>
       <view class="feature-item">
         <text class="feature-icon">✅</text>

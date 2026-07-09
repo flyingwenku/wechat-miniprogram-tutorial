@@ -32,11 +32,11 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "控件"
+        "text": "组件"
       },
       {
         "pagePath": "pages/hardware/hardware",
-        "text": "硬件"
+        "text": "设备能力"
       },
       {
         "pagePath": "pages/case-list/case-list",

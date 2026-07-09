@@ -471,10 +471,10 @@ Component({
       if (this.getMode() === 'real') {
         wx.getHCEState({ success: () => { wx.startHCE({ aid_list: ['F222222222'] }); this.setData({ nfcState: 'HCE 已启动（将手机背面靠近 NFC 标签）' }) }, fail: () => wx.showToast({ title: '设备不支持', icon: 'none' }) })
       } else {
-        // 模拟：生成一张虚拟卡片，给出可读的演示界面（NFC 需真实硬件才能真读）
+        // 模拟：生成一张虚拟卡片，给出可读的演示界面（NFC 需真实设备能力才能真读）
         const h = () => Math.floor(Math.random() * 256).toString(16).toUpperCase().padStart(2, '0')
         const uid = [h(), h(), h(), h(), h(), h(), h()].join(' ')
-        this.setData({ nfcCard: { uid, type: 'MIFARE Classic 1K' }, nfcState: '模拟读取到一张 NFC 标签（虚拟，非真实硬件）' })
+        this.setData({ nfcCard: { uid, type: 'MIFARE Classic 1K' }, nfcState: '模拟读取到一张 NFC 标签（虚拟，非真实设备能力）' })
       }
     }
   }

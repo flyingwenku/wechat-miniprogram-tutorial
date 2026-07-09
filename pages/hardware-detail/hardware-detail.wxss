@@ -41,7 +41,7 @@
   color: var(--color-success);
 }
 
-/* 控件头部 */
+/* 组件头部 */
 .control-header {
   margin-bottom: 24rpx;
 }

@@ -57,7 +57,7 @@
 }
 .setting-switch.on .switch-dot { left: 40rpx; }
 
-/* 分段控件（硬件模式） */
+/* 分段组件（设备能力模式） */
 .mode-item { padding-top: 28rpx; padding-bottom: 28rpx; }
 .seg {
   display: flex; background: var(--bg-hover);

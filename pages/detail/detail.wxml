@@ -7,8 +7,8 @@
     textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
   <view class="error-wrap">
     <text class="error-icon">⚠️</text>
-    <text class="error-title">控件加载失败</text>
-    <text class="error-desc">可能原因：页面缓存过期或控件 id 无效</text>
+    <text class="error-title">组件加载失败</text>
+    <text class="error-desc">可能原因：页面缓存过期或组件 id 无效</text>
     <text class="error-debug" wx:if="{{debugInfo}}">调试信息：{{debugInfo}}</text>
     <view class="error-btn" bindtap="onRetry">返回首页</view>
   </view>
@@ -26,7 +26,7 @@
     <text class="fav-text">{{isFavorite ? '已收藏' : '收藏'}}</text>
   </view>
 
-  <!-- 控件描述 -->
+  <!-- 组件描述 -->
   <view class="control-header">
     <text class="control-title">{{control.name}}</text>
     <text class="control-desc">{{control.desc}}</text>

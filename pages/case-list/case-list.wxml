@@ -5,7 +5,7 @@
     textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
 
   <view class="intro-card">
-    <text class="intro-text">从基础控件到硬件能力、再到综合实战，全部案例可交互体验，附带完整源码和实现要点。综合案例本身已融合控件与硬件能力。</text>
+    <text class="intro-text">从基础组件到设备能力、再到综合实战，全部案例可交互体验，附带完整源码和实现要点。综合案例本身已融合组件与设备能力。</text>
   </view>
 
   <view class="case-list">

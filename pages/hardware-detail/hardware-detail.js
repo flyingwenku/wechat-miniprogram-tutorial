@@ -36,13 +36,13 @@ Page({
         if (!cat.items) continue
         const hw = cat.items.find(h => h.id === id)
         if (hw) {
-          console.log('[hw-detail] 找到硬件:', hw.name, '分类:', cat.id)
+          console.log('[hw-detail] 找到设备能力:', hw.name, '分类:', cat.id)
           this.setData({ hardware: hw, categoryId: cat.id, loadError: false, debugInfo: '' })
           wx.setNavigationBarTitle({ title: hw.name })
           return
         }
       }
-      console.error('[hw-detail] 未找到硬件 id:', id)
+      console.error('[hw-detail] 未找到设备能力 id:', id)
       this.setData({ loadError: true, debugInfo: '未找到 id=' + id })
     } catch (err) {
       console.error('[hw-detail] findHardware 异常:', err)
@@ -57,7 +57,7 @@ Page({
   onShareAppMessage() {
     const hw = this.data.hardware
     return {
-      title: (hw ? hw.name : '硬件能力') + ' - 小程序开发教程',
+      title: (hw ? hw.name : '设备能力') + ' - 小程序开发教程',
       path: '/pages/hardware-detail/hardware-detail?id=' + (hw ? hw.id : '')
     }
   },

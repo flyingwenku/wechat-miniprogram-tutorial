@@ -495,7 +495,7 @@
   </view>
 </view>
 
-<!-- ==================== 硬件案例: 录音笔记 ==================== -->
+<!-- ==================== 设备能力案例: 录音笔记 ==================== -->
 <view class="case-demo case-voice" wx:if="{{caseId === 'case-voice-recorder'}}">
   <view class="vr-record-area">
     <button class="vr-rec-btn {{vrRecording ? 'recording' : ''}}" bindtap="onVrToggle">{{vrRecording ? '停止录音' : '开始录音'}}</button>

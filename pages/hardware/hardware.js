@@ -25,13 +25,13 @@ Page({
     })
   },
 
-  // 点击硬件能力项 -> 跳转硬件详情页
+  // 点击设备能力项 -> 跳转设备能力详情页
   onTapItem(e) {
     const id = e.currentTarget.dataset.id
     wx.navigateTo({ url: '/pages/hardware-detail/hardware-detail?id=' + id })
   },
 
-  // 跳转到控件学习 Tab
+  // 跳转到组件学习 Tab
   goControl() {
     wx.switchTab({ url: '/pages/index/index' })
   },

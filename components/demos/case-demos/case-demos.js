@@ -128,7 +128,7 @@ Component({
       { id: 3, name: '万象天地店', address: '南山区深南大道9668号', phone: '075586669999', lat: 22.541, lng: 113.973, distance: '3.1km' }
     ],
 
-    // ===== 硬件案例: 录音笔记 =====
+    // ===== 设备能力案例: 录音笔记 =====
     vrRecording: false,
     vrStatus: '准备就绪',
     vrList: [],
@@ -621,7 +621,7 @@ Component({
       wx.makePhoneCall({ phoneNumber: e.currentTarget.dataset.phone })
     },
 
-    // ==================== 硬件案例: 录音笔记 ====================
+    // ==================== 设备能力案例: 录音笔记 ====================
     onVrToggle() {
       if (!this.vrMgr) this.vrMgr = wx.getRecorderManager()
       if (this.data.vrRecording) {

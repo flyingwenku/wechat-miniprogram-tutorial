@@ -15,7 +15,7 @@
     </view>
   </view>
 
-  <!-- 控件列表 -->
+  <!-- 组件列表 -->
   <view class="control-list">
     <view class="control-item hover-scale"
       wx:for="{{controls}}" wx:key="id"

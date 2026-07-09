@@ -164,7 +164,7 @@
 
   <!-- 其它类型占位（后续任务实现） -->
   <view wx:else class="hw-todo">
-    <text>该硬件能力的实时体验正在开发中</text>
+    <text>该设备能力的实时体验正在开发中</text>
   </view>
 
 </view>

@@ -15,11 +15,11 @@
   <view class="stats-grid">
     <view class="stat-card">
       <text class="stat-num">{{totalCount}}</text>
-      <text class="stat-label">控件</text>
+      <text class="stat-label">组件</text>
     </view>
     <view class="stat-card">
       <text class="stat-num">{{hardwareCount}}</text>
-      <text class="stat-label">硬件能力</text>
+      <text class="stat-label">设备能力</text>
     </view>
     <view class="stat-card" bindtap="goToFavorite">
       <text class="stat-num">{{favCount}}</text>
@@ -38,11 +38,11 @@
     </view>
   </view>
 
-  <!-- 硬件演示模式 -->
+  <!-- 设备能力演示模式 -->
   <view class="settings-group">
     <view class="setting-item mode-item">
       <text class="setting-icon">🧪</text>
-      <text class="setting-label">硬件演示模式</text>
+      <text class="setting-label">设备能力演示模式</text>
       <view class="seg">
         <view class="seg-item {{hardwareMode === 'simulate' ? 'active' : ''}}"
           data-mode="simulate" bindtap="onSetHardwareMode">模拟</view>

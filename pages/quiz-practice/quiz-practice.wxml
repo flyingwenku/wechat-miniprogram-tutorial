@@ -47,7 +47,7 @@
     </view>
     <view class="explanation-content">{{currentQuestion.explanation}}</view>
     <view class="explanation-action" wx:if="{{currentQuestion.relatedControlId}}" bindtap="goToControl">
-      <text class="action-link">查看相关{{relatedIsHardware ? '硬件' : '控件'}}详情 ›</text>
+      <text class="action-link">查看相关{{relatedIsHardware ? '设备能力' : '组件'}}详情 ›</text>
     </view>
   </view>
 

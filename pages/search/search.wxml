@@ -7,7 +7,7 @@
   <view class="search-input-bar">
     <view class="search-input-wrap">
       <text class="si-icon">🔍</text>
-      <input class="search-input" placeholder="搜索控件名称..."
+      <input class="search-input" placeholder="搜索组件名称..."
         value="{{keyword}}" bindinput="onInput" focus="{{true}}"/>
       <text class="si-clear" wx:if="{{keyword}}" bindtap="onClear">✕</text>
     </view>
@@ -29,7 +29,7 @@
   </view>
 
   <view class="search-empty" wx:if="{{searched && results.length === 0}}">
-    <empty-state icon="🔍" text="未找到相关控件" />
+    <empty-state icon="🔍" text="未找到相关组件" />
   </view>
 
   <view class="search-tip" wx:if="{{!searched}}">

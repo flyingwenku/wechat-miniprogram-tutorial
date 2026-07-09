@@ -2,8 +2,8 @@
 App({
   globalData: {
     theme: 'light',        // 主题：light / dark
-    hardwareMode: 'simulate', // 硬件演示模式：simulate 模拟 / real 真机
-    favorites: [],          // 收藏的控件 id 列表
+    hardwareMode: 'simulate', // 设备能力演示模式：simulate 模拟 / real 真机
+    favorites: [],          // 收藏的组件 id 列表
     history: [],            // 浏览历史 [{id, name, category, time}]
     statusBarHeight: 0,     // 状态栏高度
     navBarHeight: 0,        // 导航栏总高度
@@ -71,14 +71,14 @@ App({
     }
   },
 
-  // 设置硬件演示模式：simulate 模拟 / real 真机
+  // 设置设备能力演示模式：simulate 模拟 / real 真机
   setHardwareMode(mode) {
     this.globalData.hardwareMode = mode
     wx.setStorageSync('hardwareMode', mode)
     return mode
   },
 
-  // 获取硬件演示模式（默认 simulate）
+  // 获取设备能力演示模式（默认 simulate）
   getHardwareMode() {
     return this.globalData.hardwareMode || 'simulate'
   },

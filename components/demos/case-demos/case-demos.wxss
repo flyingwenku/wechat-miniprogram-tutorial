@@ -274,7 +274,7 @@
 .nb-item-dist { font-size: 24rpx; color: #34C759; font-weight: 600; }
 .nb-call-btn { width: 64rpx; height: 64rpx; background: #34C759; color: #fff; border-radius: 50%; text-align: center; line-height: 64rpx; font-size: 32rpx; }
 
-/* ==================== 硬件案例: 录音笔记 ==================== */
+/* ==================== 设备能力案例: 录音笔记 ==================== */
 .case-voice { padding: 24rpx 0; }
 .vr-record-area { display: flex; flex-direction: column; align-items: center; padding: 40rpx 0; }
 .vr-rec-btn { width: 200rpx; height: 200rpx; border-radius: 50%; background: #4C8BF5; color: #fff; font-size: 32rpx; line-height: 200rpx; margin-bottom: 24rpx; }

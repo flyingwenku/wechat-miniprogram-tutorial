@@ -1,5 +1,5 @@
 // data/hardware.js
-// 硬件能力教程数据（骨架）
+// 设备能力教程数据（骨架）
 // simulator: 模拟器可用情况 -> 支持 / 部分 / 真机 / 不支持
 // status: 开发状态 -> planned（规划中）/ ready（已完成）
 const categories = [
@@ -7,7 +7,7 @@ const categories = [
     id: 'media',
     name: '影像与音频',
     icon: '🎥',
-    desc: '摄像头、相册、扫码、录音、播放等媒体硬件能力',
+    desc: '摄像头、相册、扫码、录音、播放等媒体设备能力',
     items: [
       {
         id: 'camera', name: '摄像头', desc: '调用系统摄像头实时预览与拍照', simulator: '真机', status: 'ready',
@@ -510,7 +510,7 @@ const categories = [
         tips: [
           'wx.setClipboardData 调用后会自动弹出"内容已复制" toast，无需自行提示。',
           'iOS 14+ 读取剪贴板需用户触发的事件（如点击按钮）中调用。',
-          '模拟器与真机均支持，是最适合演示的硬件能力之一。'
+          '模拟器与真机均支持，是最适合演示的设备能力之一。'
         ],
         demo: { type: 'device' }
       }
@@ -565,7 +565,7 @@ const categories = [
 })`
         },
         tips: [
-          'SOTER 提供硬件级安全认证，需真机支持指纹/人脸，模拟器无法演示。',
+          'SOTER 提供设备能力级安全认证，需真机支持指纹/人脸，模拟器无法演示。',
           'requestAuthModes 可选 fingerPrint / facial / speech（按平台支持）。',
           'challenge 用于防重放，应由后端下发并在验证时校验。'
         ],
@@ -717,7 +717,7 @@ const categories = [
         },
         tips: [
           'HCE（基于主机的卡模拟）仅部分 Android 机型支持，iOS 不支持。',
-          '开发者工具与模拟器均无法模拟 NFC 硬件，必须真机。',
+          '开发者工具与模拟器均无法模拟 NFC 设备能力，必须真机。',
           'aid_list 为应用标识，需与读卡端约定一致。'
         ],
         demo: { type: 'nfc' }

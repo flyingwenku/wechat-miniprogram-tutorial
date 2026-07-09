@@ -1,5 +1,5 @@
 // data/controls.js
-// 所有控件元数据 — 每个控件包含：id, name, category, desc, props, code{wxml,js}, tips
+// 所有组件元数据 — 每个组件包含：id, name, category, desc, props, code{wxml,js}, tips
 
 module.exports = {
   categories: [
@@ -8,7 +8,7 @@ module.exports = {
       name: '按钮',
       icon: '🔘',
       color: '#4C8BF5',
-      description: '各类按钮控件：基础、图文、禁用、加载态、自定义样式、悬浮按钮',
+      description: '各类按钮组件：基础、图文、禁用、加载态、自定义样式、悬浮按钮',
       controls: [
         {
           id: 'button-basic',
@@ -246,7 +246,7 @@ module.exports = {
         },
         {
           id: 'form-rate',
-          name: '评分控件',
+          name: '评分组件',
           desc: '自定义星星评分组件',
           props: [
             { name: '自定义', type: '—', default: '—', desc: '通过 view + 图标自行实现' },
@@ -579,7 +579,7 @@ module.exports = {
           desc: 'video 组件基础播放',
           props: [
             { name: 'src', type: 'string', default: "''", desc: '视频地址' },
-            { name: 'controls', type: 'boolean', default: 'true', desc: '是否显示默认控件' },
+            { name: 'controls', type: 'boolean', default: 'true', desc: '是否显示默认组件' },
             { name: 'autoplay', type: 'boolean', default: 'false', desc: '是否自动播放' },
             { name: 'loop', type: 'boolean', default: 'false', desc: '是否循环播放' },
             { name: 'muted', type: 'boolean', default: 'false', desc: '是否静音' },

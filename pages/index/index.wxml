@@ -1,18 +1,18 @@
 <!--pages/index/index.wxml-->
 <view class="page {{theme}}">
-  <nav-bar title="控件" bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}" textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
+  <nav-bar title="组件" bgColor="{{theme === 'dark' ? '#1e1e1e' : '#ffffff'}}" textColor="{{theme === 'dark' ? '#e8e8e8' : '#1a1a1a'}}" />
 
   <!-- 搜索入口 -->
   <view class="search-bar hover-opacity" bindtap="goToSearch">
     <text class="search-icon">🔍</text>
-    <text class="search-placeholder">搜索控件名称...</text>
+    <text class="search-placeholder">搜索组件名称...</text>
   </view>
 
   <!-- 统计概览 -->
   <view class="stats-bar">
     <view class="stat-item">
       <text class="stat-num">{{totalCount}}</text>
-      <text class="stat-label">控件总数</text>
+      <text class="stat-label">组件总数</text>
     </view>
     <view class="stat-divider"></view>
     <view class="stat-item">
@@ -36,7 +36,7 @@
       <text class="quiz-entry-icon">📝</text>
       <view class="quiz-entry-info">
         <text class="quiz-entry-title">120道测试题 · 以考促学</text>
-        <text class="quiz-entry-desc">控件认知 · 属性事件 · 代码实现 · 文件体系 · API能力 · 实战综合</text>
+        <text class="quiz-entry-desc">组件认知 · 属性事件 · 代码实现 · 文件体系 · API能力 · 实战综合</text>
       </view>
     </view>
     <text class="quiz-entry-arrow">›</text>
@@ -44,7 +44,7 @@
 
   <!-- 分类列表 -->
   <view class="section-header">
-    <text class="section-title-text">控件分类</text>
+    <text class="section-title-text">组件分类</text>
   </view>
 
   <view class="category-grid">

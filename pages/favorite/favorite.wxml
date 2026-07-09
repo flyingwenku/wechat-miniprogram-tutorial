@@ -16,6 +16,6 @@
   </view>
 
   <view class="fav-empty" wx:else>
-    <empty-state icon="⭐" text="还没有收藏任何控件" btnText="去逛逛" bind:action="goToSearch" />
+    <empty-state icon="⭐" text="还没有收藏任何组件" btnText="去逛逛" bind:action="goToSearch" />
   </view>
 </view>

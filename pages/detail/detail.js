@@ -30,7 +30,7 @@ Page({
     console.log('[detail] findControl id:', id)
     console.log('[detail] controlsData.categories length:', controlsData.categories ? controlsData.categories.length : 'undefined')
     if (!id) {
-      console.error('[detail] 未传入控件 id')
+      console.error('[detail] 未传入组件 id')
       this.setData({ loadError: true, debugInfo: '未传入 id 参数' })
       return
     }
@@ -39,7 +39,7 @@ Page({
         if (!cat.controls) continue
         const control = cat.controls.find(c => c.id === id)
         if (control) {
-          console.log('[detail] 找到控件:', control.name, '分类:', cat.id)
+          console.log('[detail] 找到组件:', control.name, '分类:', cat.id)
           this.setData({
             control: control,
             categoryId: cat.id,
@@ -57,8 +57,8 @@ Page({
           return
         }
       }
-      // 未找到控件
-      console.error('[detail] 未找到控件 id:', id)
+      // 未找到组件
+      console.error('[detail] 未找到组件 id:', id)
       this.setData({ loadError: true, debugInfo: '未找到 id=' + id })
       this.setData({ loadError: true })
     } catch (err) {

@@ -2,7 +2,7 @@
 const quizData = require('../../data/quiz.js')
 const hardwareData = require('../../data/hardware.js')
 
-// 收集所有硬件能力 id，用于判断 relatedControlId 属于控件还是硬件
+// 收集所有设备能力 id，用于判断 relatedControlId 属于组件还是设备能力
 const HARDWARE_IDS = (() => {
   const set = new Set()
   ;(hardwareData.categories || []).forEach(cat => {
@@ -26,7 +26,7 @@ Page({
     // 当前题的选项（打乱后的）
     currentQuestion: null,
     shuffledOptions: [],
-    // relatedControlId 是否为硬件能力（决定跳转硬件详情页还是控件详情页）
+    // relatedControlId 是否为设备能力（决定跳转设备能力详情页还是组件详情页）
     relatedIsHardware: false
   },
 
@@ -184,7 +184,7 @@ Page({
   goToControl() {
     const qid = this.data.currentQuestion.relatedControlId
     if (!qid) return
-    // 硬件能力跳硬件详情页，控件跳控件详情页
+    // 设备能力跳设备能力详情页，组件跳组件详情页
     const url = HARDWARE_IDS.has(qid)
       ? `/pages/hardware-detail/hardware-detail?id=${qid}`
       : `/pages/detail/detail?id=${qid}`

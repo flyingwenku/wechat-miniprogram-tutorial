@@ -3,17 +3,17 @@
 
 const quizData = {
   categories: [
-    { id: 'control-recognition', name: '控件认知', icon: '🎯', desc: '识别控件名称、用途和效果' },
+    { id: 'control-recognition', name: '组件认知', icon: '🎯', desc: '识别组件名称、用途和效果' },
     { id: 'props-events', name: '属性与事件', icon: '⚙️', desc: '核心属性名、默认值、事件绑定' },
     { id: 'code-implementation', name: '代码实现', icon: '💻', desc: 'WXML语法、数据绑定、渲染' },
     { id: 'file-system', name: '文件体系', icon: '📁', desc: '小程序文件类型与职责' },
     { id: 'api-capability', name: 'API与能力', icon: '🔧', desc: '微信API、存储、导航等' },
     { id: 'practice-comprehensive', name: '实战综合', icon: '🚀', desc: '业务场景方案选择' },
-    { id: 'hardware-device', name: '硬件与设备', icon: '📡', desc: '传感器、媒体、位置、外设等硬件 API' }
+    { id: 'hardware-device', name: '设备能力', icon: '📡', desc: '传感器、媒体、位置、外设等设备 API' }
   ],
 
   questions: [
-    // ==================== 控件认知 (20题) ====================
+    // ==================== 组件认知 (20题) ====================
     {
       id: 'q001',
       category: 'control-recognition',
@@ -1225,7 +1225,7 @@ const quizData = {
       relatedControlId: null
     },
 
-    // ==================== 硬件与设备 (18题) ====================
+    // ==================== 设备能力 (18题) ====================
     {
       id: 'q121',
       category: 'hardware-device',

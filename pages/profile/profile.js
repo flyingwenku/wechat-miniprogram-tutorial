@@ -5,8 +5,8 @@ const hardwareData = require('../../data/hardware.js')
 Page({
   data: {
     theme: 'light',
-    totalCount: 0,        // 控件总数
-    hardwareCount: 0,     // 硬件能力数
+    totalCount: 0,        // 组件总数
+    hardwareCount: 0,     // 设备能力数
     favCount: 0,
     historyCount: 0,
     hardwareMode: 'simulate' // simulate 模拟 / real 真机
@@ -36,7 +36,7 @@ Page({
     })
   },
 
-  // 切换硬件演示模式：模拟 / 真机
+  // 切换设备能力演示模式：模拟 / 真机
   onSetHardwareMode(e) {
     const mode = e.currentTarget.dataset.mode
     const app = getApp()

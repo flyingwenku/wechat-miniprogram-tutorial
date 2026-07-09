@@ -43,7 +43,7 @@
   overflow: hidden;
 }
 
-/* 控件列表 */
+/* 组件列表 */
 .control-list {
   display: flex;
   flex-direction: column;
