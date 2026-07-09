@@ -58,8 +58,17 @@ page {
   background-color: var(--bg-page);
 }
 
+/* ============ 页面根容器 ============ */
+/* 所有页面最外层均为 <view class="page {{theme}}">，这里保证它铺满并承载背景色 */
+.page {
+  min-height: 100vh;
+  background-color: var(--bg-page);
+}
+
 /* ============ 暗色模式 ============ */
-page.dark {
+/* 主题类加在页面最外层 view 上（class="page dark"），并非 <page> 根元素，
+   故必须用 .dark 而非 page.dark，否则暗色变量不会生效（内容不跟随切换）。 */
+.dark {
   --bg-page: #121212;
   --bg-card: #1e1e1e;
   --bg-hover: #2a2a2a;
@@ -75,6 +84,8 @@ page.dark {
   --border-light: #262626;
   --shadow-card: 0 2rpx 12rpx rgba(0, 0, 0, 0.3);
   --shadow-float: 0 8rpx 30rpx rgba(0, 0, 0, 0.5);
+
+  background-color: var(--bg-page);
 }
 
 /* ============ 基础重置 ============ */
