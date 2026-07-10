@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>微信小程序教程 · 人人都能做小程序</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="纯小白也能跟着做：全程用 AI（混元3）从 0 到 1 开发、调试、发布一个微信小程序。" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" />
+  <style>
+    :root { --theme-color: #07c160; }
+    .markdown-section { max-width: 860px; }
+    .markdown-section img { border: 1px solid #e6e8eb; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+    .tip  { background:#e8f7ee; border-left:4px solid #07c160; border-radius:8px; padding:12px 16px; margin:16px 0; }
+    .warn { background:#fff2f0; border-left:4px solid #ff4d4f; border-radius:8px; padding:12px 16px; margin:16px 0; }
+    .note { background:#e6f4ff; border-left:4px solid #1677ff; border-radius:8px; padding:12px 16px; margin:16px 0; }
+  </style>
+</head>
+<body>
+  <div id="app">加载中，请稍候……</div>
+  <script>
+    window.$docsify = {
+      name: '微信小程序教程',
+      repo: 'https://github.com/flyingwenku/wechat-miniprogram-tutorial',
+      loadSidebar: true,
+      coverpage: true,
+      onlyCover: false,
+      auto2top: true,
+      maxLevel: 3,
+      subMaxLevel: 3,
+      homepage: 'README.md',
+      search: { placeholder: '搜索教程内容…', noData: '找不到结果', depth: 3 },
+      pagination: { previousText: '上一章', nextText: '下一章', crossChapter: true },
+      copyCode: { buttonText: '复制', successText: '已复制' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-markup.min.js"></script>
+  <!-- 流程图 -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({ startOnLoad: false, theme: 'default' });
+      window.$docsify.plugins = [function (hook) {
+        hook.doneEach(function () {
+          var els = document.querySelectorAll('pre[data-lang=mermaid] code, code[class*=language-mermaid]');
+          // docsify renders ```mermaid as <pre><code class="lang-mermaid">
+          document.querySelectorAll('pre > code.lang-mermaid').forEach(function (el) {
+            if (el.dataset.done) return;
+            el.dataset.done = '1';
+            var id = 'm' + Math.random().toString(36).slice(2);
+            var svg = document.createElement('div');
+            svg.className = 'mermaid';
+            svg.textContent = el.textContent;
+            el.parentNode.replaceWith(svg);
+          });
+          try { mermaid.init(undefined, document.querySelectorAll('.mermaid')); } catch (e) {}
+        });
+      }];
+    }
+  </script>
+</body>
+</html>
