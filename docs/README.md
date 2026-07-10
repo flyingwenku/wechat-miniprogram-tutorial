@@ -40,15 +40,15 @@
 
 ## 目录
 
-1. [写在前面：不懂代码也能做](docs/00-intro.md)
-2. [第 1 章 · 拿到通行证 AppID](docs/01-account.md)
-3. [第 2 章 · 装两个工具就够了](docs/02-tools.md)
-4. [第 3 章 · 一句话变出第一个页面](docs/03-first-vibe.md)
-5. [第 4 章 · 导入项目，看见效果](docs/04-import.md)
-6. [第 5 章 · 调试全流程（高光）](docs/05-debug.md)
-7. [第 6 章 · 让小程序长大](docs/06-grow.md)
-8. [第 7 章 · 预览 · 上传 · 发布](docs/07-publish.md)
-9. [第 8 章 · 把代码放上 GitHub](docs/08-github.md)
-10. [第 9 章 · 脱敏替换指南](docs/09-replace.md)
+1. [写在前面：不懂代码也能做](00-intro.md)
+2. [第 1 章 · 拿到通行证 AppID](01-account.md)
+3. [第 2 章 · 装两个工具就够了](02-tools.md)
+4. [第 3 章 · 一句话变出第一个页面](03-first-vibe.md)
+5. [第 4 章 · 导入项目，看见效果](04-import.md)
+6. [第 5 章 · 调试全流程（高光）](05-debug.md)
+7. [第 6 章 · 让小程序长大](06-grow.md)
+8. [第 7 章 · 预览 · 上传 · 发布](07-publish.md)
+9. [第 8 章 · 把代码放上 GitHub](08-github.md)
+10. [第 9 章 · 脱敏替换指南](09-replace.md)
 
 > 📦 本教程配套代码就在同一个仓库：<https://github.com/flyingwenku/wechat-miniprogram-tutorial>

@@ -78,4 +78,4 @@ flowchart LR
 
 准备好了吗？下一章，我们先去拿到小程序的「通行证」——AppID。
 
-> ➡️ [第 1 章 · 拿到通行证 AppID](docs/01-account.md)
+> ➡️ [第 1 章 · 拿到通行证 AppID](01-account.md)

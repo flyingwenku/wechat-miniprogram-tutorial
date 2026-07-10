@@ -8,5 +8,5 @@
 - 🐛 手把手带你走通「调试 → 真机 → 发布」全流程
 - 🎓 纯小白友好，只要会打字、有台电脑、有个微信
 
-[开始阅读](docs/00-intro.md)
+[开始阅读](00-intro.md)
 [GitHub 仓库](https://github.com/flyingwenku/wechat-miniprogram-tutorial)
